@@ -18,25 +18,35 @@ import numpy as np
 
 from backend.agents import glimmer_edge_guard, spark_open_worker
 from backend.agents.meta_client import OfflineModelError, create_response, parse_json_block, response_text
+from backend.agents.model_traces import load as load_traces
+from backend.agents.model_traces import save as save_traces
 from backend.config import settings
 from backend.physics.design_storm import VMAX_MG, mg_step_to_mmhr
-from backend.physics.swmm_engine import run_parallel_lookahead_rollouts
+from backend.physics.swmm_engine import constant_trajectory, run_parallel_lookahead_rollouts
 
 
 def _rank(scores: list[dict]) -> str:
-    """Lowest overflow, then street flooding. Ties keep the pre-drain law.
+    """Lowest overflow, then street flooding.
 
-    A pure 'lowest peak fill' tie break selects the bypass once the rain
-    is gone, because emptying every tank reports a lower peak. That throws
-    away the storage the rest of the storm just arranged.
+    Equal spills prefer the hosted Spark or Wonder vector, then the
+    pre-drain law. A pure lowest-peak tie would empty the tanks after
+    the rain and throw away the storage the storm just arranged.
     """
 
+    def bias(name: str) -> int:
+        if name == "W-wonder":
+            return 0
+        if name == "S-spark":
+            return 1
+        if name.startswith("A-"):
+            return 2
+        return 3
+
     def key(item: dict) -> tuple:
-        predrain = 0 if str(item["name"]).startswith("A-") else 1
         return (
             item["total_cso_overflow_gallons"],
             item["street_flooding_gallons"],
-            predrain,
+            bias(str(item["name"])),
             item["max_basin_fill_pct"],
         )
 
@@ -49,10 +59,12 @@ async def supervise(
     jammed: dict[int, float] | None,
     spark_bundle: dict | None = None,
     hosted: bool = False,
+    hosted_spark: bool = False,
+    step_index: int = 0,
 ) -> dict:
     started = time.perf_counter()
     bundle = spark_bundle or await spark_open_worker.propose_candidates(
-        volume, forecast_mg, jammed, hosted=False
+        volume, forecast_mg, jammed, hosted=hosted_spark, step_index=step_index
     )
     actions = [(item["name"], np.asarray(item["actions"], dtype=float)) for item in bundle["candidates"]]
     rollouts = run_parallel_lookahead_rollouts(volume, actions, forecast_mg, jammed)
@@ -67,7 +79,8 @@ async def supervise(
         "Pick the candidate with the lowest total_cso_overflow_gallons. "
         "Break ties with street_flooding_gallons, then max_basin_fill_pct. "
         "If a valve is jammed, say how the winner compensates. "
-        'Reply JSON {"selected": "<name>", "recovery_note": "<two sentences>"}.\n'
+        'Reply JSON {"selected": "<name>", "u": [or1, or2, or3, or4], "recovery_note": "<two sentences>"}.\n'
+        "u is your own orifice command from 0 to 1, honoring any jam.\n"
         f"Jammed: {jammed or {}}\n"
         f"Scores: {scored}\n"
         f"Spark commentary: {bundle.get('intent_commentary', '')}"
@@ -95,6 +108,28 @@ async def supervise(
         if isinstance(note, str):
             wonder_note = note.strip()
         source = "muse-wonder-1.0"
+        vector = parsed.get("u")
+        if isinstance(vector, list) and len(vector) >= 4:
+            from backend.agents.spark_open_worker import _clip_u
+
+            clipped = _clip_u(vector, jammed)
+            horizon = max(len(forecast_mg), 1)
+            plan = constant_trajectory(clipped, horizon, None)
+            extra = run_parallel_lookahead_rollouts(volume, [("W-wonder", plan)], forecast_mg, jammed)
+            rollouts = list(rollouts) + list(extra)
+            scored = [item.as_dict() for item in rollouts]
+            physics_choice = _rank([item for item in scored if item["name"] != "W-wonder"] or scored)
+            selected = _rank(scored)
+            traces = load_traces()
+            traces["wonder"][f"jam-{step_index}"] = {
+                "model": settings.MODEL_WONDER,
+                "u": clipped,
+                "selected": selected,
+                "recovery_note": wonder_note,
+                "latency_ms": latency_ms,
+                "response_id": body.get("id"),
+            }
+            save_traces(traces)
     except (OfflineModelError, Exception) as exc:
         wonder_note = ""
         source = "wonder-physics-rank"

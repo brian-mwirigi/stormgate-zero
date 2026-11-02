@@ -49,6 +49,10 @@ _MASK_RE = re.compile(
     re.IGNORECASE,
 )
 _ATTR_RE = re.compile(r"([A-Za-z0-9_]+)=\"([^\"]*)\"")
+_PIPE_BOX_RE = re.compile(
+    r"<\|box;x1=([0-9.]+);y1=([0-9.]+);x2=([0-9.]+);y2=([0-9.]+);w=([0-9.]+);h=([0-9.]+)\|>",
+    re.IGNORECASE,
+)
 
 
 def _attrs(blob: str) -> dict[str, str]:
@@ -123,6 +127,17 @@ def parse_sam_wire(payload: str) -> list[dict]:
                 }
             )
     return frames
+
+
+def boxes_from_sam_text(payload: str) -> list[tuple[float, float, float, float]]:
+    """Normalize the `<|box;x1=...;w=480;h=480|>` wire into unit-square boxes."""
+    boxes = []
+    for match in _PIPE_BOX_RE.finditer(payload or ""):
+        x1, y1, x2, y2, width, height = (float(value) for value in match.groups())
+        if width <= 0 or height <= 0:
+            continue
+        boxes.append((x1 / width, y1 / height, x2 / width, y2 / height))
+    return boxes
 
 
 def parse_sam_payload(payload: str) -> list[dict]:
@@ -250,10 +265,29 @@ def lookahead_mmhr(step_index: int) -> dict[str, list[float]]:
     return named
 
 
+def _sam_boxes(t_min: float) -> list[tuple[float, float, float, float]] | None:
+    from backend.agents.model_traces import load as load_traces
+
+    frames = (load_traces().get("sam") or {}).get("frames") or []
+    if not frames:
+        return None
+    nearest = min(frames, key=lambda frame: abs(float(frame.get("t_min", 0)) - t_min))
+    boxes = []
+    for obj in nearest.get("objects") or []:
+        box = obj.get("box")
+        if isinstance(box, (list, tuple)) and len(box) == 4:
+            boxes.append(tuple(float(v) for v in box))
+    return boxes or None
+
+
 def radar_snapshot(step_index: int, t_min: float) -> dict:
     """Everything the command center needs for one radar beat."""
     cores = active_cores(t_min)
-    boxes = [(c["cx"] - c["rx"], c["cy"] - c["ry"], c["cx"] + c["rx"], c["cy"] + c["ry"]) for c in cores]
+    sam_boxes = _sam_boxes(t_min)
+    if sam_boxes:
+        boxes = sam_boxes
+    else:
+        boxes = [(c["cx"] - c["rx"], c["cy"] - c["ry"], c["cx"] + c["rx"], c["cy"] + c["ry"]) for c in cores]
     # Clip boxes into the unit square for the prompt grammar.
     clipped = []
     for x1, y1, x2, y2 in boxes:
@@ -267,6 +301,63 @@ def radar_snapshot(step_index: int, t_min: float) -> dict:
         "forecast_mg": forecast_window(step_index, settings.HORIZON_STEPS),
         "rain_now_mg": RAIN_MG[step_index].tolist() if step_index < len(RAIN_MG) else [0, 0, 0, 0],
     }
+
+
+async def segment_frames(times_min: list[float]) -> dict:
+    """Ask sam-3.1 to segment rendered radar frames. One call per time."""
+    import io
+
+    from PIL import Image
+
+    from backend.agents.meta_client import OfflineModelError, stream_response_text
+    from backend.agents.model_traces import load as load_traces
+    from backend.agents.model_traces import save as save_traces
+
+    frames = []
+    errors = []
+    latency = 0.0
+    for t_min in times_min:
+        rgb = render_frame_rgb(t_min)
+        buffer = io.BytesIO()
+        Image.fromarray(rgb).save(buffer, format="PNG")
+        encoded = base64.b64encode(buffer.getvalue()).decode("ascii")
+        content = [
+            {"type": "input_image", "image_url": f"data:image/png;base64,{encoded}"},
+            {"type": "input_text", "text": "red storm cell"},
+        ]
+        try:
+            text, elapsed = await stream_response_text(settings.MODEL_SAM, content, timeout=70.0)
+            latency += elapsed
+            parsed = parse_sam_payload(text)
+            objects = []
+            for frame in parsed:
+                for obj in frame.get("objects") or []:
+                    box = obj.get("box")
+                    if isinstance(box, (list, tuple)) and len(box) == 4:
+                        objects.append({"id": obj.get("id", len(objects)), "box": [round(float(v), 4) for v in box]})
+            if not objects:
+                for box in boxes_from_sam_text(text):
+                    objects.append({"id": len(objects), "box": [round(v, 4) for v in box]})
+            frames.append(
+                {
+                    "t_min": t_min,
+                    "objects": objects,
+                    "raw_excerpt": text[:500],
+                }
+            )
+        except (OfflineModelError, Exception) as exc:
+            errors.append({"t_min": t_min, "detail": str(exc)[:300]})
+    payload = {
+        "ok": bool(frames) and not errors,
+        "model": settings.MODEL_SAM,
+        "latency_ms": round(latency, 1),
+        "frames": frames,
+        "errors": errors,
+    }
+    traces = load_traces()
+    traces["sam"] = payload
+    save_traces(traces)
+    return payload
 
 
 async def segment_video(video_path: str, *, use_boxes: bool = False) -> dict:

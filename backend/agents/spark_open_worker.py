@@ -13,6 +13,9 @@ from __future__ import annotations
 import numpy as np
 
 from backend.agents.meta_client import OfflineModelError, create_response, parse_json_block, response_text
+from backend.agents.model_traces import load as load_traces
+from backend.agents.model_traces import save as save_traces
+from backend.agents.model_traces import spark_id
 from backend.config import settings
 from backend.physics.design_storm import VMAX_MG
 from backend.physics.swmm_engine import constant_trajectory, feedback_trajectory
@@ -67,37 +70,88 @@ def local_candidates(volume: np.ndarray, forecast_mg: np.ndarray, jammed: dict[i
     }
 
 
+def _clip_u(values, jammed: dict[int, float] | None) -> list[float]:
+    numbers = []
+    for value in list(values)[:4]:
+        try:
+            numbers.append(min(1.0, max(0.0, float(value))))
+        except (TypeError, ValueError):
+            numbers.append(0.5)
+    while len(numbers) < 4:
+        numbers.append(0.5)
+    if jammed:
+        for index, locked in jammed.items():
+            if isinstance(index, str):
+                continue
+            numbers[int(index)] = float(locked)
+    return [round(v, 4) for v in numbers]
+
+
+def _with_spark_vector(library: dict, vector: list[float], note: str, source: str, latency_ms: float) -> dict:
+    horizon = len(library["candidates"][0]["actions"])
+    plan = constant_trajectory(vector, horizon, None)
+    library["candidates"].append({"name": "S-spark", "actions": plan.tolist()})
+    if note:
+        library["intent_commentary"] = note
+    library["source"] = source
+    library["latency_ms"] = latency_ms
+    library["spark_u"] = vector
+    return library
+
+
 async def propose_candidates(
     volume: np.ndarray,
     forecast_mg: np.ndarray,
     jammed: dict[int, float] | None,
     hosted: bool = False,
+    step_index: int = 0,
 ) -> dict:
     library = local_candidates(volume, forecast_mg, jammed)
     if not hosted:
         return library
-    summary = {
-        "depth": (volume / np.maximum(volume, volume)).tolist() if False else None,
-        "jammed": {str(k): v for k, v in (jammed or {}).items()},
-        "eta_min": _eta_minutes(forecast_mg),
-        "library": [item["name"] for item in library["candidates"]],
-    }
+    cached = load_traces()["spark"].get(spark_id(step_index, jammed))
+    if isinstance(cached, dict) and isinstance(cached.get("u"), list):
+        return _with_spark_vector(
+            library,
+            cached["u"],
+            str(cached.get("intent_commentary") or ""),
+            "muse-spark-1.3",
+            float(cached.get("latency_ms") or 0.0),
+        )
+    depth = (np.asarray(volume, dtype=float) / VMAX_MG).round(3).tolist()
+    su4 = [round(float(v), 3) for v in forecast_mg[:6, 3]] if len(forecast_mg) else []
     prompt = (
-        "You are Muse Spark Open running as the physics commentary channel for a "
-        "combined-sewer MPC. Do not invent a fifth strategy. Reply with JSON "
-        '{"intent_commentary": "...", "prefer": "A-predrain"|"B-balanced"|"C-retention"|"D-bypass"}. '
-        "The commentary must mention Basin 4 pre-drain timing and any jammed orifice. "
-        f"Context: {summary}. Draft: {library['intent_commentary']}"
+        "You are Muse Spark 1.3 on a combined-sewer controller. "
+        "Propose the orifice openings for the next 5 minutes. "
+        'Reply JSON only: {"u": [or1, or2, or3, or4], "intent_commentary": "<one sentence>"}. '
+        "Each value is from 0 (shut) to 1 (open). "
+        "Keep Basin 4 off the weir: if its forecast is rising, do not open OR4 fully, "
+        "and do not dump SU1-SU3 into it. If a gate is jammed, copy its locked value. "
+        f"Depth fractions SU1-SU4: {depth}. "
+        f"SU4 inflow the next few steps, million gallons: {su4}. "
+        f"Jammed orifices: {jammed or {}}."
     )
     try:
-        body = await create_response(settings.MODEL_SPARK_OPEN, prompt, open_weight=True, timeout=30.0)
+        body = await create_response(settings.MODEL_SPARK, prompt, timeout=25.0)
         parsed = parse_json_block(response_text(body)) or {}
+        vector = parsed.get("u")
+        if not isinstance(vector, list) or len(vector) < 4:
+            library["detail"] = "muse-spark-1.3 returned no orifice vector"
+            return library
+        vector = _clip_u(vector, jammed)
         note = parsed.get("intent_commentary")
-        if isinstance(note, str) and len(note) > 40:
-            library["intent_commentary"] = note.strip()
-        library["source"] = "muse-spark-open"
-        library["latency_ms"] = body.get("_latency_ms", 0.0)
-        library["prefer"] = parsed.get("prefer")
-    except OfflineModelError as exc:
-        library["detail"] = str(exc)
-    return library
+        note = note.strip() if isinstance(note, str) else ""
+        latency_ms = float(body.get("_latency_ms") or 0.0)
+        traces = load_traces()
+        traces["spark"][spark_id(step_index, jammed)] = {
+            "model": settings.MODEL_SPARK,
+            "u": vector,
+            "intent_commentary": note,
+            "latency_ms": latency_ms,
+            "response_id": body.get("id"),
+        }
+        save_traces(traces)
+        return _with_spark_vector(library, vector, note, "muse-spark-1.3", latency_ms)
+    except (OfflineModelError, Exception) as exc:
+        library["detail"] = str(exc)[:300]
+        return library

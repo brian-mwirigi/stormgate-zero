@@ -43,8 +43,13 @@ class Episode:
         self._mark_sam()
 
     def _mark_sam(self) -> None:
-        # The radar tape is seeded locally. A SAM video call is not on the 1-second loop.
-        self.models["sam-3.1"] = {"status": "GEOMETRIC FALLBACK", "latency_ms": None}
+        from backend.agents.model_traces import load as load_traces
+
+        sam = load_traces().get("sam") or {}
+        if sam.get("ok"):
+            self.models["sam-3.1"] = {"status": "LIVE", "latency_ms": sam.get("latency_ms")}
+        else:
+            self.models["sam-3.1"] = {"status": "GEOMETRIC FALLBACK", "latency_ms": None}
 
     def _allow_hosted_wonder(self) -> bool:
         """One hosted Wonder call, on the first beat after a gate jam. The loop stays local."""
@@ -148,7 +153,9 @@ class Episode:
                 if not self.running:
                     break
                 async with self.lock:
+                    held = dict(self.sim.jammed)
                     self.sim.reset()
+                    self.sim.jammed = held
                     self.decision = {}
                     self.radar = radar_snapshot(0, 0.0)
                 await self.publish()
@@ -170,6 +177,8 @@ class Episode:
                 self.radar["forecast_mg"],
                 dict(self.sim.jammed) or None,
                 hosted=self._allow_hosted_wonder(),
+                hosted_spark=settings.meta_enabled,
+                step_index=step,
             )
             self.decision = decision
             self.models["muse-wonder-1.0"] = {
@@ -177,7 +186,7 @@ class Episode:
                 "latency_ms": decision.get("latency_ms"),
             }
             self.models["muse-spark-open"] = {
-                "status": "LIVE" if decision.get("spark_source") == "muse-spark-open" else "LIBRARY",
+                "status": "LIVE" if decision.get("spark_source") == "muse-spark-1.3" else "LIBRARY",
                 "latency_ms": decision.get("spark_latency_ms"),
             }
             glimmer = decision.get("glimmer") or {}

@@ -1,0 +1,280 @@
+{
+  "spark": {
+    "0|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding SU1-SU3 closed to protect rising SU4 while draining SU4 moderately to stay off the weir.",
+      "latency_ms": 17765.2,
+      "response_id": "resp_6ae8f862ef20d7d6d68d4688"
+    },
+    "1|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.4,
+        0.3,
+        0.3,
+        0.6
+      ],
+      "intent_commentary": "Holding OR4 partial and throttling upstream flow to keep the rising Basin 4 off the weir.",
+      "latency_ms": 12346.4,
+      "response_id": "resp_6ae8f86ee9394c61c2e24b3d"
+    },
+    "2|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.2,
+        0.2,
+        0.2,
+        0.6
+      ],
+      "intent_commentary": "Holding upstream releases and partially draining Basin 4 to ride out rising inflow without hitting the weir.",
+      "latency_ms": 16190.6,
+      "response_id": "resp_6ae8f87e5a3864a1fb6e4854"
+    },
+    "3|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding SU1-SU3 closed to protect Basin 4 capacity while throttling OR4 below full ahead of rising inflow.",
+      "latency_ms": 14723.4,
+      "response_id": "resp_6ae8f88d0652bad2595648e7"
+    },
+    "4|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding SU1-SU3 while partially draining SU4 ahead of rising inflow to keep it off the weir.",
+      "latency_ms": 20891.7,
+      "response_id": "resp_6ae8f8a2b645d558d9ff4a58"
+    },
+    "5|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.8
+      ],
+      "intent_commentary": "Holding SU1-SU3 closed and partially opening OR4 to keep Basin 4 off the weir ahead of rising inflow.",
+      "latency_ms": 17342.1,
+      "response_id": "resp_6ae8f8b3924f6b75b00d42c5"
+    },
+    "6|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding upstream basins and throttling OR4 to keep Basin 4 off the weir during rising inflow.",
+      "latency_ms": 15338.9,
+      "response_id": "resp_6ae8f8c33c622319a4f34099"
+    },
+    "7|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "intent_commentary": "Holding SU1-SU3 shut and keeping OR4 closed to reserve empty Basin 4 for its rising inflow.",
+      "latency_ms": 20489.8,
+      "response_id": "resp_6ae8f8d71b97441ea7744fb8"
+    },
+    "8|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding SU1-SU3 closed and throttling OR4 to preserve capacity for rising SU4 inflow.",
+      "latency_ms": 11948.1,
+      "response_id": "resp_6ae8f8e37ae3388d9e6d4b2b"
+    },
+    "9|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding upstream basins and throttling OR4 to keep Basin 4 off the weir during rising inflow.",
+      "latency_ms": 15054.4,
+      "response_id": "resp_6ae8f8f2f9e008495c0e4291"
+    },
+    "10|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intent_commentary": "Basin 4 is low with receding inflow so release upstream storage and drain Basin 4 to maximize capacity.",
+      "latency_ms": 10429.5,
+      "response_id": "resp_6ae8f8fd67f9a7c2b58b4407"
+    },
+    "11|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "intent_commentary": "Basin 4 is low with falling inflow so release upstream storage while draining Basin 4 to preserve freeboard.",
+      "latency_ms": 9042.3,
+      "response_id": "resp_6ae8f9065afd862bf9544fcb"
+    },
+    "12|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.8,
+        0.7,
+        0.6,
+        0.8
+      ],
+      "intent_commentary": "Upstream basins are high and SU4 inflow is falling so I am releasing storage while draining SU4.",
+      "latency_ms": 13573.6,
+      "response_id": "resp_6ae8f9131773c9633098400a"
+    },
+    "13|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.8
+      ],
+      "intent_commentary": "Holding SU1-SU3 closed to protect Basin 4 while partially draining SU4 to stay off the weir.",
+      "latency_ms": 9095.1,
+      "response_id": "resp_6ae8f91c7098ad6775124bdb"
+    },
+    "14|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding SU1-SU3 back while metering Basin 4 outflow to stay off the weir.",
+      "latency_ms": 10129.9,
+      "response_id": "resp_6ae8f9278b69cb89e7ad46f5"
+    },
+    "15|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Holding SU1-SU3 closed and partially opening OR4 to keep Basin 4 off the weir during rising inflow.",
+      "latency_ms": 13235.9,
+      "response_id": "resp_6ae8f934fd33dc277453469c"
+    },
+    "17|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.3
+      ],
+      "intent_commentary": "Holding SU1-SU3 and throttling OR4 to keep the rising Basin 4 off the weir.",
+      "latency_ms": 18133.4,
+      "response_id": "resp_6ae8f95f42d1aa10a8be4df9"
+    },
+    "16|": {
+      "model": "muse-spark-1.3",
+      "u": [
+        0.2,
+        0.2,
+        0.2,
+        0.5
+      ],
+      "intent_commentary": "Throttling upstream releases and metering Basin 4 to stay off the weir during forecast inflow.",
+      "latency_ms": 22915.7,
+      "response_id": "resp_6ae8fa47aad163f2f96b446b"
+    }
+  },
+  "sam": {
+    "ok": true,
+    "model": "sam-3.1",
+    "latency_ms": 8609.6,
+    "frames": [
+      {
+        "t_min": 0.0,
+        "objects": [],
+        "raw_excerpt": ""
+      },
+      {
+        "t_min": 40.0,
+        "objects": [
+          {
+            "id": 0,
+            "box": [
+              0.3792,
+              0.4813,
+              0.5417,
+              0.6417
+            ]
+          }
+        ],
+        "raw_excerpt": "<0f>0<|box;x1=182;y1=231;x2=260;y2=308;w=480;h=480|><|mask;x=0;y=0;data=78,79,~!!!@E#L48glQJK)Pe!i?ObFlp=^?1V`yHf?TWaCq0Y.#eIH83ZaMy907GdNQ_'T2R+OOSpTrEwK3i?qX2QYSada61b[/!yM@kR%Cy)gM%.l.Sxj0B#he9?*2:[r$A@rC4NS^h$wl.NE4cmCLkw:DfW?&QHES(fy{E/zOEEWLB:jzo_zm4:%trEplYO`[$iCuI=f?m@{wc[bN%TH=K!s8*)w0D4ptLr&*r&Ifh5fZ?-AAPz?W&&t'9)i?enB&MGsnin+1((/gXtfmh&pqHR3Df(kz9INg+frL@zHjdgkOpnjLkGiBl#E@HHexGkK)F'M{`L-V2'z_#Ks!9Xn5E!pKMEEoi`W&BMOJ61MW4/@K3w`8[R1TWb12v6H7jiQ#8Ko#6VC=ZkgZoff-QK3gHX[%NAeu&#/CQEV5i$'hU"
+      },
+      {
+        "t_min": 55.0,
+        "objects": [
+          {
+            "id": 0,
+            "box": [
+              0.5229,
+              0.6083,
+              0.6771,
+              0.7604
+            ]
+          }
+        ],
+        "raw_excerpt": "<0f>0<|box;x1=251;y1=292;x2=325;y2=365;w=480;h=480|><|mask;x=0;y=0;data=74,75,~!!!9Z#L*/+!PPakQ%4i%U*P7hWB6.HAl8t+:Qydlv+XJW#8GM37.G_]%w5/6W%*1Rbe'aWIL^4HIx'7V2i!U1wVhuLUTj*0?cz(x:y4^bmBo&H92@5wjn5EXR$FZAMqkZVktY#vp*{d5Xd7]Oe6@FY[ttkE).c5ypg1x-[dy!V=Q4:mqxaqt7F67(/Xms#VoS$+VH=VEW122MnI2PO#vIa+Es#p/xmBFFbl(zsW*E8z&i#&*k+jiJD(`%4vYm)`Numol*C+8eQ#TJf!n[Zh&Qcl9GEg/{gceN[E^VYew!)B7t0U]YDkNZ-N5TV22-qWjX(TWom3SuS]sjWB8gb-bJ202m2c-]5hX:#iE6A9MW5PIH0R)E_tvg48llKwJSD5#qqG?RtqxLDOr9WR0QT==^0QyjZE`Fv:O^-@h3"
+      }
+    ],
+    "errors": []
+  },
+  "wonder": {},
+  "voice": {
+    "ok": true,
+    "model": "muse-voice-transcribe-1.0",
+    "text": "Operator 4, Sluicegate 2 is mechanically jammed at 50% open.",
+    "faults": [
+      {
+        "type": "valve_jam",
+        "orifice_index": 1,
+        "orifice_id": "OR2",
+        "locked_setting": 0.5,
+        "speaker": "Speaker 4",
+        "role": "SCADA Operator",
+        "raw": "Operator 4, Sluicegate 2 is mechanically jammed at 50% open."
+      }
+    ]
+  }
+}

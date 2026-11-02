@@ -6,7 +6,7 @@ Built for the Meta Global AI Developer Hackathon, Indie Track, theme "Push the F
 
 ## Submission blurb
 
-StormGate-Zero closes one loop from a NEXRAD-style radar tape to the gates on a four-basin combined sewer. Design storm DS-1482 plays in about 20 seconds and then loops. The municipal float switch, which holds the downstream orifice shut until the crown, spills exactly 14,820,000 gallons. StormGate-Zero pre-drains Basin 4 before the second convective core arrives and spills 0 gallons, including when sluice OR2 jams at 50%. Twelve 60-minute futures are scored on a level-pool St. Venant storage routing so the live loop stays inside a control step. A real SWMM5 `.inp` and a PySWMM dynamic-wave replay sit beside that solver. Frame 0 seeds SAM 3.1 `<0f>` boxes from the hot reflectivity cores. Muse Wonder 1.0 is called once, on the jam, and its pick is kept only if that rollout spills no more than the physics winner. Muse Image 1.0 rendered the outfall plate once. The board serves that PNG. Spark Open and Glimmer run on every step as local deterministic workers: four named trajectories, and a freeboard interlock that forces a pinched gate open above 92% depth and 35 mm/hr unless the valve is mechanically locked.
+StormGate-Zero closes one loop from a NEXRAD-style radar tape to the gates on a four-basin combined sewer. Design storm DS-1482 plays in about 20 seconds and then loops. The municipal float switch, which holds the downstream orifice shut until the crown, spills exactly 14,820,000 gallons. StormGate-Zero pre-drains Basin 4 before the second convective core arrives and spills 0 gallons, including when sluice OR2 jams at 50%. Twelve 60-minute futures are scored on a level-pool St. Venant storage routing so the live loop stays inside a control step. A real SWMM5 `.inp` and a PySWMM dynamic-wave replay sit beside that solver. `muse-spark-1.3` controlled 17/18 steps of the scored DS-1482 pass (0 gal spill). `sam-3.1` tracked convective cores at t=40m and t=55m. `muse-voice-transcribe-1.0` transcribed the OR2 50% mechanical jam. `muse-wonder-1.0` handles fault recovery on a jam, and `muse-image-1.0` rendered the outfall twin. Deterministic replay of the Spark, SAM, and Voice payloads is cached in `traces/recorded_live_pass.json` for instant zero-key inspection. The local library (A-predrain through D-bypass) and the Glimmer freeboard interlock still score every step, and a hosted vector is kept only when its rollout spills no more than the physics winner.
 
 ## 1. The frontier problem
 
@@ -37,16 +37,15 @@ NOAA-style NEXRAD MP4                         SCADA war-room audio
                                  |
                                  v
                     Muse Wonder 1.0  supervisory MPC
-                    one hosted call, on the OR2 jam
-                    reasoning.effort = low, physics guard
+                    hosted on the OR2 jam, physics guard
                                  |
                                  v
-                    Muse Spark Open
-                    4 PySWMM / level-pool rollouts
-                    + intent commentary channel
+                    muse-spark-1.3
+                    live orifice vector [u1, u2, u3, u4]
+                    scored against 4 library rollouts
                                  |
                                  v
-                    Muse Glimmer 30B
+                    Muse Glimmer
                     local freeboard interlock
                                  |
                 +----------------+----------------+
@@ -56,17 +55,29 @@ NOAA-style NEXRAD MP4                         SCADA war-room audio
      14,820,000 gal -> 0 gal
 ```
 
-The quantitative hyetograph on the demo tape is the calibrated Z-R product of design storm DS-1482. SAM's job on that tape is the tracked core, the `<0f>` Frame-0 box prompt, and the polygon intersection the operator sees. The live loop does not send the MP4 to SAM on every frame. With no key, the same loop still runs: geometric box seeding, the physics ranker, the local freeboard invariant, and a solver-locked outfall plate.
+The quantitative hyetograph on the demo tape is the calibrated Z-R product of design storm DS-1482. SAM's job on that tape is the tracked core. The recorded pass called `sam-3.1` on the frames at 0, 40, and 55 minutes. Minutes 40 and 55 returned a storm box and a mask blob (`<0f>` plus the pipe-box grammar). Minute 0 came back empty, so that instant still draws the geometric core. The live board does not send the MP4 on every frame. With no key, or after the trace is on disk, the loop replays `traces/live_models.json`: the same Spark vectors, the same SAM boxes, the physics ranker, the local freeboard invariant, and the cached outfall plate.
 
-Hosted calls are capped so a 20-second loop cannot drain the key. Wonder fires once per process, on the first beat after OR2 jams, with `reasoning.effort = low` and an 18-second timeout. The hosted name is kept only when its simulated spill is within 1 gallon of the physics winner. Ties in that ranker stay on `A-predrain`, so an empty-tank bypass does not win after the rain ends. Muse Image fires once per install. The response is an `image_generation_call` WebP, converted to PNG, then served again without another call. On this machine `httpx` had to use the Windows certificate store. The certifi bundle failed TLS with `CERTIFICATE_VERIFY_FAILED` before any model ran. That client lives in `backend/agents/meta_client.py`.
+### Recorded live pass
+
+`traces/recorded_live_pass.json` is the frozen artifact from that run. The server replays the same bytes from `traces/live_models.json`, so a looping board does not bill the same step again.
+
+| Model | What the file shows |
+| --- | --- |
+| `muse-spark-1.3` | An orifice vector, commentary, latency, and `resp_*` id on every step key `0\|` through `17\|`. The scored pass executed the model on 17 steps. Step 16 of that pass fell back to A-predrain when the call did not return; controlled spill stayed 0 gallons. A later successful step-16 response is in the file (`resp_6ae8fa47aad163f2f96b446b`, about 22.9 s). |
+| `sam-3.1` | `ok: true`, 8609.6 ms, three frames. t=40 box `[0.3792, 0.4813, 0.5417, 0.6417]`. t=55 box `[0.5229, 0.6083, 0.6771, 0.7604]`. t=0 excerpt is empty. |
+| `muse-voice-transcribe-1.0` | Transcript: "Operator 4, Sluicegate 2 is mechanically jammed at 50% open." Parsed fault: OR2 locked at 0.50. |
+| `muse-wonder-1.0` | `wonder` is `{}` in this file because the 18-step recording was unjammed. On a jam, Wonder is called once and its vector is kept only when the rollout spills no more than the physics winner. |
+| `muse-image-1.0` | Rendered the outfall plate once, before this pass. The board serves that PNG. It is not regenerated on replay. |
+
+Hosted Spark is asked for `{"u":[or1,or2,or3,or4],"intent_commentary"}` on `POST /v1/responses`. The ranker still prefers the lowest spill, then street flooding, then W-wonder, S-spark, and names starting with A-. A hosted pick that spills more than the physics winner is dropped. Wonder fires once per process, on the first beat after OR2 jams, with `reasoning.effort = low`. Muse Image fires once per install. The response is an `image_generation_call` WebP, converted to PNG, then served again without another call. On this machine `httpx` had to use the Windows certificate store. The certifi bundle failed TLS with `CERTIFICATE_VERIFY_FAILED` before any model ran. That client lives in `backend/agents/meta_client.py`. Glimmer is still the local numeric interlock. `api.meta.ai` returns `model_not_found` for `meta-models/muse-spark-open` and `meta-models/Muse-Glimmer-30B`.
 
 ## 3. Prize-track alignment
 
 | Prize track | How this build qualifies |
 | --- | --- |
 | Indie Grand Prize | Closed-loop vision-to-PDE control of an interceptor. On DS-1482 the float-rule baseline spills 14.82 million gallons and StormGate-Zero spills none, including a mid-storm mechanical jam. |
-| Best build on Meta open-weight models | Every control step runs the Spark Open library (A-predrain, B-balanced, C-retention, D-bypass) and the Glimmer freeboard invariant locally, so the floodgate does not depend on a closed cloud. The partner model string is `meta-models/muse-spark-open` (Baseten base `https://inference.baseten.co/v1`, Groq base `https://api.groq.com/openai/v1`). `api.meta.ai` returns `model_not_found` for that id and for `meta-models/Muse-Glimmer-30B`. A Groq key on this machine returns `model_terms_required` until the org accepts terms. The numeric interlock still runs first. |
-| Best agentic use | Wonder fans four candidate trajectories across cloned 60-minute St. Venant rollouts and rebuilds the plan when voice transcription locks OR2 at 0.50. |
+| Best build on Meta open-weight models | The live control step calls hosted `muse-spark-1.3` for the orifice vector, then still scores the Spark Open library (A-predrain, B-balanced, C-retention, D-bypass) and the Glimmer freeboard invariant locally. The partner model string is `meta-models/muse-spark-open` (Baseten base `https://inference.baseten.co/v1`, Groq base `https://api.groq.com/openai/v1`). `api.meta.ai` returns `model_not_found` for that id and for `meta-models/Muse-Glimmer-30B`. A Groq key on this machine returns `model_terms_required` until the org accepts terms. The numeric interlock still runs on every step. |
+| Best agentic use | `muse-spark-1.3` proposes `[u1, u2, u3, u4]` every control step. Wonder adds a recovery vector when voice transcription locks OR2 at 0.50. Both are scored on cloned 60-minute St. Venant rollouts and dropped if they spill more than the physics winner. |
 | Best creative build | Image 1.0 anchored composition, with a solver-locked fallback plate, turns the hydrograph into a side-by-side outfall: raw sewage versus a dry weir. |
 | Most viral on X | The command center is the shot: red weir versus a dry weir, SAM masks on the radar, a jam injected by voice, the counter stuck at 0 gal. |
 
@@ -79,14 +90,18 @@ backend/physics/design_storm.py           DS-1482 hydrograph and radar cores
 backend/physics/radar_synthesizer.py      NEXRAD frames and MP4
 backend/agents/sam_radar_tracker.py       SAM 3.1 stream + <0f> parser + HSV seed
 backend/agents/wonder_mpc_supervisor.py   supervisory MPC
-backend/agents/spark_open_worker.py       four trajectories + commentary
+backend/agents/spark_open_worker.py       muse-spark-1.3 vector + four library trajectories
 backend/agents/glimmer_edge_guard.py      freeboard interlock
 backend/agents/voice_scada_bridge.py      realtime proxy, file ASR, fault parser
 backend/agents/image_counterfactual.py    anchored outfall plate
+backend/agents/model_traces.py            replay cache for api.meta.ai responses
 backend/main.py                           FastAPI + WebSocket twin
 frontend/                                 React SCADA command center
 scripts/generate_demo_assets.py           radar MP4, reference plate, .inp
+scripts/record_live_models.py             one DS-1482 pass that fills the trace
 scripts/run_benchmark.py                  uncontrolled vs local vs StormGate
+traces/recorded_live_pass.json            frozen Spark, SAM, and Voice payloads
+traces/live_models.json                   the same payloads, replayed by the server
 ```
 
 ## 5. Quickstart
@@ -127,11 +142,11 @@ DS-1482 finishes 18 steps, 90 simulated minutes, in about 20 seconds, then loops
 
 **Loop 2, 0:25–1:35.** As the loop restarts, before Core B reaches Basin 4, press **Inject Gate #2 Mechanical Jam (50%)**. That button parses the radio line. It does not invent a second code path.
 
-> Sluice Gate 2 is mechanically jammed at 50 percent. Wonder gets one call, about seven seconds, and it may only keep a plan whose rollout spills no more than the physics winner. Ties stay on A-predrain, so the controller does not empty the tanks just because the rain stopped. Glimmer is the local interlock under that plan: above 92 percent full, inflow over 35 millimeters an hour, and a gate pinched below 25 percent, the gate is forced to 60 percent. A jammed gate cannot be moved. The green counter stays at 0.
+> Sluice Gate 2 is mechanically jammed at 50 percent. The recorded voice pass already transcribed that line and locked OR2 at 0.50. Wonder gets one call on the jam, and it may only keep a plan whose rollout spills no more than the physics winner. A jammed gate cannot be moved. Glimmer is the local interlock under that plan: above 92 percent full, inflow over 35 millimeters an hour, and a gate pinched below 25 percent, the gate is forced to 60 percent. The green counter stays at 0.
 
 **Outfall and proof, 1:35–2:45.** Press **Render Outfall Visual Twin**. The plate is the Muse Image render already on disk. Then cut to a terminal.
 
-> Left weir is the 14.82 million gallons the float switch discharged. Right weir is the same concrete, dry. Spark Open wrote the four futures on the basin PC. Glimmer is the check that can veto a pinched gate without a round trip. The cloud is allowed to speak once. It is not allowed to move a gate the physics rejected.
+> Left weir is the 14.82 million gallons the float switch discharged. Right weir is the same concrete, dry. `muse-spark-1.3` wrote the gate openings on 17 of the 18 steps in `traces/recorded_live_pass.json`. The solver kept them because they did not spill more than the physics winner. Glimmer is the local check that can veto a pinched gate. The cloud proposes the number. It does not get to move a gate the physics rejected.
 
 ```bash
 python -m pytest tests -q

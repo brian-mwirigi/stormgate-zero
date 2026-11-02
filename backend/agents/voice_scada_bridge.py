@@ -12,11 +12,16 @@ used when a key and audio are both present.
 
 from __future__ import annotations
 
+import audioop
+import io
+import json
 import re
+import wave
 from typing import Any
 
 import httpx
 
+from backend.agents.meta_client import _ssl_context
 from backend.config import settings
 
 _SPEAKER_RE = re.compile(r"\b(?:speaker|operator)\s*(\d+)\b", re.IGNORECASE)
@@ -127,6 +132,33 @@ def diarize_plaintext(transcript: str) -> list[dict[str, str]]:
     return turns
 
 
+def _to_api_wav(audio: bytes) -> bytes:
+    """Meta accepts mono 16-bit PCM WAV at 16 kHz or 24 kHz."""
+    try:
+        with wave.open(io.BytesIO(audio)) as source:
+            channels = source.getnchannels()
+            width = source.getsampwidth()
+            rate = source.getframerate()
+            frames = source.readframes(source.getnframes())
+    except wave.Error:
+        return audio
+    if width != 2:
+        frames = audioop.lin2lin(frames, width, 2)
+        width = 2
+    if channels != 1:
+        frames = audioop.tomono(frames, width, 0.5, 0.5)
+    if rate not in (16000, 24000):
+        frames, _ = audioop.ratecv(frames, 2, 1, rate, 16000, None)
+        rate = 16000
+    output = io.BytesIO()
+    with wave.open(output, "wb") as target:
+        target.setnchannels(1)
+        target.setsampwidth(2)
+        target.setframerate(rate)
+        target.writeframes(frames)
+    return output.getvalue()
+
+
 async def transcribe_file(audio: bytes, filename: str = "war-room.wav") -> dict:
     """POST /v1/asr/transcribe. Offline callers get an empty transcript and a reason."""
     if not settings.meta_enabled:
@@ -139,11 +171,21 @@ async def transcribe_file(audio: bytes, filename: str = "war-room.wav") -> dict:
             "detail": "MODEL_API_KEY is not configured; pass radio text to /api/voice/text.",
         }
     url = f"{settings.META_BASE_URL}/asr/transcribe"
-    files = {"file": (filename, audio, "application/octet-stream")}
-    data = {"model": settings.MODEL_VOICE, "diarize": "true"}
-    headers = {"Authorization": f"Bearer {settings.META_API_KEY}"}
-    async with httpx.AsyncClient(timeout=60.0) as client:
-        response = await client.post(url, headers=headers, data=data, files=files)
+    audio = _to_api_wav(audio)
+    request = json.dumps(
+        {
+            "model": settings.MODEL_VOICE,
+            "audioEncoding": "WAV",
+            "mode": "DIARIZATION",
+        }
+    )
+    files = {
+        "request": (None, request, "application/json"),
+        "audio": (filename, audio, "audio/wav"),
+    }
+    headers = {"Authorization": f"Bearer {settings.META_API_KEY}", "Accept": "application/json"}
+    async with httpx.AsyncClient(timeout=60.0, verify=_ssl_context()) as client:
+        response = await client.post(url, headers=headers, files=files)
     if response.status_code >= 400:
         return {
             "ok": False,
