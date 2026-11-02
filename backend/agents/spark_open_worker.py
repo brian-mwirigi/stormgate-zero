@@ -67,8 +67,15 @@ def local_candidates(volume: np.ndarray, forecast_mg: np.ndarray, jammed: dict[i
     }
 
 
-async def propose_candidates(volume: np.ndarray, forecast_mg: np.ndarray, jammed: dict[int, float] | None) -> dict:
+async def propose_candidates(
+    volume: np.ndarray,
+    forecast_mg: np.ndarray,
+    jammed: dict[int, float] | None,
+    hosted: bool = False,
+) -> dict:
     library = local_candidates(volume, forecast_mg, jammed)
+    if not hosted:
+        return library
     summary = {
         "depth": (volume / np.maximum(volume, volume)).tolist() if False else None,
         "jammed": {str(k): v for k, v in (jammed or {}).items()},

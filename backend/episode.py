@@ -34,6 +34,8 @@ class Episode:
             "muse-image-1.0": {"status": "STANDBY", "latency_ms": None},
         }
         self.outfall_ready = False
+        self._wonder_calls = 0
+        self._jam_wonder = False
         self.lock = asyncio.Lock()
         self._task: asyncio.Task | None = None
         self._subscribers: set[asyncio.Queue] = set()
@@ -41,10 +43,18 @@ class Episode:
         self._mark_sam()
 
     def _mark_sam(self) -> None:
-        self.models["sam-3.1"] = {
-            "status": "LIVE" if settings.meta_enabled else "GEOMETRIC FALLBACK",
-            "latency_ms": None,
-        }
+        # The radar tape is seeded locally. A SAM video call is not on the 1-second loop.
+        self.models["sam-3.1"] = {"status": "GEOMETRIC FALLBACK", "latency_ms": None}
+
+    def _allow_hosted_wonder(self) -> bool:
+        """One hosted Wonder call, on the first beat after a gate jam. The loop stays local."""
+        if not settings.meta_enabled or self._wonder_calls >= max(settings.HOSTED_BUDGET, 0):
+            return False
+        if not self.sim.jammed or self._jam_wonder:
+            return False
+        self._wonder_calls += 1
+        self._jam_wonder = True
+        return True
 
     def subscribe(self) -> asyncio.Queue:
         queue: asyncio.Queue = asyncio.Queue(maxsize=1)
@@ -159,6 +169,7 @@ class Episode:
                 self.sim.stormgate.volume.copy(),
                 self.radar["forecast_mg"],
                 dict(self.sim.jammed) or None,
+                hosted=self._allow_hosted_wonder(),
             )
             self.decision = decision
             self.models["muse-wonder-1.0"] = {

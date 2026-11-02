@@ -66,9 +66,12 @@ async def verify(
     depth: list[float],
     inflow_mmhr: list[float],
     jammed: dict[int, float] | None = None,
+    hosted: bool = False,
 ) -> dict:
     """Enforce the invariant locally, then ask Glimmer to phrase the ruling."""
     ruling = local_interlock(action, depth, inflow_mmhr, jammed)
+    if not hosted:
+        return ruling
     prompt = (
         "You are Muse Glimmer, the single-GPU edge safety guard at a sewer basin. "
         "The numeric interlock already ran. Explain the ruling in two sentences for a "

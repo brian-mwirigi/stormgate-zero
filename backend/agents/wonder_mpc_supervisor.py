@@ -48,9 +48,12 @@ async def supervise(
     forecast_mg: np.ndarray,
     jammed: dict[int, float] | None,
     spark_bundle: dict | None = None,
+    hosted: bool = False,
 ) -> dict:
     started = time.perf_counter()
-    bundle = spark_bundle or await spark_open_worker.propose_candidates(volume, forecast_mg, jammed)
+    bundle = spark_bundle or await spark_open_worker.propose_candidates(
+        volume, forecast_mg, jammed, hosted=False
+    )
     actions = [(item["name"], np.asarray(item["actions"], dtype=float)) for item in bundle["candidates"]]
     rollouts = run_parallel_lookahead_rollouts(volume, actions, forecast_mg, jammed)
     scored = [item.as_dict() for item in rollouts]
@@ -70,11 +73,13 @@ async def supervise(
         f"Spark commentary: {bundle.get('intent_commentary', '')}"
     )
     try:
+        if not hosted:
+            raise OfflineModelError("hosted Wonder is reserved for the first beat after a gate jam")
         body = await create_response(
             settings.MODEL_WONDER,
             prompt,
-            reasoning_effort="high",
-            timeout=40.0,
+            reasoning_effort="low",
+            timeout=18.0,
         )
         latency_ms = float(body.get("_latency_ms", 0.0))
         parsed = parse_json_block(response_text(body)) or {}
@@ -90,7 +95,7 @@ async def supervise(
         if isinstance(note, str):
             wonder_note = note.strip()
         source = "muse-wonder-1.0"
-    except OfflineModelError as exc:
+    except (OfflineModelError, Exception) as exc:
         wonder_note = ""
         source = "wonder-physics-rank"
         latency_ms = 0.0

@@ -60,6 +60,8 @@ class Settings:
     LOOKAHEAD_STEPS: int = 9  # 45-minute SAM nowcast
     EPISODE_STEP_SECONDS: float = float(os.getenv("EPISODE_STEP_SECONDS", "1.15"))
     OFFLINE: bool = os.getenv("STORMGATE_OFFLINE", "0") == "1"
+    # Hosted Wonder calls for the whole process. The looping storm stays local.
+    HOSTED_BUDGET: int = int(os.getenv("STORMGATE_HOSTED_BUDGET", "1"))
 
     @property
     def meta_enabled(self) -> bool:

@@ -130,6 +130,9 @@ def save_reference(path: Path | None = None) -> Path:
     return path
 
 
+_image_spent = False
+
+
 async def render_anchored(baseline_gallons: float, stormgate_gallons: float) -> dict:
     """Draw the local plate and, when configured, ask muse-image-1.0 for an edit."""
     plate = render_outfall_plate(baseline_gallons, stormgate_gallons)
@@ -144,9 +147,15 @@ async def render_anchored(baseline_gallons: float, stormgate_gallons: float) -> 
         "stormgate_gallons": stormgate_gallons,
         "image_png_base64": base64.b64encode(plate).decode("ascii"),
     }
-    if not settings.meta_enabled:
-        result["detail"] = "MODEL_API_KEY is not configured; served the solver-locked plate."
+    global _image_spent
+    if not settings.meta_enabled or _image_spent:
+        result["detail"] = (
+            "Served the solver-locked plate. Muse Image is called once per process."
+            if settings.meta_enabled
+            else "MODEL_API_KEY is not configured; served the solver-locked plate."
+        )
         return result
+    _image_spent = True
     from backend.agents.meta_client import OfflineModelError, create_response
 
     ref = base64.b64encode(reference_image()).decode("ascii")
@@ -166,6 +175,6 @@ async def render_anchored(baseline_gallons: float, stormgate_gallons: float) -> 
         result["source"] = "muse-image-1.0"
         result["latency_ms"] = body.get("_latency_ms")
         result["remote"] = {key: body.get(key) for key in ("id", "status") if key in body}
-    except OfflineModelError as exc:
+    except (OfflineModelError, Exception) as exc:
         result["detail"] = str(exc)
     return result
