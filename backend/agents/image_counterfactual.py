@@ -133,11 +133,47 @@ def save_reference(path: Path | None = None) -> Path:
 _image_spent = False
 
 
+def _generated_png(body: dict) -> bytes | None:
+    """Pull the PNG out of a Responses image_generation_call, when one is present."""
+    for item in body.get("output") or []:
+        if not isinstance(item, dict) or item.get("type") != "image_generation_call":
+            continue
+        blob = item.get("result")
+        if not isinstance(blob, str) or len(blob) < 32:
+            continue
+        try:
+            raw = base64.b64decode(blob)
+        except Exception:
+            return None
+        if raw.startswith(b"RIFF"):
+            from io import BytesIO
+
+            from PIL import Image
+
+            frame = BytesIO()
+            Image.open(BytesIO(raw)).convert("RGB").save(frame, format="PNG")
+            return frame.getvalue()
+        return raw
+    return None
+
+
 async def render_anchored(baseline_gallons: float, stormgate_gallons: float) -> dict:
     """Draw the local plate and, when configured, ask muse-image-1.0 for an edit."""
     plate = render_outfall_plate(baseline_gallons, stormgate_gallons)
     OUTFALL_DIR.mkdir(parents=True, exist_ok=True)
     out_path = OUTFALL_DIR / "counterfactual.png"
+    spent_flag = OUTFALL_DIR / ".muse_spent"
+    if settings.meta_enabled and spent_flag.exists() and out_path.exists():
+        kept = out_path.read_bytes()
+        return {
+            "ok": True,
+            "source": "muse-image-1.0",
+            "path": str(out_path),
+            "baseline_gallons": baseline_gallons,
+            "stormgate_gallons": stormgate_gallons,
+            "image_png_base64": base64.b64encode(kept).decode("ascii"),
+            "detail": "Muse Image already rendered once this install. Serving that plate.",
+        }
     out_path.write_bytes(plate)
     result = {
         "ok": True,
@@ -172,9 +208,16 @@ async def render_anchored(baseline_gallons: float, stormgate_gallons: float) -> 
             extra_input=[{"type": "input_image", "image_url": f"data:image/png;base64,{ref}"}],
             timeout=60.0,
         )
-        result["source"] = "muse-image-1.0"
+        png = _generated_png(body)
         result["latency_ms"] = body.get("_latency_ms")
         result["remote"] = {key: body.get(key) for key in ("id", "status") if key in body}
+        if png:
+            out_path.write_bytes(png)
+            spent_flag.write_text("1", encoding="ascii")
+            result["source"] = "muse-image-1.0"
+            result["image_png_base64"] = base64.b64encode(png).decode("ascii")
+        else:
+            result["detail"] = "Muse Image returned no picture. Served the solver-locked plate."
     except (OfflineModelError, Exception) as exc:
         result["detail"] = str(exc)
     return result

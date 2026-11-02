@@ -8,6 +8,7 @@ hydraulic loop keeps running on the local physics policies.
 from __future__ import annotations
 
 import json
+import ssl
 import time
 from typing import Any
 
@@ -18,6 +19,11 @@ from backend.config import settings
 
 class OfflineModelError(RuntimeError):
     """Raised when a hosted model cannot be called."""
+
+
+def _ssl_context() -> ssl.SSLContext:
+    """Use the Windows certificate store. certifi's bundle fails on this machine."""
+    return ssl.create_default_context()
 
 
 def _headers(api_key: str) -> dict[str, str]:
@@ -58,7 +64,7 @@ async def create_response(
     if reasoning_effort:
         payload["reasoning"] = {"effort": reasoning_effort}
     started = time.perf_counter()
-    async with httpx.AsyncClient(timeout=timeout) as client:
+    async with httpx.AsyncClient(timeout=timeout, verify=_ssl_context()) as client:
         response = await client.post(f"{base}/responses", headers=_headers(key), json=payload)
     latency_ms = (time.perf_counter() - started) * 1000.0
     if response.status_code >= 400:
@@ -119,7 +125,7 @@ async def stream_response_text(
     payload = {"model": model, "input": [{"role": "user", "content": content}], "stream": True}
     started = time.perf_counter()
     pieces: list[str] = []
-    async with httpx.AsyncClient(timeout=timeout) as client:
+    async with httpx.AsyncClient(timeout=timeout, verify=_ssl_context()) as client:
         async with client.stream("POST", f"{base}/responses", headers=_headers(key), json=payload) as response:
             if response.status_code >= 400:
                 detail = (await response.aread()).decode("utf-8", errors="replace")[:400]
