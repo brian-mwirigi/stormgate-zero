@@ -13,35 +13,35 @@ export default function HydraulicTwin({ state }: Props) {
       {jammed !== undefined && (
         <div className="fault-banner">FAULT · OR2 LOCKED AT {Math.round(jammed * 100)}%</div>
       )}
-      <svg viewBox="0 0 1200 320" role="img" aria-label="Side by side sewer cross sections">
-        <Side
-          x={0}
-          title="STANDARD MUNICIPAL LOCAL CONTROL"
-          depths={left}
-          gates={state.baseline_orifice}
-          spill={state.cso_baseline_gal}
-          accent="#ff3355"
-          water="#9a3a2a"
-          jammed={jammed !== undefined}
-        />
-        <Side
-          x={610}
-          title="STORMGATE-ZERO CLOSED LOOP"
-          depths={right}
-          gates={state.stormgate_orifice}
-          spill={state.cso_stormgate_gal}
-          accent="#1dff9a"
-          water="#1c8f86"
-          jammed={jammed !== undefined}
-        />
-        <line x1="598" y1="36" x2="598" y2="300" stroke="#1c333d" />
-      </svg>
+      <div className="sg-hgl">
+        <svg viewBox="0 0 540 310" role="img" aria-label="Municipal local-control sewer section">
+          <Side
+            title="STANDARD MUNICIPAL LOCAL CONTROL"
+            depths={left}
+            gates={state.baseline_orifice}
+            spill={state.cso_baseline_gal}
+            accent="#ff3355"
+            water="#9a3a2a"
+            jammed={jammed !== undefined}
+          />
+        </svg>
+        <svg viewBox="0 0 540 310" role="img" aria-label="StormGate closed-loop sewer section">
+          <Side
+            title="STORMGATE-ZERO CLOSED LOOP"
+            depths={right}
+            gates={state.stormgate_orifice}
+            spill={state.cso_stormgate_gal}
+            accent="#1dff9a"
+            water="#1c8f86"
+            jammed={jammed !== undefined}
+          />
+        </svg>
+      </div>
     </section>
   );
 }
 
 function Side({
-  x,
   title,
   depths,
   gates,
@@ -50,7 +50,6 @@ function Side({
   water,
   jammed,
 }: {
-  x: number;
   title: string;
   depths: number[];
   gates: number[];
@@ -60,7 +59,7 @@ function Side({
   jammed: boolean;
 }) {
   return (
-    <g transform={`translate(${x},0)`}>
+    <g>
       <text x="16" y="28" fill={accent} fontFamily="Consolas, monospace" fontSize="13">
         {title}
       </text>
@@ -91,8 +90,8 @@ function Side({
           </g>
         );
       })}
-      <rect x="20" y="268" width="500" height="10" fill="#24343c" />
-      <text x="430" y="292" fill="#7f97a3" fontFamily="Consolas, monospace" fontSize="11">
+      <rect x="20" y="268" width="490" height="10" fill="#24343c" />
+      <text x="250" y="292" fill="#7f97a3" fontFamily="Consolas, monospace" fontSize="11">
         INTERCEPTOR → RIVER
       </text>
     </g>

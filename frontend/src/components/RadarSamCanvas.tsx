@@ -51,25 +51,28 @@ export default function RadarSamCanvas({ state }: Props) {
           </p>
         </div>
         <div>
-          <Line
-            data={chartData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: { labels: { color: "#9fb4bf", boxWidth: 10, font: { size: 10 } } },
-                tooltip: { enabled: true },
-              },
-              scales: {
-                x: { ticks: { color: "#7f97a3", maxTicksLimit: 5 }, grid: { color: "#132028" } },
-                y: {
-                  ticks: { color: "#7f97a3" },
-                  grid: { color: "#132028" },
-                  title: { display: true, text: "mm/hr", color: "#7f97a3" },
-                  suggestedMax: 70,
+          <div className="sg-chart">
+            <Line
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { labels: { color: "#9fb4bf", boxWidth: 10, font: { size: 10 } } },
+                  tooltip: { enabled: true },
                 },
-              },
-            }}
-          />
+                scales: {
+                  x: { ticks: { color: "#7f97a3", maxTicksLimit: 5 }, grid: { color: "#132028" } },
+                  y: {
+                    ticks: { color: "#7f97a3" },
+                    grid: { color: "#132028" },
+                    title: { display: true, text: "mm/hr", color: "#7f97a3" },
+                    suggestedMax: 70,
+                  },
+                },
+              }}
+            />
+          </div>
           <div className="mt-2 font-mono text-[11px] text-[#9fb4bf]">
             {Object.entries(state.coverage).map(([name, value]) => (
               <div key={name} className="flex justify-between">
