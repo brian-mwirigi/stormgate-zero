@@ -2,7 +2,11 @@
 
 **Closing the perception-to-physics loop: autonomous urban combined sewer overflow control via Meta SAM 3.1, Muse Wonder 1.0, Muse Spark Open, Muse Glimmer, and the US EPA SWMM St. Venant solver.**
 
-Built for the Meta Global AI Developer Hackathon, Indie Track, theme "Push the Frontier".
+Built for the Meta Global AI Developer Hackathon, Indie Track, theme "Push the Frontier". Submission deadline Wednesday, November 4, 2026, 9:00 PM EST.
+
+## Submission blurb
+
+StormGate-Zero closes one loop from a NEXRAD-style radar tape to the gates on a four-basin combined sewer. Design storm DS-1482 plays in about 20 seconds and then loops. The municipal float switch, which holds the downstream orifice shut until the crown, spills exactly 14,820,000 gallons. StormGate-Zero pre-drains Basin 4 before the second convective core arrives and spills 0 gallons, including when sluice OR2 jams at 50%. Twelve 60-minute futures are scored on a level-pool St. Venant storage routing so the live loop stays inside a control step. A real SWMM5 `.inp` and a PySWMM dynamic-wave replay sit beside that solver. Frame 0 seeds SAM 3.1 `<0f>` boxes from the hot reflectivity cores. Muse Wonder 1.0 is called once, on the jam, and its pick is kept only if that rollout spills no more than the physics winner. Muse Image 1.0 rendered the outfall plate once. The board serves that PNG. Spark Open and Glimmer run on every step as local deterministic workers: four named trajectories, and a freeboard interlock that forces a pinched gate open above 92% depth and 35 mm/hr unless the valve is mechanically locked.
 
 ## 1. The frontier problem
 
@@ -33,7 +37,8 @@ NOAA-style NEXRAD MP4                         SCADA war-room audio
                                  |
                                  v
                     Muse Wonder 1.0  supervisory MPC
-                    reasoning.effort = high
+                    one hosted call, on the OR2 jam
+                    reasoning.effort = low, physics guard
                                  |
                                  v
                     Muse Spark Open
@@ -51,14 +56,16 @@ NOAA-style NEXRAD MP4                         SCADA war-room audio
      14,820,000 gal -> 0 gal
 ```
 
-The quantitative hyetograph on the demo tape is the calibrated Z-R product of design storm DS-1482. SAM's job on that tape is the tracked core, the `<0f>` seed, and the polygon intersection the operator sees. Hosted models are called when `MODEL_API_KEY` is set. With no key, the same loop still runs: geometric box seeding, the physics ranker, the local freeboard invariant, and a solver-locked outfall plate. A hosted pick that would spill more than the physics winner is rejected.
+The quantitative hyetograph on the demo tape is the calibrated Z-R product of design storm DS-1482. SAM's job on that tape is the tracked core, the `<0f>` Frame-0 box prompt, and the polygon intersection the operator sees. The live loop does not send the MP4 to SAM on every frame. With no key, the same loop still runs: geometric box seeding, the physics ranker, the local freeboard invariant, and a solver-locked outfall plate.
+
+Hosted calls are capped so a 20-second loop cannot drain the key. Wonder fires once per process, on the first beat after OR2 jams, with `reasoning.effort = low` and an 18-second timeout. The hosted name is kept only when its simulated spill is within 1 gallon of the physics winner. Ties in that ranker stay on `A-predrain`, so an empty-tank bypass does not win after the rain ends. Muse Image fires once per install. The response is an `image_generation_call` WebP, converted to PNG, then served again without another call. On this machine `httpx` had to use the Windows certificate store. The certifi bundle failed TLS with `CERTIFICATE_VERIFY_FAILED` before any model ran. That client lives in `backend/agents/meta_client.py`.
 
 ## 3. Prize-track alignment
 
 | Prize track | How this build qualifies |
 | --- | --- |
 | Indie Grand Prize | Closed-loop vision-to-PDE control of an interceptor. On DS-1482 the float-rule baseline spills 14.82 million gallons and StormGate-Zero spills none, including a mid-storm mechanical jam. |
-| Best build on Meta open-weight models | Spark Open proposes and explains the rollout library. Glimmer is the single-GPU edge interlock that can veto a pinched gate when depth is above 92% and inflow exceeds 35 mm/hr. Both talk to an open-weight compatible endpoint (`OPEN_WEIGHT_BASE_URL`). |
+| Best build on Meta open-weight models | Every control step runs the Spark Open library (A-predrain, B-balanced, C-retention, D-bypass) and the Glimmer freeboard invariant locally, so the floodgate does not depend on a closed cloud. The partner model string is `meta-models/muse-spark-open-1026`. `api.meta.ai` returns `model_not_found` for that id and for `meta-models/Muse-Glimmer-30B`. Set `OPEN_WEIGHT_BASE_URL` to the Baseten hackathon endpoint to send the same JSON there. The numeric interlock still runs first. |
 | Best agentic use | Wonder fans four candidate trajectories across cloned 60-minute St. Venant rollouts and rebuilds the plan when voice transcription locks OR2 at 0.50. |
 | Best creative build | Image 1.0 anchored composition, with a solver-locked fallback plate, turns the hydrograph into a side-by-side outfall: raw sewage versus a dry weir. |
 | Most viral on X | The command center is the shot: red weir versus a dry weir, SAM masks on the radar, a jam injected by voice, the counter stuck at 0 gal. |
@@ -110,16 +117,35 @@ Open http://localhost:5173. The episode auto-starts. Inject the OR2 jam from the
 
 PySWMM is listed and the `.inp` is a real SWMM5 network. The live MPC fan-out uses level-pool continuity (the storage-node routing inside SWMM) so twelve clones finish inside a control step even when the EPA dynamic-wave DLL is not installed. `commit_with_pyswmm` replays a committed orifice series when the engine imports.
 
-## 6. Three-minute demo spine
+## 6. Three-minute demo
 
-- **0:00–0:18** Split hydraulic section. Left weir climbing toward 14,820,000 gal. Right weir at 0.
-- **0:18–0:55** SAM masks on the two cores. Spark commentary names the pre-drain. Basin 4 is already down near its target before the core arrives, then crests under the weir.
-- **0:55–1:40** Live SCADA button, or the jam injector: "Sluice Gate 2 is mechanically jammed at 50 percent." Wonder rebuilds the rollouts with OR2 locked. Glimmer reports the interlock. Spill stays 0.
-- **1:40–2:20** Outfall twin. Mention Spark Open on the rollout worker and Glimmer on the basin PC, because a floodgate command should not depend on a closed cloud solely.
-- **2:20–3:00** `python scripts/run_benchmark.py` scorecard, then back to the live board.
+DS-1482 finishes 18 steps, 90 simulated minutes, in about 20 seconds, then loops. Record one clean loop, then the jam, then the plate and the tests. Reset the storm before you hit record so Loop 1 starts at minute 0.
+
+**Loop 1, 0:00–0:25.** Leave the jam off. Let the board run from the opening frame to the lock.
+
+> The left sewer is the municipal float switch. It leaves the upstream gates open and holds the downstream gate shut until the tank is already at the crown. The right sewer sees Core A on Basin 1, spends the plant before the rain, and drops Basin 4 before Core B arrives around minute 55. The counters are whole gallons. They lock at 14,820,000 on the left and 0 on the right. An all-gates-open plant spills about 3.1 million. The float switch is worse, because it stores the peak and then dumps it over the weir.
+
+**Loop 2, 0:25–1:35.** As the loop restarts, before Core B reaches Basin 4, press **Inject Gate #2 Mechanical Jam (50%)**. That button parses the radio line. It does not invent a second code path.
+
+> Sluice Gate 2 is mechanically jammed at 50 percent. Wonder gets one call, about seven seconds, and it may only keep a plan whose rollout spills no more than the physics winner. Ties stay on A-predrain, so the controller does not empty the tanks just because the rain stopped. Glimmer is the local interlock under that plan: above 92 percent full, inflow over 35 millimeters an hour, and a gate pinched below 25 percent, the gate is forced to 60 percent. A jammed gate cannot be moved. The green counter stays at 0.
+
+**Outfall and proof, 1:35–2:45.** Press **Render Outfall Visual Twin**. The plate is the Muse Image render already on disk. Then cut to a terminal.
+
+> Left weir is the 14.82 million gallons the float switch discharged. Right weir is the same concrete, dry. Spark Open wrote the four futures on the basin PC. Glimmer is the check that can veto a pinched gate without a round trip. The cloud is allowed to speak once. It is not allowed to move a gate the physics rejected.
+
+```bash
+python -m pytest tests -q
+python scripts/run_benchmark.py
+```
+
+Nine tests pass. The benchmark prints uncontrolled, local, StormGate, and StormGate with OR2 jammed.
+
+**Close, 2:45–3:00.** Back to the board. Red counter at 14,820,000. Green counter at 0. OR2 still locked.
 
 ## 7. What the solver is
 
 Four storage units on a short interceptor. Upstream orifices OR1–OR3 discharge into SU4. SU4's orifice is capped by the treatment plant. Above full depth, SU4 spills to the river (CSO) and SU1–SU3 spill to the street. The municipal baseline leaves upstream gates open and holds OR4 shut until the basin is at 96% — the float switch that reacts after the tank is already gone. StormGate does the opposite: it spends plant capacity before the rain, holds the upstream basins near 86%, and lets SU4 refill toward a 91% crest instead of the weir.
 
 Volume, orifice capacity, plant capacity, and runoff are scaled together so depths stay on that path and the float-rule integral is exactly 14,820,000 gallons. That scale is `VOLUME_SCALE` in `backend/physics/design_storm.py`.
+
+The live fan-out is twelve cloned 60-minute level-pool rollouts per control step, which is why the board stays on a 1.15-second beat. `write_interceptor_inp` writes a real SWMM5 network, and `commit_with_pyswmm` replays a committed orifice series on the EPA dynamic-wave engine when that DLL imports. PySWMM is installed here. The scorecard the tests lock is the level-pool integral, not a second hidden counter.
