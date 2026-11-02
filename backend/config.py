@@ -31,9 +31,9 @@ class Settings:
     MODEL_WONDER: str = os.getenv("MODEL_WONDER", "muse-wonder-1.0")
     MODEL_SPARK: str = os.getenv("MODEL_SPARK", "muse-spark-1.3")
     MODEL_SPARK_CONTRIB: str = os.getenv("MODEL_SPARK_CONTRIB", "muse-spark-1.3-contributor")
-    # Baseten hackathon id. api.meta.ai returns model_not_found for this string;
-    # point OPEN_WEIGHT_BASE_URL at the partner endpoint to use it.
-    MODEL_SPARK_OPEN: str = os.getenv("MODEL_SPARK_OPEN", "meta-models/muse-spark-open-1026")
+    # Partner id from Meta's deploy page (Baseten, Groq, Together). api.meta.ai
+    # returns model_not_found for it. Point OPEN_WEIGHT_BASE_URL at the partner.
+    MODEL_SPARK_OPEN: str = os.getenv("MODEL_SPARK_OPEN", "meta-models/muse-spark-open")
     MODEL_GLIMMER: str = os.getenv("MODEL_GLIMMER", "meta-models/Muse-Glimmer-30B")
     MODEL_SAM: str = "sam-3.1"
     MODEL_IMAGE: str = "muse-image-1.0"
