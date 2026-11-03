@@ -74,9 +74,9 @@ Utilities have never been able to put frontier AI on live floodgates because **s
 
 ---
 
-## Where a named control law loses
+## The storm the fixed gate rules cannot hold
 
-DS-1482 scaled by 2.2, with OR1 locked at 5% and OR2 locked at 90% from minute 20. Every hand-written law in the library overflows: `A-predrain` spills **8,534,246.3 gal** to the river and **897,741.2 gal** to the street; `B-balanced` (the best fixed law) still spills **4,358,862.8 gal**.
+This is one harder storm, not a new city. Design storm DS-1482 is scaled to 2.2 times its rainfall, and from minute 20 gate OR1 is stuck at 5% open and gate OR2 is stuck at 90% open. Every gate rule written in advance still overflows: `A-predrain` spills **8,534,246.3 gal** to the river and **897,741.2 gal** into the street; `B-balanced`, the best of those fixed rules, still spills **4,358,862.8 gal**. The table ranks every controller on that same storm, worst spill first.
 
 | Controller | River spill | Street flood | Verdict / Trace |
 | --- | ---: | ---: | --- |
@@ -99,7 +99,7 @@ Across 100 deterministic shears of DS-1482, each crossed with one of four mechan
 
 ## Six Meta models on one causal path
 
-Nothing in this app is a side tab. Every model feeds the gate command or the operator verification of that command.
+Every model feeds the gate command or the operator verification of that command.
 
 ```
 IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
