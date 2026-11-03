@@ -34,13 +34,15 @@ def _rank(scores: list[dict]) -> str:
     """
 
     def bias(name: str) -> int:
-        if name == "W-wonder":
+        if name == "R-refine":
             return 0
-        if name == "S-spark":
+        if name == "W-wonder":
             return 1
-        if name.startswith("A-"):
+        if name == "S-spark":
             return 2
-        return 3
+        if name.startswith("A-"):
+            return 3
+        return 4
 
     def key(item: dict) -> tuple:
         return (
@@ -51,6 +53,11 @@ def _rank(scores: list[dict]) -> str:
         )
 
     return min(scores, key=key)["name"]
+
+
+def keep_refinement(candidate_cso: float, best_cso: float) -> bool:
+    """A second-turn vector may tie the physics winner. It may not spill more."""
+    return float(candidate_cso) <= float(best_cso) + 1.0
 
 
 async def supervise(
@@ -92,7 +99,7 @@ async def supervise(
             settings.MODEL_WONDER,
             prompt,
             reasoning_effort="low",
-            timeout=18.0,
+            timeout=40.0,
         )
         latency_ms = float(body.get("_latency_ms", 0.0))
         parsed = parse_json_block(response_text(body)) or {}
@@ -138,6 +145,30 @@ async def supervise(
     else:
         detail = ""
 
+    refine_note = ""
+    refine_record = await spark_open_worker.refine_schedule(
+        volume,
+        forecast_mg,
+        jammed,
+        [round(float(v), 4) for v in next(item.first_action for item in rollouts if item.name == selected)],
+        scored,
+        step_index=step_index,
+        hosted=hosted_spark,
+    )
+    if refine_record and isinstance(refine_record.get("u"), list):
+        horizon = max(len(forecast_mg), 1)
+        plan = constant_trajectory(list(refine_record["u"]), horizon, None)
+        extra = run_parallel_lookahead_rollouts(volume, [("R-refine", plan)], forecast_mg, jammed)
+        candidate = extra[0]
+        best_cso = min(item.total_cso_overflow_gallons for item in rollouts)
+        if keep_refinement(candidate.total_cso_overflow_gallons, best_cso):
+            rollouts = list(rollouts) + list(extra)
+            scored = [item.as_dict() for item in rollouts]
+            selected = _rank(scored)
+            refine_note = str(refine_record.get("intent_commentary") or "").strip()
+        else:
+            refine_note = "Second-turn orifice vector spilled more than the physics winner, so the solver dropped it."
+
     winner = next(item for item in rollouts if item.name == selected)
     depth = (np.asarray(volume, dtype=float) / VMAX_MG).tolist()
     rain_now = mg_step_to_mmhr(forecast_mg[0]).tolist() if len(forecast_mg) else [0, 0, 0, 0]
@@ -161,6 +192,7 @@ async def supervise(
         "intent_commentary": bundle.get("intent_commentary", ""),
         "spark_source": bundle.get("source"),
         "spark_latency_ms": bundle.get("latency_ms", 0.0),
+        "refine_note": refine_note,
         "rollouts": scored,
         "command": glimmer["safe_action"],
         "glimmer": glimmer,

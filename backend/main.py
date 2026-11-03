@@ -27,6 +27,16 @@ class FaultIn(BaseModel):
     locked_setting: float = 0.5
 
 
+class StormIn(BaseModel):
+    id: str = Field(min_length=1, max_length=64)
+
+
+class CellIn(BaseModel):
+    x: float
+    y: float
+    dbz: float = 60.0
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     write_interceptor_inp(SWMM_DIR / "interceptor.inp")
@@ -72,6 +82,36 @@ async def start() -> dict:
 async def pause() -> dict:
     await episode.pause()
     return episode.public_state()
+
+
+@app.get("/api/storms")
+async def storms() -> dict:
+    from backend.physics.storm_catalog import list_storms
+
+    return {"storms": list_storms(), "active": episode.public_state()["storm"]}
+
+
+@app.post("/api/storm")
+async def choose_storm(body: StormIn) -> dict:
+    try:
+        storm = await episode.use_storm(body.id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=f"unknown storm {exc}") from exc
+    return {"ok": True, "storm": storm, "state": episode.public_state()}
+
+
+@app.post("/api/storm/cell")
+async def drop_cell(body: CellIn) -> dict:
+    storm = await episode.drop_cell(body.x, body.y, body.dbz)
+    return {"ok": True, "storm": storm, "state": episode.public_state()}
+
+
+@app.post("/api/verify/wave")
+async def verify_wave() -> dict:
+    episode.wave = None
+    await episode._maybe_wave(force=True)
+    await episode.publish()
+    return episode.wave or {"ok": False, "error": "no orifice history yet"}
 
 
 @app.post("/api/episode/reset")
@@ -151,7 +191,14 @@ async def outfall_latest() -> Response:
 
 
 @app.get("/api/radar/frame/{index}")
-async def radar_frame(index: int) -> Response:
+async def radar_frame(index: int, storm: str = "") -> Response:
+    from backend.physics.nexrad_mosaic import frame_png
+    from backend.physics.storm_catalog import current
+
+    storm_id = storm or current()["id"]
+    real = frame_png(storm_id, index)
+    if real is not None:
+        return Response(content=real, media_type="image/png")
     index = max(0, min(index, 36))
     t_min = 90.0 * index / 36.0
     return Response(content=render_frame_png(t_min), media_type="image/png")

@@ -21,7 +21,7 @@ export default function RadarSamCanvas({ state }: Props) {
     if (!ctx) return;
     const image = new Image();
     image.onload = () => paint(ctx, image, state);
-    image.src = `/api/radar/frame/${frame}?t=${state.step}`;
+    image.src = `/api/radar/frame/${frame}?t=${state.step}&storm=${state.storm?.id || ""}`;
   }, [frame, state]);
 
   const labels = (state.forecast_mm_hr.SU4 || []).map((_, index) => `+${index * 5}`);
@@ -40,10 +40,22 @@ export default function RadarSamCanvas({ state }: Props) {
 
   return (
     <section className="sg-panel">
-      <p className="sg-kicker">SAM 3.1 · NEXRAD object multiplex · 45 min lookahead</p>
+      <p className="sg-kicker">SAM 3.1 · {state.storm?.title || "radar"} · click to drop a 60 dBZ cell</p>
       <div className="sg-radar-layout">
         <div>
-          <div className="sg-canvas-wrap">
+          <div
+            className="sg-canvas-wrap"
+            onClick={(event) => {
+              const rect = event.currentTarget.getBoundingClientRect();
+              const x = (event.clientX - rect.left) / rect.width;
+              const y = (event.clientY - rect.top) / rect.height;
+              void fetch("/api/storm/cell", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ x, y, dbz: 60 }),
+              });
+            }}
+          >
             <canvas ref={canvasRef} width={480} height={480} />
           </div>
           <p className="sg-prompt" title={state.object_prompt}>

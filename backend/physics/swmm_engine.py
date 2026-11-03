@@ -325,12 +325,15 @@ def run_episode(policy_name: str, jammed_at: int | None = None, lock: float = 0.
 
 
 def forecast_window(step_index: int, horizon: int) -> np.ndarray:
-    """Perfect-nowcast slice of the design storm, zero after the tape ends."""
+    """Perfect-nowcast slice of the active tape, zero after it ends."""
+    from backend.physics.storm_catalog import active_rain
+
+    series = active_rain()
     out = np.zeros((horizon, 4))
     for k in range(horizon):
         src = step_index + k
-        if 0 <= src < len(RAIN_MG):
-            out[k] = RAIN_MG[src]
+        if 0 <= src < len(series):
+            out[k] = series[src]
     return out
 
 
@@ -500,9 +503,12 @@ class DualSimulation:
         self.step_index = 0
 
     def rain_now(self) -> np.ndarray:
-        if self.step_index >= len(RAIN_MG):
+        from backend.physics.storm_catalog import active_rain
+
+        series = active_rain()
+        if self.step_index >= len(series):
             return np.zeros(4)
-        return RAIN_MG[self.step_index].copy()
+        return series[self.step_index].copy()
 
     def advance(self, stormgate_u: np.ndarray) -> dict:
         rain = self.rain_now()
@@ -514,4 +520,6 @@ class DualSimulation:
 
     @property
     def done(self) -> bool:
-        return self.step_index >= len(RAIN_MG)
+        from backend.physics.storm_catalog import active_rain
+
+        return self.step_index >= len(active_rain())

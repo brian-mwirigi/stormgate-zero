@@ -215,6 +215,237 @@
       "intent_commentary": "Throttling upstream releases and metering Basin 4 to stay off the weir during forecast inflow.",
       "latency_ms": 22915.7,
       "response_id": "resp_6ae8fa47aad163f2f96b446b"
+    },
+    "0||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.65
+      ],
+      "intent_commentary": "Slightly opening OR4 to relieve SU4 peak storage while holding others closed to avoid overflow.",
+      "latency_ms": 17256.0,
+      "response_id": "resp_6ae9ac1b6783d05c0c3e4846"
+    },
+    "1||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.48,
+        0.3,
+        0.34,
+        0.52
+      ],
+      "intent_commentary": "Shifting release from lowest SU4 to highest SU1/SU3 to trim peak depth while holding total outflow steady.",
+      "latency_ms": 19959.7,
+      "response_id": "resp_6ae9ac3ec071d1d9f1234de5"
+    },
+    "2||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.3,
+        0.2,
+        0.2,
+        0.5
+      ],
+      "intent_commentary": "Shift opening from emptiest SU4 to fullest SU1 to lower peak depth while holding total discharge steady.",
+      "latency_ms": 16317.5,
+      "response_id": "resp_6ae9ac4e769b4000adac4a1a"
+    },
+    "3||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.2,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "intent_commentary": "Slightly opening orifice 1 to relieve SU1 peak fill while keeping spills at zero.",
+      "latency_ms": 23673.8,
+      "response_id": "resp_6ae9ac66eda326b665254363"
+    },
+    "4||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.2,
+        0.1,
+        0.1,
+        0.55
+      ],
+      "intent_commentary": "Slightly bleed upstream peak storage toward low SU4 to trim peak fill while preserving zero spill.",
+      "latency_ms": 34422.6,
+      "response_id": "resp_6ae9ac89dcc5e7f5ecf3484f"
+    },
+    "5||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.15,
+        0.1,
+        0.05,
+        0.8
+      ],
+      "intent_commentary": "Cracking upstream gates proportional to fill to lower peak depth while holding downstream release steady with zero spill risk",
+      "latency_ms": 22001.8,
+      "response_id": "resp_6ae9ac9e60e4034404944dd6"
+    },
+    "6||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.05,
+        0.15,
+        0.05,
+        0.5
+      ],
+      "intent_commentary": "Slightly bleed the peak SU2 with minimal SU1/SU3 release to cut peak fill using spare SU4 capacity.",
+      "latency_ms": 25066.7,
+      "response_id": "resp_6ae9acb8f5c2c7ad918f40ab"
+    },
+    "7||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.15,
+        0.2,
+        0.15,
+        0.0
+      ],
+      "intent_commentary": "Opening upstream orifices slightly with bias to SU2 to shave peak fill while preserving zero overflow.",
+      "latency_ms": 18936.2,
+      "response_id": "resp_6ae9accbbfe24d9e5c484bb0"
+    },
+    "8||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.1,
+        0.15,
+        0.1,
+        0.5
+      ],
+      "intent_commentary": "Slightly open upstream orifices to relieve high SU1-SU3 levels into low SU4 while holding OR4 steady to preserve zero spill",
+      "latency_ms": 30496.6,
+      "response_id": "resp_6ae9ace928c53f2d430d4388"
+    },
+    "9||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.1,
+        0.1,
+        0.1,
+        0.5
+      ],
+      "intent_commentary": "Cracking upstream orifices slightly to lower peak storage while keeping downstream release unchanged to avoid new overflow.",
+      "latency_ms": 22795.1,
+      "response_id": "resp_6ae9ad0046c042ce2d8e4940"
+    },
+    "10||refine|error": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "error": ""
+    },
+    "11||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.08,
+        0.06,
+        0.05,
+        0.0087
+      ],
+      "intent_commentary": "Slightly opening upstream gates to trim peak storage while holding downstream to preserve zero overflow.",
+      "latency_ms": 17150.0,
+      "response_id": "resp_6ae9ad396726d96c8d724c8e"
+    },
+    "12||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.8,
+        0.7,
+        0.6,
+        0.85
+      ],
+      "intent_commentary": "Slightly open SU4 outlet to trim peak fill while keeping zero-overflow balance.",
+      "latency_ms": 21543.7,
+      "response_id": "resp_6ae9ad4f73ca7801518b4b33"
+    },
+    "13||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "intent_commentary": "Opening OR4 fully to drain high SU4 while holding upstream to prevent added inflow.",
+      "latency_ms": 16356.2,
+      "response_id": "resp_6ae9ad5f605414ad87494b46"
+    },
+    "14||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.0,
+        0.0,
+        0.0,
+        0.65
+      ],
+      "intent_commentary": "Increasing OR4 to drain SU4 peak fill while holding others closed to avoid overflow.",
+      "latency_ms": 15551.4,
+      "response_id": "resp_6ae9ad6f3012f05a42684130"
+    },
+    "15||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.0,
+        0.0,
+        0.1,
+        0.5
+      ],
+      "intent_commentary": "Cracking open orifice 3 slightly to relieve peak storage in SU3 while keeping spill at zero.",
+      "latency_ms": 21930.3,
+      "response_id": "resp_6ae9ad85f15afeb9fbe944d0"
+    },
+    "16||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.28,
+        0.3,
+        0.28,
+        0.45
+      ],
+      "intent_commentary": "Slightly open upstream gates to trim peak fill while easing downstream gate to preserve zero spill.",
+      "latency_ms": 12932.8,
+      "response_id": "resp_6ae9ad920fb9fef2d0ab4920"
+    },
+    "17||refine": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "u": [
+        0.05,
+        0.05,
+        0.05,
+        0.35
+      ],
+      "intent_commentary": "Slight balanced opening to trim peak fill while preserving zero overflow.",
+      "latency_ms": 18585.7,
+      "response_id": "resp_6ae9ada4c749c0d318dc4995"
+    },
+    "8|1:0.50|refine|error": {
+      "model": "muse-spark-1.3",
+      "turn": 2,
+      "error": "muse-spark-1.3 HTTP 504: {\"error\":{\"code\":null,\"message\":\"request timed out\",\"param\":null,\"type\":\"server_error\"}}"
     }
   },
   "sam": {
@@ -260,7 +491,21 @@
     ],
     "errors": []
   },
-  "wonder": {},
+  "wonder": {
+    "jam-8": {
+      "model": "muse-wonder-1.0",
+      "u": [
+        0.04,
+        0.5,
+        0.04,
+        0.6209
+      ],
+      "selected": "W-wonder",
+      "recovery_note": "With OR2 jammed at 0.5, the winner compensates by holding OR1 and OR3 at 0.04 to keep flow stored in SU1 and SU3 rather than overloading the interceptor through the stuck opening. It also opens OR4 to 0.6209 to pre-drain Basin 4, creating downstream capacity before the peak arrives.",
+      "latency_ms": 6495.4,
+      "response_id": "resp_6ae9adeac24e0d3e800f40f3"
+    }
+  },
   "voice": {
     "ok": true,
     "model": "muse-voice-transcribe-1.0",
@@ -276,5 +521,718 @@
         "raw": "Operator 4, Sluicegate 2 is mechanically jammed at 50% open."
       }
     ]
+  },
+  "sam_events": {
+    "ida-2021-newark": {
+      "ok": true,
+      "model": "sam-3.1",
+      "product": "IEM N0Q mosaic crop",
+      "latency_ms": 14495.6,
+      "frames": [
+        {
+          "t_min": 0.0,
+          "file": "frame_00.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.9708,
+                0.4958,
+                0.9979,
+                0.5104
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.0,
+                0.7583,
+                0.1458,
+                0.8521
+              ]
+            },
+            {
+              "id": 2,
+              "box": [
+                0.4958,
+                0.6083,
+                0.5229,
+                0.6604
+              ]
+            },
+            {
+              "id": 3,
+              "box": [
+                0.0625,
+                0.5417,
+                0.1812,
+                0.7104
+              ]
+            },
+            {
+              "id": 4,
+              "box": [
+                0.9708,
+                0.4958,
+                0.9979,
+                0.5104
+              ]
+            },
+            {
+              "id": 5,
+              "box": [
+                0.0,
+                0.7583,
+                0.1458,
+                0.8521
+              ]
+            },
+            {
+              "id": 6,
+              "box": [
+                0.4958,
+                0.6083,
+                0.5229,
+                0.6604
+              ]
+            },
+            {
+              "id": 7,
+              "box": [
+                0.0625,
+                0.5417,
+                0.1812,
+                0.7104
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=466;y1=238;x2=479;y2=245;w=480;h=480|><|mask;x=0;y=0;data=8,14,~!!!!U!q-2J-@C(l1:$Fx0?+4oNDkAUjdWf4Cm=?okjIJS[N.*2Et?da.pc@L:SMn|>,1<|box;x1=0;y1=364;x2=70;y2=409;w=480;h=480|><|mask;x=0;y=0;data=46,71,~!!!/e!0cZ+!agW@'`${^qd38NCqrW3J34Vnbt-g(%Kbl&c8fZ32/-r%Arj9K(rJ&YH&Ohk+!-AsOO+x.s`mKW'DnjtJxf:K@wtUy1!470c8ZD^=h72#w+l]dFO^1cv=4'e19[HR5[0ZB7M2H)B?KF2b!ny$Gj$97Sb5SE]SPEev#HOJWG0SPCdw?%mC0gY!@oc[pX*[6u2Ac!%7W`o'#./R.l20UDCS#-SR/6Hw0CWqrsC.ud.(vsvFVDqT:Bj@24hG9=XKu?Q$xT*M&WLY*zdAVUwA"
+        },
+        {
+          "t_min": 15.0,
+          "file": "frame_01.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.1333,
+                0.4792,
+                0.1812,
+                0.4979
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.2917,
+                0.6625,
+                0.3479,
+                0.7188
+              ]
+            },
+            {
+              "id": 2,
+              "box": [
+                0.1333,
+                0.5417,
+                0.1771,
+                0.5687
+              ]
+            },
+            {
+              "id": 3,
+              "box": [
+                0.0333,
+                0.6542,
+                0.2271,
+                0.7812
+              ]
+            },
+            {
+              "id": 4,
+              "box": [
+                0.4583,
+                0.5625,
+                0.5146,
+                0.6146
+              ]
+            },
+            {
+              "id": 5,
+              "box": [
+                0.1333,
+                0.4792,
+                0.1812,
+                0.4979
+              ]
+            },
+            {
+              "id": 6,
+              "box": [
+                0.2917,
+                0.6625,
+                0.3479,
+                0.7188
+              ]
+            },
+            {
+              "id": 7,
+              "box": [
+                0.1333,
+                0.5417,
+                0.1771,
+                0.5687
+              ]
+            },
+            {
+              "id": 8,
+              "box": [
+                0.0333,
+                0.6542,
+                0.2271,
+                0.7812
+              ]
+            },
+            {
+              "id": 9,
+              "box": [
+                0.4583,
+                0.5625,
+                0.5146,
+                0.6146
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=64;y1=230;x2=87;y2=239;w=480;h=480|><|mask;x=0;y=0;data=10,24,~!!!!o!0cZ1w:4.)FBeZ=pvaM'Ii^K%1`&T'1P9P'&^'USZk%E^ir[Avc%GZ(o#gf5c54hvx0JoNop5FK0h7/wUU/cER^4:d|>,1<|box;x1=140;y1=318;x2=167;y2=345;w=480;h=480|><|mask;x=0;y=0;data=28,28,~!!!%V!0cYy0Wq/wM-u`IO_+akV@dSdCeT0{Sbn02J.+VPfvR&tTQUtNFPJ(zefB]fKVK(FS3%1j%K'W+v)wS@1=R:{[?K3BYOCMkrbnD:fsn(f'B:r]&DHL*a:#wvOF%Iv9w&QhmA#&.t.scx3i3c1Me@1fGCkn=gMwnC630[14&:NJ4Ka`L.!ct&Ud_gE&D0D88559.RX3AVbW!'o/mp]Oy(^J_v5b??RGa!w$#M9+H%&&@$yxWUC5xWB"
+        },
+        {
+          "t_min": 30.0,
+          "file": "frame_02.png",
+          "objects": [],
+          "raw_excerpt": ""
+        },
+        {
+          "t_min": 45.0,
+          "file": "frame_03.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.1625,
+                0.5312,
+                0.2188,
+                0.5687
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.4667,
+                0.45,
+                0.5271,
+                0.5188
+              ]
+            },
+            {
+              "id": 2,
+              "box": [
+                0.1625,
+                0.5312,
+                0.2188,
+                0.5687
+              ]
+            },
+            {
+              "id": 3,
+              "box": [
+                0.4667,
+                0.45,
+                0.5271,
+                0.5188
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=78;y1=255;x2=105;y2=273;w=480;h=480|><|mask;x=0;y=0;data=19,28,~!!!$A!0c[s:o[udw&b=4JFUr@v02M##8-nT1t+kTt*wPPV?Z1ZiCQ2+DET:xCal!Ux&4njGrw*@6+&CN?[/w[@SIPGFMayrq@+'.F96mnr2F4D*(`^lgm#!m:&+BmE&ud_p1MwNK0rw:b&YR(Y)$Dti*]6n8KAnmhzm&FV:fB'-htGVmHH-%5@Enaq[?(CH'^@s?`FNRgM/OQlRqk28KU-N+&+tKQbcPBr0@RFCat*.85r&jknrN'ttaQz!!|>,1<|box;x1=224;y1=216;x2=253;y2=249;w=480;h=480|><|mask;x=0;y=0;data=34,30,~!!!&N!0c[0i$&PQd-1Z)U)WKAFQZ#[6QSFV#89'7+6c93'?8.IBN/w-jFKFLWD'&lL]BiMj_`i2x$z^:8p[Fn63Rb/*="
+        },
+        {
+          "t_min": 60.0,
+          "file": "frame_04.png",
+          "objects": [],
+          "raw_excerpt": ""
+        },
+        {
+          "t_min": 75.0,
+          "file": "frame_05.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.2708,
+                0.7583,
+                0.4562,
+                0.9688
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.2708,
+                0.7583,
+                0.4562,
+                0.9688
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=130;y1=364;x2=219;y2=465;w=480;h=480|><|mask;x=0;y=0;data=102,90,~!!!GW#K{$]VhQ07b{4q-P&YJlq[i]-W--qtkHy6gGLF6[eI)Cdj?$-I:u(4hx`5)vqoPyVd+nDk#!x$&K(ZljRD?-#/=pZ%&73umKxPhKL$z1&U20.HAh=^E[)3T4Cw(7/(yfR6JkHmuK4?)=iwRi8k)/DiqbMXP[^eKdRRL*xXHrAwKcRoiBx]tAj{yG14nn0Q-t*`:pC_D^f-z!'t#[WH9SVkaZq8Us7q.h)@+pL]mRL(UfGVax/[y#oi)&t=?.V$7/!*l=f%=w*/wEk?BiS+2M)Xo&4Dbyhqp`?5J(9vuqG!SrvJQ#qiLyIHWN5yvlg+on4JV:gD8@UzUIRNziS8QTBv'&*&%2{k*l&10y7H8Kpq-zbq{oFk4Z%pJmGfQ^#{4a.%wotH8u(xV9ItP)8aiT0F$K7m(1iI3"
+        }
+      ],
+      "errors": []
+    },
+    "chicago-2023-0702": {
+      "ok": true,
+      "model": "sam-3.1",
+      "product": "IEM N0Q mosaic crop",
+      "latency_ms": 15133.1,
+      "frames": [
+        {
+          "t_min": 0.0,
+          "file": "frame_00.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.7021,
+                0.3875,
+                0.7667,
+                0.4479
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.2896,
+                0.2917,
+                0.3854,
+                0.3979
+              ]
+            },
+            {
+              "id": 2,
+              "box": [
+                0.225,
+                0.4958,
+                0.2875,
+                0.5437
+              ]
+            },
+            {
+              "id": 3,
+              "box": [
+                0.6396,
+                0.1062,
+                0.8562,
+                0.2625
+              ]
+            },
+            {
+              "id": 4,
+              "box": [
+                0.2354,
+                0.2833,
+                0.6729,
+                0.7833
+              ]
+            },
+            {
+              "id": 5,
+              "box": [
+                0.7542,
+                0.2938,
+                0.8354,
+                0.3979
+              ]
+            },
+            {
+              "id": 6,
+              "box": [
+                0.7021,
+                0.3875,
+                0.7667,
+                0.4479
+              ]
+            },
+            {
+              "id": 7,
+              "box": [
+                0.2896,
+                0.2917,
+                0.3854,
+                0.3979
+              ]
+            },
+            {
+              "id": 8,
+              "box": [
+                0.225,
+                0.4958,
+                0.2875,
+                0.5437
+              ]
+            },
+            {
+              "id": 9,
+              "box": [
+                0.6396,
+                0.1062,
+                0.8562,
+                0.2625
+              ]
+            },
+            {
+              "id": 10,
+              "box": [
+                0.2354,
+                0.2833,
+                0.6729,
+                0.7833
+              ]
+            },
+            {
+              "id": 11,
+              "box": [
+                0.7542,
+                0.2938,
+                0.8354,
+                0.3979
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=337;y1=186;x2=368;y2=215;w=480;h=480|><|mask;x=0;y=0;data=30,32,~!!!&y!kX@qNxe:.4aRH!0kujp7omU!OUR2rsgDFUDbBt='&b20WyrCC^+:0vJ4MBKi@xGemrqx[4HiIW#b!Bn5$-*9@raOZq4-n^Pqgj+UQVdGe+BJCi`RK6mzz[%lwqss&JjkucMy^0L[&=A?mHv+'Iu-{@OqsWwO$v/iXUlBdAf'BIN6v:Au+X=U$@iN=&ib[&v23]4TCvX+mbgkJ+fvdGiYn?_s#5nT?{)c9*XFX-L.wS:)c[kx&Og^rZECQa-#_b?evk69&ITUxmZXXec_qn*L%UIT6GY3j?%bO'k?P.MbLFhdDDjSN.!kUR-YLQT)t.2BV:AUuiwe%4(rwCIzv28b%JJHcyO{P=iPE7)HCk*nAQ*:StY6*xt5lO7SDLv(K?%.l&p5]Ed6KT^IxMPu3VpcXS3Tr'OF[v3"
+        },
+        {
+          "t_min": 15.0,
+          "file": "frame_01.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.7417,
+                0.2417,
+                0.8,
+                0.3063
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.3042,
+                0.3771,
+                0.3604,
+                0.4313
+              ]
+            },
+            {
+              "id": 2,
+              "box": [
+                0.2333,
+                0.4396,
+                0.3312,
+                0.5167
+              ]
+            },
+            {
+              "id": 3,
+              "box": [
+                0.2875,
+                0.4167,
+                0.7083,
+                0.8208
+              ]
+            },
+            {
+              "id": 4,
+              "box": [
+                0.5604,
+                0.1417,
+                0.7271,
+                0.2938
+              ]
+            },
+            {
+              "id": 5,
+              "box": [
+                0.7417,
+                0.2417,
+                0.8,
+                0.3063
+              ]
+            },
+            {
+              "id": 6,
+              "box": [
+                0.3042,
+                0.3771,
+                0.3604,
+                0.4313
+              ]
+            },
+            {
+              "id": 7,
+              "box": [
+                0.2333,
+                0.4396,
+                0.3312,
+                0.5167
+              ]
+            },
+            {
+              "id": 8,
+              "box": [
+                0.2875,
+                0.4167,
+                0.7083,
+                0.8208
+              ]
+            },
+            {
+              "id": 9,
+              "box": [
+                0.5604,
+                0.1417,
+                0.7271,
+                0.2938
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=356;y1=116;x2=384;y2=147;w=480;h=480|><|mask;x=0;y=0;data=32,29,~!!!'c#Lh&Fx4rzNh^cxklAbip%^gOq/IbqUfFG#%_#P-KESx3&PrJRuy6MKl5L4TDAl?BY?7+3iKem0&_J4E/-$Y*GAC&Lve4:]TAp{6jO_r!-g@kznPfzf[cnc#:aGtAg[icvWm6mG{F%aEvckaK6pG5fa:l2zmfH.]sYhlwC+jKf-=V(4Lq7j^lZl-W#%D1jKF?%F4czh[E^xuC]Cr&@bUMV6:HlJKYj)h0QshC!G*Kc.dRpnxMgAmn1!k6A6kduGDXmQf/9@P*8JTsYisXA#qml3tP%WUlD.Mm1d*84L_$*1)']#820`M1eN8]f3jRB`+'NMA@$l$iE6So-)`MScx23d{VT7XzY*^GDzFt2XS_Of/#1.B89%`3/bQkKEhwD$(iXgG{aqvx!z?]gW:*.B9xhhep*Hfd[U44"
+        },
+        {
+          "t_min": 30.0,
+          "file": "frame_02.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.6771,
+                0.5708,
+                0.7417,
+                0.6312
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.65,
+                0.5208,
+                0.6979,
+                0.5667
+              ]
+            },
+            {
+              "id": 2,
+              "box": [
+                0.6396,
+                0.6375,
+                0.6833,
+                0.7104
+              ]
+            },
+            {
+              "id": 3,
+              "box": [
+                0.7417,
+                0.5042,
+                0.7875,
+                0.575
+              ]
+            },
+            {
+              "id": 4,
+              "box": [
+                0.9854,
+                0.4771,
+                0.9979,
+                0.4979
+              ]
+            },
+            {
+              "id": 5,
+              "box": [
+                0.6771,
+                0.5708,
+                0.7417,
+                0.6312
+              ]
+            },
+            {
+              "id": 6,
+              "box": [
+                0.65,
+                0.5208,
+                0.6979,
+                0.5667
+              ]
+            },
+            {
+              "id": 7,
+              "box": [
+                0.6396,
+                0.6375,
+                0.6833,
+                0.7104
+              ]
+            },
+            {
+              "id": 8,
+              "box": [
+                0.7417,
+                0.5042,
+                0.7875,
+                0.575
+              ]
+            },
+            {
+              "id": 9,
+              "box": [
+                0.9854,
+                0.4771,
+                0.9979,
+                0.4979
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=325;y1=274;x2=356;y2=303;w=480;h=480|><|mask;x=0;y=0;data=30,32,~!!!&`#K{$uC6d'X)b)7l[Ngnv`_Tv`$vRC9ZJ%Aw9WA9X5Ft1=%2Y8cK7q@`4Y$(4jWW(&__U:XnAoJ%%P40q=WC-A&[pXXomi3A=mA1Du?5s[CXl=7(_L03g3=pleRBdP=10MX-)UpRy:EPj#d[nr4-sJ2YBEp(b=el1`[A4'WSfv5inV$W45@jLZB0cyITsH3$I&+6.t2-7HSaz&A0Dy*&G[3Z[IT#wGWr:4my5TI(W-DIgEjJ3sQT#CxYty_3wX(?6{VLJB((yVu9@S[=q+@RSXl.XxbTz'UP`m8q=8YEMv'q!%C4)DbEf:)/wV^$8W*uZ51X173GMo[?ryId?.U3E5a.7?pAgN&]!TD@a$/dgOgJJ4KjIdDkx=c[N=uCb6h(lEM2@f^g.4xM/gAu+i'jLZE]A4*2^CH=t"
+        },
+        {
+          "t_min": 45.0,
+          "file": "frame_03.png",
+          "objects": [],
+          "raw_excerpt": ""
+        },
+        {
+          "t_min": 60.0,
+          "file": "frame_04.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.6937,
+                0.6854,
+                0.8438,
+                0.8562
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.6937,
+                0.6854,
+                0.8438,
+                0.8562
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=333;y1=329;x2=405;y2=411;w=480;h=480|><|mask;x=0;y=0;data=83,73,~!!!C+#L+?Dq0[8^${7khKLjOiO_{S/vpMbD&`N#&R:-@9iMoWHpO']3]3b9g/kGuRk1yj8A&!53/W.et_N5s_uakJ'X-D1xf+TuMfyW[h7[H6X8kqT19o2#vi!nIP2jHT-7q%?dwZJ7!AC!*-_ny&2S7-:zMf`G*!)!t[?ElF9N3ll5sef%LQ_!Nt2-4F3qKbz.&$*bBahojHK/66WqVU2]^6AdtL2V:!-jdYlk_eKuISXl{=%QbPwkgZ/^Oq9)3k{]5B%62:!82GQ[92`1=]3TLU2zQR[cmytjf3/qLyH0`(%@bP!1^Snb#q[w$'X!PSebh=P*eyu/8btWJ*#+#pY?h65^Q042Tm=0EHPH%q.U_WI_3/A*itTv*9u7%GysF%HvI:`uNR-t1Rp$1GamR4Pb$k`'L8=3CJ4usC"
+        },
+        {
+          "t_min": 75.0,
+          "file": "frame_05.png",
+          "objects": [
+            {
+              "id": 0,
+              "box": [
+                0.8438,
+                0.7,
+                0.8958,
+                0.7458
+              ]
+            },
+            {
+              "id": 1,
+              "box": [
+                0.725,
+                0.825,
+                0.9,
+                0.9479
+              ]
+            },
+            {
+              "id": 2,
+              "box": [
+                0.6521,
+                0.7,
+                0.7354,
+                0.8354
+              ]
+            },
+            {
+              "id": 3,
+              "box": [
+                0.6729,
+                0.6354,
+                0.7271,
+                0.6917
+              ]
+            },
+            {
+              "id": 4,
+              "box": [
+                0.8583,
+                0.6021,
+                0.8688,
+                0.6146
+              ]
+            },
+            {
+              "id": 5,
+              "box": [
+                0.8438,
+                0.7,
+                0.8958,
+                0.7458
+              ]
+            },
+            {
+              "id": 6,
+              "box": [
+                0.725,
+                0.825,
+                0.9,
+                0.9479
+              ]
+            },
+            {
+              "id": 7,
+              "box": [
+                0.6521,
+                0.7,
+                0.7354,
+                0.8354
+              ]
+            },
+            {
+              "id": 8,
+              "box": [
+                0.6729,
+                0.6354,
+                0.7271,
+                0.6917
+              ]
+            },
+            {
+              "id": 9,
+              "box": [
+                0.8583,
+                0.6021,
+                0.8688,
+                0.6146
+              ]
+            }
+          ],
+          "raw_excerpt": "<0f>0<|box;x1=405;y1=336;x2=430;y2=358;w=480;h=480|><|mask;x=0;y=0;data=23,26,~!!!&2#L!.U*SG-33-ieHpB2ZZ79&SqvWj3AJ4Zh2=&UbvimTv!BwGQ=SHC^eM.'n3$f0TkMKnw1Xz?2B&/Em!_3lb^LiofmTo/z]-:H-E9(YjuHh7zF3jj=*Y$u.PRhDBRXRF[R@!BwgWKUfQCd1mUx8N/nW4)fCapSIk04pRsvo6DQ4TC$*`5n29..FL%.=Q/-G+B9kf#:XnbeTu^23fJs):9]Xfv3V5F{c/XqcC4:FB0wE7sv9eMCKOJoZyJ1__XN(2[CfPcI%cu9g(u/.Qc]Nm86yod@yzqD+cK]-@_8J6?J)2j6pZVSfA8imgU#B=_P0l7ewg`(Z?!%QuVNd-m1H!0cm/&qh3Ro!EG/X`^6+kBEHLl:3'0Ub[]#dRzLJx8tycmTLvcb4kYJRGylr5=oD:8c[C&JRMTm0j"
+        }
+      ],
+      "errors": []
+    }
   }
 }

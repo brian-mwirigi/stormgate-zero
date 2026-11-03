@@ -30,6 +30,7 @@ export default function AgentCommentary({ state }: Props) {
       })}
       <p className="sg-commentary">{state.commentary}</p>
       {state.wonder_note && <p className="sg-note">{state.wonder_note}</p>}
+      {state.refine_note && <p className="sg-note">{state.refine_note}</p>}
       <div className={state.glimmer.approved ? "sg-badge" : "sg-badge adjust"}>
         {state.glimmer.approved ? "EDGE INTERLOCK PASSED" : "EDGE INTERLOCK ADJUSTED"}
       </div>

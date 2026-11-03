@@ -1,0 +1,76 @@
+{
+  "id": "ida-2021-newark",
+  "title": "Ida remnants, Newark, 1 Sep 2021",
+  "note": "IEM N0Q mosaic over Newark, 23:30\u201300:45 UTC 1\u20132 Sep 2021 (the 8\u20139 p.m. local hour when Newark recorded 3.24 in). Quadrant rainfall is Marshall-Palmer on the mosaic palette. Not a KOKX Level-II volume and not Newark's sewer.",
+  "center_lat": 40.69,
+  "center_lon": -74.17,
+  "frames": [
+    {
+      "stamp": "202109012330",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2021/09/01/GIS/uscomp/n0q_202109012330.png",
+      "file": "frame_00.png",
+      "mmhr": [
+        10.27,
+        26.52,
+        9.11,
+        12.41
+      ]
+    },
+    {
+      "stamp": "202109012345",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2021/09/01/GIS/uscomp/n0q_202109012345.png",
+      "file": "frame_01.png",
+      "mmhr": [
+        12.64,
+        28.21,
+        8.8,
+        8.56
+      ]
+    },
+    {
+      "stamp": "202109020000",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2021/09/02/GIS/uscomp/n0q_202109020000.png",
+      "file": "frame_02.png",
+      "mmhr": [
+        14.4,
+        28.08,
+        9.28,
+        8.55
+      ]
+    },
+    {
+      "stamp": "202109020015",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2021/09/02/GIS/uscomp/n0q_202109020015.png",
+      "file": "frame_03.png",
+      "mmhr": [
+        15.26,
+        28.55,
+        13.19,
+        8.52
+      ]
+    },
+    {
+      "stamp": "202109020030",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2021/09/02/GIS/uscomp/n0q_202109020030.png",
+      "file": "frame_04.png",
+      "mmhr": [
+        13.64,
+        27.91,
+        16.44,
+        5.1
+      ]
+    },
+    {
+      "stamp": "202109020045",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2021/09/02/GIS/uscomp/n0q_202109020045.png",
+      "file": "frame_05.png",
+      "mmhr": [
+        12.72,
+        25.65,
+        19.5,
+        5.32
+      ]
+    }
+  ],
+  "product": "IEM N0Q national mosaic"
+}

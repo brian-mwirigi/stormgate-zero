@@ -155,3 +155,85 @@ async def propose_candidates(
     except (OfflineModelError, Exception) as exc:
         library["detail"] = str(exc)[:300]
         return library
+
+
+def refine_id(step_index: int, jammed: dict[int, float] | None) -> str:
+    return spark_id(step_index, jammed) + "|refine"
+
+
+async def refine_schedule(
+    volume: np.ndarray,
+    forecast_mg: np.ndarray,
+    jammed: dict[int, float] | None,
+    winner_u: list[float],
+    scored: list[dict],
+    step_index: int = 0,
+    hosted: bool = False,
+) -> dict | None:
+    """Second turn. Spark mutates the winning opening after it sees the rollouts.
+
+    A cache hit replays with no API call. A miss calls muse-spark-1.3 only when
+    STORMGATE_REFINE=1, so a looping demo does not bill the same step again.
+    """
+    if not hosted:
+        return None
+    key = refine_id(step_index, jammed)
+    cached = load_traces()["spark"].get(key)
+    if isinstance(cached, dict) and isinstance(cached.get("u"), list):
+        return cached
+    if not settings.refine_enabled:
+        return None
+    brief = [
+        {
+            "name": item["name"],
+            "cso_gal": item["total_cso_overflow_gallons"],
+            "peak_fill": item["max_basin_fill_pct"],
+            "u0": item.get("first_action"),
+        }
+        for item in scored
+    ]
+    depth = (np.asarray(volume, dtype=float) / VMAX_MG).round(3).tolist()
+    prompt = (
+        "You are Muse Spark 1.3 on the second turn of a sewer MPC step. "
+        "Turn 1 already proposed orifice vectors. The physics engine scored each one. "
+        "Mutate the winning vector to cut the peak fill without raising overflow. "
+        'Reply JSON only: {"u": [or1, or2, or3, or4], "intent_commentary": "<one sentence>"}. '
+        "Values are continuous from 0 to 1. If a gate is jammed, copy its locked value. "
+        f"Depth fractions SU1-SU4: {depth}. "
+        f"Current winner u: {winner_u}. "
+        f"Candidate spills in gallons: {[(item['name'], item['cso_gal']) for item in brief]}. "
+        f"Jammed orifices: {jammed or {}}."
+    )
+    try:
+        body = await create_response(settings.MODEL_SPARK, prompt, timeout=40.0)
+        parsed = parse_json_block(response_text(body)) or {}
+        vector = parsed.get("u")
+        if not isinstance(vector, list) or len(vector) < 4:
+            traces = load_traces()
+            traces["spark"][key + "|error"] = {
+                "model": settings.MODEL_SPARK,
+                "turn": 2,
+                "raw_excerpt": response_text(body)[:400],
+            }
+            save_traces(traces)
+            return None
+        vector = _clip_u(vector, jammed)
+        note = parsed.get("intent_commentary")
+        note = note.strip() if isinstance(note, str) else ""
+        record = {
+            "model": settings.MODEL_SPARK,
+            "turn": 2,
+            "u": vector,
+            "intent_commentary": note,
+            "latency_ms": float(body.get("_latency_ms") or 0.0),
+            "response_id": body.get("id"),
+        }
+        traces = load_traces()
+        traces["spark"][key] = record
+        save_traces(traces)
+        return record
+    except (OfflineModelError, Exception) as exc:
+        traces = load_traces()
+        traces["spark"][key + "|error"] = {"model": settings.MODEL_SPARK, "turn": 2, "error": str(exc)[:300]}
+        save_traces(traces)
+        return None

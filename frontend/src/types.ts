@@ -70,4 +70,43 @@ export type TwinState = {
   depth_history: { baseline: number[][]; stormgate: number[][] };
   outfall_ready: boolean;
   polygons: Record<string, number[]>;
+  storm: { id: string; title: string; kind: string; note: string };
+  refine_note: string;
+  exposure: {
+    baseline: Exposure;
+    stormgate: Exposure;
+  };
+  wave: WaveReport | null;
+};
+
+export type Exposure = {
+  statutory_usd: number;
+  statutory_per_day_usd: number;
+  violation_days: number;
+  citation: string;
+  ecoli_cfu_per_100ml: number;
+  beach_action_cfu_per_100ml: number;
+  above_beach_action: boolean;
+  label: string;
+};
+
+export type WavePipe = {
+  link: string;
+  max_depth_ft: number;
+  diameter_ft: number;
+  surcharge_ft: number;
+  surcharge_m: number;
+  surcharge_psi: number;
+};
+
+export type WaveReport = {
+  ok: boolean;
+  engine?: string;
+  error?: string;
+  worst_link?: string;
+  worst_surcharge_ft?: number;
+  worst_surcharge_m?: number;
+  worst_surcharge_psi?: number;
+  pipes?: WavePipe[];
+  note?: string;
 };

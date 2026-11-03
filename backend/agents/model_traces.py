@@ -42,4 +42,10 @@ def jam_key(jammed: dict | None) -> str:
 
 
 def spark_id(step: int, jammed: dict | None) -> str:
-    return f"{int(step)}|{jam_key(jammed)}"
+    from backend.physics.storm_catalog import current
+
+    suffix = f"{int(step)}|{jam_key(jammed)}"
+    storm_id = current()["id"]
+    if storm_id == "ds-1482":
+        return suffix
+    return f"{storm_id}|{suffix}"

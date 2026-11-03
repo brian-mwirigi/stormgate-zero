@@ -19,7 +19,8 @@ from pathlib import Path
 import numpy as np
 
 from backend.config import settings
-from backend.physics.design_storm import RAIN_MG, mg_step_to_mmhr
+from backend.physics.design_storm import mg_step_to_mmhr
+from backend.physics.storm_catalog import active_rain
 from backend.physics.radar_synthesizer import active_cores, render_frame_rgb
 from backend.physics.swmm_engine import forecast_window
 
@@ -267,8 +268,14 @@ def lookahead_mmhr(step_index: int) -> dict[str, list[float]]:
 
 def _sam_boxes(t_min: float) -> list[tuple[float, float, float, float]] | None:
     from backend.agents.model_traces import load as load_traces
+    from backend.physics.storm_catalog import current
 
-    frames = (load_traces().get("sam") or {}).get("frames") or []
+    traces = load_traces()
+    storm_id = current()["id"]
+    if storm_id == "ds-1482":
+        frames = (traces.get("sam") or {}).get("frames") or []
+    else:
+        frames = ((traces.get("sam_events") or {}).get(storm_id) or {}).get("frames") or []
     if not frames:
         return None
     nearest = min(frames, key=lambda frame: abs(float(frame.get("t_min", 0)) - t_min))
@@ -299,7 +306,7 @@ def radar_snapshot(step_index: int, t_min: float) -> dict:
         "object_prompt": build_object_prompt(clipped) if clipped else build_concept_prompt(),
         "forecast_mm_hr": lookahead_mmhr(step_index),
         "forecast_mg": forecast_window(step_index, settings.HORIZON_STEPS),
-        "rain_now_mg": RAIN_MG[step_index].tolist() if step_index < len(RAIN_MG) else [0, 0, 0, 0],
+        "rain_now_mg": active_rain()[step_index].tolist() if step_index < len(active_rain()) else [0, 0, 0, 0],
     }
 
 
@@ -356,6 +363,52 @@ async def segment_frames(times_min: list[float]) -> dict:
     }
     traces = load_traces()
     traces["sam"] = payload
+    save_traces(traces)
+    return payload
+
+
+async def segment_pngs(storm_id: str, paths: list[Path], concept: str = "red storm cell") -> dict:
+    """Segment real mosaic crops. Stored beside the DS-1482 SAM trace, not over it."""
+    from backend.agents.meta_client import OfflineModelError, stream_response_text
+    from backend.agents.model_traces import load as load_traces
+    from backend.agents.model_traces import save as save_traces
+
+    frames = []
+    errors = []
+    latency = 0.0
+    for index, path in enumerate(paths):
+        encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+        content = [
+            {"type": "input_image", "image_url": f"data:image/png;base64,{encoded}"},
+            {"type": "input_text", "text": concept},
+        ]
+        t_min = index * 15.0
+        try:
+            text, elapsed = await stream_response_text(settings.MODEL_SAM, content, timeout=70.0)
+            latency += elapsed
+            objects = []
+            for box in boxes_from_sam_text(text):
+                objects.append({"id": len(objects), "box": [round(v, 4) for v in box]})
+            if not objects:
+                for frame in parse_sam_payload(text):
+                    for obj in frame.get("objects") or []:
+                        box = obj.get("box")
+                        if isinstance(box, (list, tuple)) and len(box) == 4:
+                            objects.append({"id": len(objects), "box": [round(float(v), 4) for v in box]})
+            frames.append({"t_min": t_min, "file": path.name, "objects": objects, "raw_excerpt": text[:500]})
+        except (OfflineModelError, Exception) as exc:
+            errors.append({"t_min": t_min, "file": path.name, "detail": str(exc)[:300]})
+    payload = {
+        "ok": bool(frames) and not errors,
+        "model": settings.MODEL_SAM,
+        "product": "IEM N0Q mosaic crop",
+        "latency_ms": round(latency, 1),
+        "frames": frames,
+        "errors": errors,
+    }
+    traces = load_traces()
+    traces.setdefault("sam_events", {})
+    traces["sam_events"][storm_id] = payload
     save_traces(traces)
     return payload
 

@@ -1,0 +1,76 @@
+{
+  "id": "chicago-2023-0702",
+  "title": "Chicago west side, 2 Jul 2023",
+  "note": "IEM N0Q mosaic over the west side of Chicago, 21:00\u201323:30 UTC on 2 Jul 2023 (4:00\u20136:30 p.m. CDT). NWS daily gauges that day include Berwyn 8.96 in and Midway 4.68 in. Quadrant rainfall is Marshall-Palmer on the mosaic palette, not MWRD's network.",
+  "center_lat": 41.85,
+  "center_lon": -87.75,
+  "frames": [
+    {
+      "stamp": "202307022100",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2023/07/02/GIS/uscomp/n0q_202307022100.png",
+      "file": "frame_00.png",
+      "mmhr": [
+        3.61,
+        8.6,
+        5.72,
+        13.56
+      ]
+    },
+    {
+      "stamp": "202307022130",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2023/07/02/GIS/uscomp/n0q_202307022130.png",
+      "file": "frame_01.png",
+      "mmhr": [
+        4.15,
+        7.6,
+        4.48,
+        10.73
+      ]
+    },
+    {
+      "stamp": "202307022200",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2023/07/02/GIS/uscomp/n0q_202307022200.png",
+      "file": "frame_02.png",
+      "mmhr": [
+        1.46,
+        5.47,
+        2.08,
+        5.17
+      ]
+    },
+    {
+      "stamp": "202307022230",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2023/07/02/GIS/uscomp/n0q_202307022230.png",
+      "file": "frame_03.png",
+      "mmhr": [
+        0.99,
+        2.81,
+        1.45,
+        4.23
+      ]
+    },
+    {
+      "stamp": "202307022300",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2023/07/02/GIS/uscomp/n0q_202307022300.png",
+      "file": "frame_04.png",
+      "mmhr": [
+        0.52,
+        0.54,
+        1.82,
+        4.82
+      ]
+    },
+    {
+      "stamp": "202307022330",
+      "url": "https://mesonet.agron.iastate.edu/archive/data/2023/07/02/GIS/uscomp/n0q_202307022330.png",
+      "file": "frame_05.png",
+      "mmhr": [
+        0.0,
+        0.0,
+        0.0,
+        6.77
+      ]
+    }
+  ],
+  "product": "IEM N0Q national mosaic"
+}

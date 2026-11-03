@@ -13,7 +13,8 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 from backend.config import settings
-from backend.physics.design_storm import STORM_CELLS, cell_state
+from backend.physics.design_storm import cell_state
+from backend.physics.storm_catalog import active_cells
 
 FRAME_SIZE = 480
 
@@ -56,7 +57,7 @@ def reflectivity_field(t_min: float, size: int = FRAME_SIZE) -> np.ndarray:
     field = np.zeros((size, size), dtype=np.float32)
     # Weak stratiform background so the scope is not a black void.
     field += 8.0 + 3.0 * np.sin(grid_x * 9.0 + t_min * 0.05) * np.cos(grid_y * 7.0)
-    for cell in STORM_CELLS:
+    for cell in active_cells():
         state = cell_state(cell, t_min)
         if state is None:
             continue
@@ -93,7 +94,7 @@ def render_frame_png(t_min: float, size: int = FRAME_SIZE) -> bytes:
 def active_cores(t_min: float) -> list[dict]:
     """Analytic cores. The OpenCV seeder is cross-checked against these."""
     cores = []
-    for cell in STORM_CELLS:
+    for cell in active_cells():
         state = cell_state(cell, t_min)
         if state is None:
             continue

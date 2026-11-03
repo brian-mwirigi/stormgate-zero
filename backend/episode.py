@@ -34,6 +34,7 @@ class Episode:
             "muse-image-1.0": {"status": "STANDBY", "latency_ms": None},
         }
         self.outfall_ready = False
+        self.wave: dict | None = None
         self._wonder_calls = 0
         self._jam_wonder = False
         self.lock = asyncio.Lock()
@@ -118,8 +119,65 @@ class Episode:
                 "stormgate": self.sim.stormgate.depth_history[-36:],
             },
             "outfall_ready": self.outfall_ready,
+            "storm": self._storm_public(),
+            "exposure": self._exposure_public(),
+            "wave": self.wave,
+            "refine_note": self.decision.get("refine_note", ""),
             "polygons": {name: list(box) for name, box in settings.SUBCATCHMENT_POLYGONS.items()},
         }
+
+    def _storm_public(self) -> dict:
+        from backend.physics.storm_catalog import current
+
+        return current()
+
+    def _exposure_public(self) -> dict:
+        from backend.physics.exposure import exposure
+
+        return {
+            "baseline": exposure(self.sim.baseline.cso_mg * 1_000_000),
+            "stormgate": exposure(self.sim.stormgate.cso_mg * 1_000_000),
+        }
+
+    async def _maybe_wave(self, force: bool = False) -> None:
+        async with self.lock:
+            series = [list(map(float, row)) for row in self.sim.stormgate.orifice_history]
+            finished = self.sim.done
+        if len(series) < 2 or not (force or finished):
+            return
+        if self.wave and self.wave.get("steps_commanded") == len(series) and not force:
+            return
+        from backend.physics.dynamic_wave import verify_dynamic_wave
+        from backend.physics.storm_catalog import active_rain
+
+        rain = np.asarray(active_rain()[: len(series)], dtype=float)
+        self.wave = await asyncio.to_thread(verify_dynamic_wave, series, rain)
+
+    async def use_storm(self, storm_id: str) -> dict:
+        from backend.physics.storm_catalog import select
+
+        async with self.lock:
+            storm = select(storm_id)
+            self.sim.reset()
+            self.decision = {}
+            self.wave = None
+            self.radar = radar_snapshot(0, 0.0)
+            self._mark_sam()
+        await self.publish()
+        return storm
+
+    async def drop_cell(self, x: float, y: float, dbz: float = 60.0) -> dict:
+        from backend.physics.storm_catalog import spawn_cell
+
+        async with self.lock:
+            storm = spawn_cell(x, y, dbz)
+            self.sim.reset()
+            self.decision = {}
+            self.wave = None
+            self.radar = radar_snapshot(0, 0.0)
+            self._mark_sam()
+        await self.publish()
+        return storm
 
     async def reset(self) -> None:
         async with self.lock:
@@ -128,6 +186,7 @@ class Episode:
             self.transcript = []
             self.faults = []
             self.decision = {}
+            self.wave = None
             self.outfall_ready = False
             self.radar = radar_snapshot(0, 0.0)
             self._mark_sam()
@@ -148,6 +207,7 @@ class Episode:
     async def _loop(self) -> None:
         while self.running:
             if self.sim.done:
+                await self._maybe_wave()
                 await self.publish()
                 await asyncio.sleep(4.0)
                 if not self.running:
@@ -172,12 +232,19 @@ class Episode:
             t_min = step * settings.STEP_MINUTES
             self.radar = radar_snapshot(step, t_min)
             self._mark_sam()
+            from backend.physics.storm_catalog import current
+
+            # The saved Spark vectors belong to DS-1482. Another tape must not
+            # replay them. A live call on a new tape happens only with STORMGATE_REFINE=1.
+            hosted_spark = settings.meta_enabled and (
+                current()["id"] == "ds-1482" or settings.refine_enabled
+            )
             decision = await supervise(
                 self.sim.stormgate.volume.copy(),
                 self.radar["forecast_mg"],
                 dict(self.sim.jammed) or None,
                 hosted=self._allow_hosted_wonder(),
-                hosted_spark=settings.meta_enabled,
+                hosted_spark=hosted_spark,
                 step_index=step,
             )
             self.decision = decision

@@ -64,6 +64,12 @@ class Settings:
     OFFLINE: bool = os.getenv("STORMGATE_OFFLINE", "0") == "1"
     # Hosted Wonder calls for the whole process. The looping storm stays local.
     HOSTED_BUDGET: int = int(os.getenv("STORMGATE_HOSTED_BUDGET", "1"))
+    # Second-turn Spark calls. Cache hits replay even when this is off.
+    REFINE: bool = os.getenv("STORMGATE_REFINE", "0") == "1"
+
+    @property
+    def refine_enabled(self) -> bool:
+        return self.REFINE and self.meta_enabled
 
     @property
     def meta_enabled(self) -> bool:

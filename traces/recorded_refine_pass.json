@@ -1,0 +1,553 @@
+{
+  "pass": "DS-1482 second turn",
+  "model": "muse-spark-1.3",
+  "default_refine": false,
+  "note": "Turn 1 is the continuous orifice vector. Turn 2 mutates it after the rollout scores. The solver keeps Turn 2 only when its 60-minute lookahead does not spill more than the physics winner. STORMGATE_REFINE defaults off; this file is the replay.",
+  "steps": [
+    {
+      "step": 0,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding SU1-SU3 closed to protect rising SU4 while draining SU4 moderately to stay off the weir.",
+        "latency_ms": 17765.2,
+        "response_id": "resp_6ae8f862ef20d7d6d68d4688"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.65
+        ],
+        "intent_commentary": "Slightly opening OR4 to relieve SU4 peak storage while holding others closed to avoid overflow.",
+        "latency_ms": 17256.0,
+        "response_id": "resp_6ae9ac1b6783d05c0c3e4846"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 1,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.4,
+          0.3,
+          0.3,
+          0.6
+        ],
+        "intent_commentary": "Holding OR4 partial and throttling upstream flow to keep the rising Basin 4 off the weir.",
+        "latency_ms": 12346.4,
+        "response_id": "resp_6ae8f86ee9394c61c2e24b3d"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.48,
+          0.3,
+          0.34,
+          0.52
+        ],
+        "intent_commentary": "Shifting release from lowest SU4 to highest SU1/SU3 to trim peak depth while holding total outflow steady.",
+        "latency_ms": 19959.7,
+        "response_id": "resp_6ae9ac3ec071d1d9f1234de5"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 2,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.2,
+          0.2,
+          0.2,
+          0.6
+        ],
+        "intent_commentary": "Holding upstream releases and partially draining Basin 4 to ride out rising inflow without hitting the weir.",
+        "latency_ms": 16190.6,
+        "response_id": "resp_6ae8f87e5a3864a1fb6e4854"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.3,
+          0.2,
+          0.2,
+          0.5
+        ],
+        "intent_commentary": "Shift opening from emptiest SU4 to fullest SU1 to lower peak depth while holding total discharge steady.",
+        "latency_ms": 16317.5,
+        "response_id": "resp_6ae9ac4e769b4000adac4a1a"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 3,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding SU1-SU3 closed to protect Basin 4 capacity while throttling OR4 below full ahead of rising inflow.",
+        "latency_ms": 14723.4,
+        "response_id": "resp_6ae8f88d0652bad2595648e7"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.2,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Slightly opening orifice 1 to relieve SU1 peak fill while keeping spills at zero.",
+        "latency_ms": 23673.8,
+        "response_id": "resp_6ae9ac66eda326b665254363"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 4,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding SU1-SU3 while partially draining SU4 ahead of rising inflow to keep it off the weir.",
+        "latency_ms": 20891.7,
+        "response_id": "resp_6ae8f8a2b645d558d9ff4a58"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.2,
+          0.1,
+          0.1,
+          0.55
+        ],
+        "intent_commentary": "Slightly bleed upstream peak storage toward low SU4 to trim peak fill while preserving zero spill.",
+        "latency_ms": 34422.6,
+        "response_id": "resp_6ae9ac89dcc5e7f5ecf3484f"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 5,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.8
+        ],
+        "intent_commentary": "Holding SU1-SU3 closed and partially opening OR4 to keep Basin 4 off the weir ahead of rising inflow.",
+        "latency_ms": 17342.1,
+        "response_id": "resp_6ae8f8b3924f6b75b00d42c5"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.15,
+          0.1,
+          0.05,
+          0.8
+        ],
+        "intent_commentary": "Cracking upstream gates proportional to fill to lower peak depth while holding downstream release steady with zero spill risk",
+        "latency_ms": 22001.8,
+        "response_id": "resp_6ae9ac9e60e4034404944dd6"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 6,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding upstream basins and throttling OR4 to keep Basin 4 off the weir during rising inflow.",
+        "latency_ms": 15338.9,
+        "response_id": "resp_6ae8f8c33c622319a4f34099"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.05,
+          0.15,
+          0.05,
+          0.5
+        ],
+        "intent_commentary": "Slightly bleed the peak SU2 with minimal SU1/SU3 release to cut peak fill using spare SU4 capacity.",
+        "latency_ms": 25066.7,
+        "response_id": "resp_6ae9acb8f5c2c7ad918f40ab"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 7,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "intent_commentary": "Holding SU1-SU3 shut and keeping OR4 closed to reserve empty Basin 4 for its rising inflow.",
+        "latency_ms": 20489.8,
+        "response_id": "resp_6ae8f8d71b97441ea7744fb8"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.15,
+          0.2,
+          0.15,
+          0.0
+        ],
+        "intent_commentary": "Opening upstream orifices slightly with bias to SU2 to shave peak fill while preserving zero overflow.",
+        "latency_ms": 18936.2,
+        "response_id": "resp_6ae9accbbfe24d9e5c484bb0"
+      },
+      "turn2_error": null,
+      "solver": "rejected-spilled-more"
+    },
+    {
+      "step": 8,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding SU1-SU3 closed and throttling OR4 to preserve capacity for rising SU4 inflow.",
+        "latency_ms": 11948.1,
+        "response_id": "resp_6ae8f8e37ae3388d9e6d4b2b"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.1,
+          0.15,
+          0.1,
+          0.5
+        ],
+        "intent_commentary": "Slightly open upstream orifices to relieve high SU1-SU3 levels into low SU4 while holding OR4 steady to preserve zero spill",
+        "latency_ms": 30496.6,
+        "response_id": "resp_6ae9ace928c53f2d430d4388"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 9,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding upstream basins and throttling OR4 to keep Basin 4 off the weir during rising inflow.",
+        "latency_ms": 15054.4,
+        "response_id": "resp_6ae8f8f2f9e008495c0e4291"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.1,
+          0.1,
+          0.1,
+          0.5
+        ],
+        "intent_commentary": "Cracking upstream orifices slightly to lower peak storage while keeping downstream release unchanged to avoid new overflow.",
+        "latency_ms": 22795.1,
+        "response_id": "resp_6ae9ad0046c042ce2d8e4940"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 10,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "intent_commentary": "Basin 4 is low with receding inflow so release upstream storage and drain Basin 4 to maximize capacity.",
+        "latency_ms": 10429.5,
+        "response_id": "resp_6ae8f8fd67f9a7c2b58b4407"
+      },
+      "turn2": null,
+      "turn2_error": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "error": ""
+      },
+      "solver": "no-vector"
+    },
+    {
+      "step": 11,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "intent_commentary": "Basin 4 is low with falling inflow so release upstream storage while draining Basin 4 to preserve freeboard.",
+        "latency_ms": 9042.3,
+        "response_id": "resp_6ae8f9065afd862bf9544fcb"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.08,
+          0.06,
+          0.05,
+          0.0087
+        ],
+        "intent_commentary": "Slightly opening upstream gates to trim peak storage while holding downstream to preserve zero overflow.",
+        "latency_ms": 17150.0,
+        "response_id": "resp_6ae9ad396726d96c8d724c8e"
+      },
+      "turn2_error": null,
+      "solver": "rejected-spilled-more"
+    },
+    {
+      "step": 12,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.8,
+          0.7,
+          0.6,
+          0.8
+        ],
+        "intent_commentary": "Upstream basins are high and SU4 inflow is falling so I am releasing storage while draining SU4.",
+        "latency_ms": 13573.6,
+        "response_id": "resp_6ae8f9131773c9633098400a"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.8,
+          0.7,
+          0.6,
+          0.85
+        ],
+        "intent_commentary": "Slightly open SU4 outlet to trim peak fill while keeping zero-overflow balance.",
+        "latency_ms": 21543.7,
+        "response_id": "resp_6ae9ad4f73ca7801518b4b33"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 13,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.8
+        ],
+        "intent_commentary": "Holding SU1-SU3 closed to protect Basin 4 while partially draining SU4 to stay off the weir.",
+        "latency_ms": 9095.1,
+        "response_id": "resp_6ae8f91c7098ad6775124bdb"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "intent_commentary": "Opening OR4 fully to drain high SU4 while holding upstream to prevent added inflow.",
+        "latency_ms": 16356.2,
+        "response_id": "resp_6ae9ad5f605414ad87494b46"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 14,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding SU1-SU3 back while metering Basin 4 outflow to stay off the weir.",
+        "latency_ms": 10129.9,
+        "response_id": "resp_6ae8f9278b69cb89e7ad46f5"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.65
+        ],
+        "intent_commentary": "Increasing OR4 to drain SU4 peak fill while holding others closed to avoid overflow.",
+        "latency_ms": 15551.4,
+        "response_id": "resp_6ae9ad6f3012f05a42684130"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 15,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.5
+        ],
+        "intent_commentary": "Holding SU1-SU3 closed and partially opening OR4 to keep Basin 4 off the weir during rising inflow.",
+        "latency_ms": 13235.9,
+        "response_id": "resp_6ae8f934fd33dc277453469c"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.0,
+          0.0,
+          0.1,
+          0.5
+        ],
+        "intent_commentary": "Cracking open orifice 3 slightly to relieve peak storage in SU3 while keeping spill at zero.",
+        "latency_ms": 21930.3,
+        "response_id": "resp_6ae9ad85f15afeb9fbe944d0"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 16,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.2,
+          0.2,
+          0.2,
+          0.5
+        ],
+        "intent_commentary": "Throttling upstream releases and metering Basin 4 to stay off the weir during forecast inflow.",
+        "latency_ms": 22915.7,
+        "response_id": "resp_6ae8fa47aad163f2f96b446b"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.28,
+          0.3,
+          0.28,
+          0.45
+        ],
+        "intent_commentary": "Slightly open upstream gates to trim peak fill while easing downstream gate to preserve zero spill.",
+        "latency_ms": 12932.8,
+        "response_id": "resp_6ae9ad920fb9fef2d0ab4920"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    },
+    {
+      "step": 17,
+      "turn1": {
+        "model": "muse-spark-1.3",
+        "u": [
+          0.0,
+          0.0,
+          0.0,
+          0.3
+        ],
+        "intent_commentary": "Holding SU1-SU3 and throttling OR4 to keep the rising Basin 4 off the weir.",
+        "latency_ms": 18133.4,
+        "response_id": "resp_6ae8f95f42d1aa10a8be4df9"
+      },
+      "turn2": {
+        "model": "muse-spark-1.3",
+        "turn": 2,
+        "u": [
+          0.05,
+          0.05,
+          0.05,
+          0.35
+        ],
+        "intent_commentary": "Slight balanced opening to trim peak fill while preserving zero overflow.",
+        "latency_ms": 18585.7,
+        "response_id": "resp_6ae9ada4c749c0d318dc4995"
+      },
+      "turn2_error": null,
+      "solver": "accepted"
+    }
+  ],
+  "wonder_jam": {
+    "model": "muse-wonder-1.0",
+    "u": [
+      0.04,
+      0.5,
+      0.04,
+      0.6209
+    ],
+    "selected": "W-wonder",
+    "recovery_note": "With OR2 jammed at 0.5, the winner compensates by holding OR1 and OR3 at 0.04 to keep flow stored in SU1 and SU3 rather than overloading the interceptor through the stuck opening. It also opens OR4 to 0.6209 to pre-drain Basin 4, creating downstream capacity before the peak arrives.",
+    "latency_ms": 6495.4,
+    "response_id": "resp_6ae9adeac24e0d3e800f40f3"
+  }
+}
