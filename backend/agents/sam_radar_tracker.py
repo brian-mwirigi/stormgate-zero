@@ -275,7 +275,8 @@ def _sam_boxes(t_min: float) -> list[tuple[float, float, float, float]] | None:
     if storm_id == "ds-1482":
         frames = (traces.get("sam") or {}).get("frames") or []
     else:
-        frames = ((traces.get("sam_events") or {}).get(storm_id) or {}).get("frames") or []
+        raw = ((traces.get("sam_events") or {}).get(storm_id) or {}).get("frames") or []
+        frames = [f for f in raw if f.get("objects")] or raw
     if not frames:
         return None
     nearest = min(frames, key=lambda frame: abs(float(frame.get("t_min", 0)) - t_min))

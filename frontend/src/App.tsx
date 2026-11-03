@@ -112,6 +112,12 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (state && state.step >= 4 && !state.wave && (!state.running || state.done)) {
+      void fetch("/api/verify/wave", { method: "POST" });
+    }
+  }, [state]);
+
   async function toggle() {
     if (!state) return;
     if (state.done) {

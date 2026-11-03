@@ -7,6 +7,10 @@ Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme
 > **Not a U.S.-only system.** Newark and Chicago are the test storms. Any city with a `SWMM5` `.inp` pipe file and standard `dBZ` weather radar—London's Thames Water, the EU's 650,000 combined-sewer outfalls, Tokyo, or Nairobi—can run this same controller on its own gates.
 
 <p align="center">
+  <img src="traces/ui_hurricane_ida.png" width="100%" alt="StormGate-Zero live command UI running Hurricane Ida NEXRAD mosaic over Newark (12,096,528 gal vs 0 gal)" />
+</p>
+
+<p align="center">
   <img src="traces/nexrad/ida-2021-newark/frame_00.png" width="15%" alt="Ida 23:30 UTC" />
   <img src="traces/nexrad/ida-2021-newark/frame_02.png" width="15%" alt="Ida 00:00 UTC" />
   <img src="traces/nexrad/ida-2021-newark/frame_04.png" width="15%" alt="Ida 00:30 UTC" />

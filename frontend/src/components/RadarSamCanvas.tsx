@@ -103,10 +103,21 @@ function paint(ctx: CanvasRenderingContext2D, image: HTMLImageElement, state: Tw
     label(ctx, `SU${index + 1}`, x1 * width + 6, y1 * height + 6, "rgba(14, 16, 18, 0.8)", "#ebe8e2");
   });
 
-  parseObjectPrompt(state.object_prompt).forEach((box) => {
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = "#e0a43a";
-    ctx.strokeRect(box.x1 * width, box.y1 * height, (box.x2 - box.x1) * width, (box.y2 - box.y1) * height);
+  const samBoxes = parseObjectPrompt(state.object_prompt);
+  samBoxes.forEach((box, idx) => {
+    const bx = box.x1 * width;
+    const by = box.y1 * height;
+    const bw = (box.x2 - box.x1) * width;
+    const bh = (box.y2 - box.y1) * height;
+    ctx.lineWidth = 4.5;
+    ctx.strokeStyle = "rgba(10, 11, 13, 0.85)";
+    ctx.strokeRect(bx, by, bw, bh);
+    ctx.lineWidth = 2.2;
+    ctx.strokeStyle = "#3ee0ff";
+    ctx.strokeRect(bx, by, bw, bh);
+    if (idx === 0) {
+      label(ctx, `SAM 3.1 (${samBoxes.length})`, bx + 4, Math.max(4, by - 24), "#3ee0ff", "#0a0b0d");
+    }
   });
 
   state.cores.forEach((core) => {
