@@ -1,11 +1,28 @@
 # StormGate-Zero
 
-### **14,820,000 gallons spilled → 0 gallons spilled.**
-**Even when sluice gate OR2 jams at 50% open at minute 40.**
+**Stop raw sewage from overflowing into city rivers during a cloudburst—using the floodgates already in the ground instead of a $300 billion concrete rebuild.**
 
-Radar reflectivity goes in. Continuous orifice openings `[OR1, OR2, OR3, OR4]` come out. A 60-minute level-pool St. Venant lookahead checks every vector the model proposes and drops any move that spills more than the physics winner. When the 90-minute storm finishes, **PySWMM 2.2.0** runs the committed gate schedule as a full **SWMM5 dynamic wave**: Junction **J3 peaks at 3.685 psi** above the crown, and the weir stays dry.
+### The problem in plain English
 
-Built for the **Meta Global AI Developer Hackathon** (Indie Track, *Push the Frontier*).
+In more than **700 U.S. cities** (New York, Chicago, Boston, Newark, St. Louis), rainwater and household sewage share the same underground pipes. When a heavy storm hits, those tunnels fill up in minutes. To stop sewage from backing up into basements and streets, the utility opens relief weirs and dumps **850 billion gallons a year** of untreated sewage and stormwater straight into rivers, harbors, and drinking-water intakes (U.S. EPA Report to Congress `833-R-04-001`). Every day a pipe spills exposes the utility to **$68,445 per violation** under the Clean Water Act (`33 U.S.C. 1319(d)`, `40 CFR 19.4`).
+
+Digging new storage tunnels takes 20 years and tens of billions of dollars per city. Meanwhile, the motorized sluice gates already sitting inside existing sewers are controlled by 1970s float switches: **a float switch cannot see the storm on radar.** It waits until a downstream basin is already 96% full before opening the gate—while upstream basins still have empty room—and dumps the peak of the storm over the river wall.
+
+### What StormGate-Zero does
+
+StormGate-Zero replaces that blind float switch with a physics-guarded control loop built on five Meta models (`sam-3.1`, `muse-spark-1.3`, `muse-wonder-1.0`, `muse-voice-transcribe-1.0`, `muse-image-1.0`) and the U.S. EPA **SWMM5** hydraulic solver:
+
+1. **Sees the storm 45 minutes early:** `sam-3.1` tracks convective rain cores on Doppler radar (`IEM N0Q` NEXRAD mosaics) before the water hits the pavement.
+2. **Pre-drains the sewer before the cloudburst arrives:** `muse-spark-1.3` sets continuous gate openings `[OR1, OR2, OR3, OR4]` every 5 minutes, emptying the downstream basin to the treatment plant ahead of the storm crest and holding early runoff in the upstream basins.
+3. **Survives broken hardware:** when a field operator radios in that Sluice Gate #2 is mechanically jammed at 50%, `muse-voice-transcribe-1.0` locks that constraint in real time and `muse-wonder-1.0` computes a new gate schedule around the stuck valve.
+4. **Never trusts an unsafe AI move:** every gate vector proposed by the models is simulated 60 minutes into the future across 12 parallel St. Venant hydraulic rollouts. Any move that spills a single gallon more than the physics winner is rejected before it touches the plant.
+
+| Without StormGate-Zero (Municipal Float Switch) | With StormGate-Zero (Radar + Meta MPC + SWMM5) |
+| :--- | :--- |
+| Waits until Basin 4 hits **96% depth** to open the gate | Sees Core B on radar and **pre-drains Basin 4 to 14%** |
+| Spills **14,820,000 gallons** of raw CSO on design storm `DS-1482` | Spills **0 gallons** (and **0 gallons** when Gate #2 jams at 50%) |
+| Spills **~12.1M gal** on the Newark Ida radar mosaic & **~13.7M gal** on Chicago | Spills **0 gallons** on both radar mosaics |
+| Triggers the **$68,445 / day** Clean Water Act statutory ceiling | **$0** statutory exposure · **3.685 psi** peak `PySWMM` head at Junction `J3` |
 
 ---
 
