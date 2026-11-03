@@ -4,6 +4,8 @@
 
 Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme: **Push the Frontier**.
 
+While benchmarked against U.S. EPA `SWMM5` networks and historical NOAA radar mosaics (Newark Ida and Chicago 2023), StormGate-Zero is jurisdiction-agnostic: any municipality worldwide running standard `SWMM5` `.inp` models and WMO-standard dBZ weather radar—from London's Thames Water and the EU's 650,000 CSO outfalls to Tokyo and Nairobi—can drop in their local basin geometry to turn static gates into predictive controllers.
+
 [![Tests](https://img.shields.io/badge/pytest-26%20passed%20(offline)-16a34a)](#run-and-verify-in-60-seconds-no-api-key-required)
 [![Meta Models](https://img.shields.io/badge/Meta%20Models-6%20Verified%20(SAM%203.1%20%C2%B7%20Spark%201.3%20%C2%B7%20Wonder%201.0%20%C2%B7%20Voice%201.0%20%C2%B7%20Image%201.0%20%C2%B7%20Glimmer%2030B)-2563eb)](#six-meta-models-on-one-causal-path)
 [![Stress Matrix](https://img.shields.io/badge/100--Scenario%20Matrix-0%20losses%20%C2%B7%201.72B%20gal%20saved-0d9488)](#where-a-named-control-law-loses)
