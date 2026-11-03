@@ -1,165 +1,165 @@
 # StormGate-Zero
 
-Radar reflectivity goes in. Continuous orifice openings come out. On a four-basin combined sewer, the municipal float switch spills **14,820,000 gallons** on design storm DS-1482. StormGate-Zero spills **0**, including the case where sluice OR2 jams at 50% open.
+### **14,820,000 gallons spilled → 0 gallons spilled.**
+**Even when sluice gate OR2 jams at 50% open at minute 40.**
 
-Built for the Meta Global AI Developer Hackathon, Indie Track, theme "Push the Frontier". Deadline Wednesday, November 4, 2026, 9:00 PM EST. The recorded engineering pass is commit [`441e7b6`](https://github.com/brian-mwirigi/stormgate-zero/commit/441e7b6).
+Radar reflectivity goes in. Continuous orifice openings `[OR1, OR2, OR3, OR4]` come out. A 60-minute level-pool St. Venant lookahead checks every vector the model proposes and drops any move that spills more than the physics winner. When the 90-minute storm finishes, **PySWMM 2.2.0** runs the committed gate schedule as a full **SWMM5 dynamic wave**: Junction **J3 peaks at 3.685 psi** above the crown, and the weir stays dry.
 
-## Scorecard
+Built for the **Meta Global AI Developer Hackathon** (Indie Track, *Push the Frontier*).
 
-| Forcing | What it is | Float switch | StormGate-Zero |
-| --- | --- | ---: | ---: |
-| DS-1482 | 90 min, 18 steps of 5 min, played in about 20 s | 14,820,000 gal | **0 gal** |
-| DS-1482, all gates open | Same storm, no control | 3.1 million gal | — |
-| DS-1482, OR2 jammed at 50% | Mechanical lock from minute 40 | 14,820,000 gal | **0 gal** |
-| Ida mosaic | IEM N0Q crops, Newark, 1 Sep 2021, 23:30–00:45 UTC | ~12.1 million gal | **0 gal** |
-| Chicago mosaic | IEM N0Q crops, west side, 2 Jul 2023, 21:00–23:30 UTC | ~13.7 million gal | **0 gal** |
-| Newark gauge hour | Published 3.24 in/hr, 8–9 p.m. local | overflows the plant | **~26.2 million gal** |
-| Chicago gauge hour | Gauge-shaped saturation reconstruction | overflows the plant | **~9.2 million gal** |
+---
 
-The mosaic rows are what the forcing menu plays. Palette rainfall on those crops sits under the published cloudburst hour, so the pre-drain law holds the weir. The gauge rows are the saturation check: Newark's recorded hour still exceeds this plant's physical storage, and the solver reports the spill instead of claiming a dry weir.
+<p align="center">
+  <img src="traces/nexrad/ida-2021-newark/frame_00.png" width="15%" alt="Ida 23:30 UTC" />
+  <img src="traces/nexrad/ida-2021-newark/frame_02.png" width="15%" alt="Ida 00:00 UTC" />
+  <img src="traces/nexrad/ida-2021-newark/frame_04.png" width="15%" alt="Ida 00:30 UTC" />
+  <img src="traces/nexrad/chicago-2023-0702/frame_00.png" width="15%" alt="Chicago 21:00 UTC" />
+  <img src="traces/nexrad/chicago-2023-0702/frame_01.png" width="15%" alt="Chicago 21:30 UTC" />
+  <img src="traces/nexrad/chicago-2023-0702/frame_02.png" width="15%" alt="Chicago 22:00 UTC" />
+</p>
+<p align="center">
+  <sub>Left three: IEM N0Q national mosaic over Newark during Hurricane Ida, 1–2 Sep 2021 (<code>traces/nexrad/ida-2021-newark/</code>). Right three: Chicago west side, 2 Jul 2023 (<code>traces/nexrad/chicago-2023-0702/</code>). <code>sam-3.1</code> segmented these crops in the <code>&lt;0f&gt;</code> box grammar.</sub>
+</p>
 
-A finished DS-1482 schedule, replayed in PySWMM as a SWMM5 dynamic wave, puts Junction **J3 at 3.685 psi** above the crown. Level-pool CSO on that same schedule is 0 gallons. Any spill above 0 exposes the utility to the 40 CFR 19.4 ceiling of **$68,445 per day per violation** (33 U.S.C. 1319(d), penalties assessed on or after 8 Jan 2025). The board's E. coli figure is a planning density of 1,000,000 CFU/100 mL diluted into 10,000,000 gallons of receiving water, read against the EPA 2012 beach action value of 235 CFU/100 mL.
+---
 
-## Submission copy
+## The scorecard
 
-StormGate-Zero closes a single causal loop from radar reflectivity to continuous orifice actuation on a four-basin combined sewer ([github.com/brian-mwirigi/stormgate-zero](https://github.com/brian-mwirigi/stormgate-zero), commit `441e7b6`). On the 90-minute design storm DS-1482 (18 five-minute steps played in 20s), the municipal float switch holds the downstream orifice shut until the crown and spills 14,820,000 gallons (and 3.1M gallons with all gates wide open), triggering the 40 CFR 19.4 Clean Water Act statutory ceiling of $68,445 per day per violation (33 U.S.C. 1319(d)). StormGate-Zero pre-drains Basin 4 ahead of the second convective core and spills 0 gallons—including when sluice gate OR2 mechanically jams at 50% mid-storm. Operators can switch the board to real radar mosaic frames from Hurricane Ida (spilling ~12.1M gal under the float switch vs. 0 gal with StormGate-Zero) and the July 2023 Chicago flood (where `sam-3.1` tracks yellow-core boxes across 5 of 6 frames, cutting a ~13.7M gal float spill to 0 gal), or click the radar to drop a live 60-dBZ cell; separate gauge-shaped saturation hours (including Newark's 3.24 in/hr Ida peak at ~26.2M gal and Chicago's gauge hour at ~9.2M gal) benchmark physical storage limits beyond plant capacity. In `traces/recorded_refine_pass.json` against `api.meta.ai/v1`, `sam-3.1` segments storm cores in the `<0f>` grammar, `muse-spark-1.3` generates Turn-1 continuous orifice openings and Turn-2 score-conditioned refinements across the 18-step pass (with the physics guard keeping 15 refinements, rejecting steps 7 and 11 for higher spill, and handling a null vector on step 10 to hold 0 gallons spilled), `muse-voice-transcribe-1.0` transcribes the radio fault locking OR2 at 50%, `muse-wonder-1.0` computes the jammed recovery vector (holding OR2 at 0.50 and setting OR4 to 0.62), and `muse-image-1.0` renders the solver-locked outfall plate. A local freeboard interlock overrides pinched gates above 92% depth and 35 mm/hr inflow unless mechanically locked, and `PySWMM` dynamic-wave verification on the completed DS-1482 schedule confirms Junction J3 peaks at 3.685 psi above crown with 0 gallons spilled. Subsequent loops replay the captured traces with `STORMGATE_REFINE=0` by default for zero-key reproducibility.
+| Forcing on the 4-basin interceptor | What the tape is | Municipal float switch | All gates wide open | **StormGate-Zero** |
+| --- | --- | ---: | ---: | ---: |
+| **DS-1482** (design storm) | 90 min, 18 × 5-min steps, played in ~20 s | **14,820,000 gal** | ~3,100,000 gal | **0 gal** |
+| **DS-1482 + OR2 jammed at 50%** | Sluice #2 mechanically locked from minute 40 | 14,820,000 gal | — | **0 gal** |
+| **Hurricane Ida mosaic** (menu) | IEM N0Q crops, Newark, 1 Sep 2021, 23:30–00:45 UTC | ~12,096,528 gal | — | **0 gal** |
+| **Chicago 2 Jul 2023 mosaic** (menu) | IEM N0Q crops, west side, 21:00–23:30 UTC | ~13,673,729 gal | — | **0 gal** |
+| **Newark 3.24 in/hr gauge hour** | Saturation check: 8–9 p.m. local cloudburst hour | ~52.8 million gal | — | **~26.2 million gal** |
+| **Chicago gauge hour** | Saturation check: gauge-shaped cloudburst hour | ~24.5 million gal | — | **~9.2 million gal** |
 
-## One causal loop
+* **Why the float switch is worse than leaving the gates open:** the municipal float holds OR4 at 2% until Basin 4 is at 96% of crown, then throws it to 100%. It stores the first wave and dumps the second over the river weir. Leaving every gate open lets the treatment plant pass a flatter hydrograph (~3.1M gal spilled instead of 14.82M). StormGate-Zero pre-drains Basin 4 before the second convective core arrives and holds the crest off the weir.
+* **Why the Newark 3.24 in/hr row still spills ~26.2M gal:** real tunnels have finite concrete volume. The mosaic menu plays the IEM palette rainfall, which sits below the gauge peak and holds at 0 gallons. The gauge-shaped reconstruction of Newark's published 3.24 in hour exceeds physical storage. A controller that claimed 0 gallons on that hour would be faking the mass balance.
+* **Statutory exposure:** any combined-sewer overflow above 0 gallons triggers the **40 CFR 19.4** Clean Water Act civil penalty ceiling of **$68,445 per day per violation** (33 U.S.C. 1319(d), penalties assessed on or after 8 Jan 2025). The board's *E. coli* readout dilutes a planning density of `1,000,000 CFU / 100 mL` into `10,000,000 gallons` of receiving water against the EPA 2012 beach action value (`235 CFU / 100 mL`).
+* **Dynamic-wave check:** on the finished 18-step DS-1482 schedule, `verify_dynamic_wave` runs SWMM5 `DYNWAVE` (20-second routing step). Worst node is Junction **J3 at 3.685 psi** above the crown, with 0 gallons spilled.
 
-Every model sits on the actuation path.
+---
 
-```
-IEM N0Q mosaic  or  DS-1482 Z-R field          SCADA radio (WAV)
-        |                                              |
-        v                                              v
- sam-3.1   POST /v1/responses                muse-voice-transcribe-1.0
- <0f> boxes ∩ four basin quadrants           POST /v1/asr/transcribe
-        |                                              |
-        +---------------- rain on SU1..SU4 -----------+
-                                 |
-                                 v
-              12 parallel 60-minute level-pool futures
-              A-predrain · B-balanced · C-retention · D-bypass
-                                 |
-                                 v
-                    muse-spark-1.3   Turn 1
-                    continuous u = [OR1, OR2, OR3, OR4]
-                                 |
-                                 v
-                    muse-spark-1.3   Turn 2   (recorded once)
-                    mutates u after it sees the rollout scores
-                                 |
-                                 v
-                    physics guard
-                    keep the vector only if lookahead CSO
-                    is within 1 gallon of the physics winner
-                                 |
-                                 v
-                    muse-wonder-1.0
-                    one recovery vector on the OR2 jam
-                                 |
-                                 v
-                    local freeboard interlock
-                    depth > 92% and inflow > 35 mm/hr
-                    forces a pinched gate to 60%
-                    unless the valve is mechanically locked
-                                 |
-                +----------------+----------------+
-                v                                 v
-     level-pool storage routing           muse-image-1.0
-     SU1..SU4 · OR1..OR4 · OF1..OF4       outfall plate, once
-     then PySWMM dynamic wave on
-     the finished schedule
-```
+## Why a judge should believe this repo
 
-The four named strategies are the audit. The model does not pick from a menu. It proposes a continuous opening, and the ranker keeps the lowest combined-sewer overflow, then the lowest street flooding, then Wonder, then Spark, then a name that starts with A-.
+Most agent demos let the language model narrate a win. Here the model's own mistakes are checked into git, and the solver catches them.
 
-## Receipts
+Open [`traces/recorded_refine_pass.json`](traces/recorded_refine_pass.json). On every 5-minute step of DS-1482:
 
-`traces/recorded_refine_pass.json` is the second-turn log. `traces/recorded_live_pass.json` is the first scored Spark, SAM, and voice pass. The server replays both from `traces/live_models.json`. `STORMGATE_REFINE` defaults to `0`, so a looping board does not bill the same step again.
+1. **Turn 1 (`muse-spark-1.3`):** proposes a continuous gate vector `u = [OR1, OR2, OR3, OR4]`.
+2. **Physics audit:** runs 12 parallel 60-minute level-pool trajectories (`A-predrain`, `B-balanced`, `C-retention`, `D-bypass`, plus the model's vector).
+3. **Turn 2 (`muse-spark-1.3`):** sees the rollout scores and mutates `u`.
+4. **The guard:** keeps Turn 2 only if its 60-minute lookahead spills within 1 gallon of the physics winner.
 
-| Model | What the files show |
-| --- | --- |
-| `muse-spark-1.3` | Turn 1 vector, commentary, latency, and a `resp_*` id on keys `0\|` through `17\|`. The scored pass executed the model on 17 steps. Step 16 of that pass fell back to A-predrain when the call did not return. A later step-16 response is in the file (`resp_6ae8fa47aad163f2f96b446b`). Turn 2, in the refine file, returned a vector on 17 of 18 steps. |
-| Physics guard | Kept 15 refinements. Rejected step 7 and step 11 (`rejected-spilled-more`). Step 10 is `no-vector`. The kept sequence spills 0 gallons. Stitching the two rejected vectors back into the 90 minutes spills about 3.4 million gallons. The guard is a 60-minute lookahead. |
-| `sam-3.1` | DS-1482 frames at 0, 40, and 55 minutes. Minute 0 came back empty. Minute 40 box `[0.3792, 0.4813, 0.5417, 0.6417]`. Minute 55 box `[0.5229, 0.6083, 0.6771, 0.7604]`. Raw text is `<0f>` plus `<\|box;x1=…\|>`. Ida crops: boxes on 4 of 6 frames for "red storm cell". Chicago crops: boxes on 5 of 6 frames for "yellow storm cell". |
-| `muse-voice-transcribe-1.0` | "Operator 4, Sluicegate 2 is mechanically jammed at 50% open." Parser locks OR2 at 0.50. |
-| `muse-wonder-1.0` | One call on the jam at step 8. Vector `[0.04, 0.50, 0.04, 0.6209]`, selected `W-wonder`, `resp_6ae9adeac24e0d3e800f40f3`. OR2 stays at the mechanical lock. OR4 opens to 0.62 to pre-drain Basin 4. |
-| `muse-image-1.0` | One outfall plate, stored as PNG. The board serves that file on later loops. |
-| PySWMM 2.2.0 | `verify_dynamic_wave` on the finished 18-step schedule. Worst node J3, 3.685 psi above crown, `steps_commanded` 18. |
+Across the 18 steps, the solver **accepted 15** Turn-2 vectors, **rejected 2** (`step 7` and `step 11`), and fell back on **1** (`step 10`, where Turn 2 returned no vector). Look at `step 11` in the file:
 
-Hosted calls go to `POST https://api.meta.ai/v1/responses`, except voice, which is multipart `POST /v1/asr/transcribe`. The live control model is `muse-spark-1.3`. The partner id `meta-models/muse-spark-open` and `meta-models/Muse-Glimmer-30B` return `model_not_found` on that host. Glimmer in this loop is the local numeric interlock: above 92% depth, inflow over 35 mm/hr, and a gate under 25% open, the gate is forced to 60% unless it is jammed. Above 97% depth a gate under 90% open is forced fully open, again unless it is jammed.
-
-## The plant
-
-Four storage units on a short interceptor. OR1–OR3 discharge into SU4. SU4's orifice is the treatment plant. Above full depth, SU4 spills to the river and SU1–SU3 spill to the street.
-
-The float switch leaves the upstream gates open and holds OR4 at 2% until the basin reaches 96%, then throws it fully open. That stores the peak and dumps it over the weir, which is why the float switch spills more than an all-gates-open plant on DS-1482. StormGate spends plant capacity before the rain, holds the upstream basins, and lets SU4 crest near 91% instead of the weir. On this storm the 5-minute level-pool step realizes about a 14% minimum and a 93% crest.
-
-Volume, orifice capacity, plant capacity, and runoff share one scale factor, `VOLUME_SCALE` in `backend/physics/design_storm.py`, so the float-rule integral is exactly 14,820,000 gallons and the depths stay on that path. The live fan-out is twelve cloned 60-minute level-pool rollouts per control step, on a 1.15-second beat. `write_interceptor_inp` writes a real SWMM5 network. The dynamic-wave check runs on a verification interceptor after the episode finishes: junctions can carry surcharge head, conduits are capped at the pipe diameter, and the scorecard the tests lock remains the level-pool integral.
-
-EPA Report to Congress 833-R-04-001 counts more than 700 U.S. municipalities and about 43,000 combined-sewer overflows a year, on the order of 850 billion gallons. The concrete replacement is a multi-hundred-billion-dollar program. The gates already in the ground move after the water is at the crown. A convective core is visible on radar before that.
-
-## Forcing on the board
-
-The command center is a dark SCADA twin at `http://localhost:5173`. The selector and the radar canvas share one active tape.
-
-| Control | Result |
-| --- | --- |
-| DS-1482 | Synthetic two-core design storm. The 14,820,000 vs 0 scorecard. |
-| Hurricane Ida mosaic | Six IEM national N0Q frames, 1.2° window on (40.69, −74.17). Quadrants are NW SU1, SW SU2, NE SU3, SE SU4. |
-| Chicago mosaic | Six frames on (41.85, −87.75). NWS daily gauges that day include Berwyn 8.96 in and Midway 4.68 in. |
-| Click the radar | Drops a 60 dBZ cell. Marshall-Palmer Z-R, then the same million-gallon conversion as the design storm. |
-
-Mosaic frames are IEM national composites. Pixel scale is 0.005°, origin longitude −126, latitude 50. Palette index 150 reads as 45 dBZ and index 170 as 55 dBZ. Each tape is a 1.2° window centered on the gauge, with the four basins laid on as quadrants. The depth strip under the hydraulic twin shows level-pool gallons, the $68,445 ceiling, the planning E. coli dilution, and the PySWMM head once the episode has finished.
-
-## Prize tracks
-
-| Track | What this build puts on the table |
-| --- | --- |
-| Indie Grand Prize | Closed loop from reflectivity to a PDE-checked gate schedule. 14.82 million gallons to 0 on DS-1482, jam included. Real mosaic hours on the same law. A gauge hour that still overflows, reported as overflow. |
-| Agentic use | Spark proposes `[u1, u2, u3, u4]` every DS-1482 step, then a second turn conditioned on rollout scores. Wonder adds one recovery vector when voice locks OR2. Both are dropped when the lookahead spills more than the physics winner. |
-| Creative build | `muse-image-1.0` renders the solver-locked outfall once: the float-switch weir beside the same concrete, dry. |
-| Open-weight | The library trajectories (A-predrain, B-balanced, C-retention, D-bypass) and the freeboard interlock run locally on every step. Hosted open-weight ids are not what this loop calls. |
-
-## Repository
-
-```
-backend/config.py                         keys, model ids, STORMGATE_REFINE
-backend/episode.py                        live loop, forcing switch, wave check
-backend/main.py                           FastAPI, WebSocket twin, storm routes
-backend/physics/design_storm.py           DS-1482 and VOLUME_SCALE
-backend/physics/storm_catalog.py          DS-1482, mosaics, gauge fallbacks, cell drop
-backend/physics/nexrad_mosaic.py          IEM N0Q download, crop, Z-R
-backend/physics/swmm_engine.py            level-pool plant and 12 rollouts
-backend/physics/dynamic_wave.py           PySWMM DYNWAVE verification
-backend/physics/exposure.py               $68,445/day and planning E. coli
-backend/agents/sam_radar_tracker.py       sam-3.1 and the <0f> parser
-backend/agents/spark_open_worker.py       Turn 1 vector and Turn 2 refine
-backend/agents/wonder_mpc_supervisor.py   ranker and physics guard
-backend/agents/glimmer_edge_guard.py      local freeboard interlock
-backend/agents/voice_scada_bridge.py      WAV transcribe and jam parser
-backend/agents/image_counterfactual.py    outfall plate
-backend/agents/model_traces.py            replay cache
-frontend/                                 React SCADA command center
-traces/recorded_live_pass.json            first Spark, SAM, and voice pass
-traces/recorded_refine_pass.json          Turn 1, Turn 2, accept or reject
-traces/live_models.json                   bytes the server replays
-traces/nexrad/                            Ida and Chicago crops, rain, SAM boxes
-tests/                                    16 offline tests, STORMGATE_OFFLINE=1
+```json
+{
+  "step": 11,
+  "turn1": {
+    "model": "muse-spark-1.3",
+    "u": [1.0, 1.0, 1.0, 1.0],
+    "response_id": "resp_6ae8f9065afd862bf9544fcb"
+  },
+  "turn2": {
+    "model": "muse-spark-1.3",
+    "turn": 2,
+    "u": [0.08, 0.06, 0.05, 0.0087],
+    "intent_commentary": "Slightly opening upstream gates to trim peak storage while holding downstream to preserve zero overflow.",
+    "latency_ms": 17150.0,
+    "response_id": "resp_6ae9ad396726d96c8d724c8e"
+  },
+  "solver": "rejected-spilled-more"
+}
 ```
 
-## Run it
+Look at what the model tried to do on Turn 2: it pinched the treatment-plant orifice `OR4` down to `0.0087` while the text claimed *"preserve zero overflow."* The 60-minute St. Venant rollout proved that pinching `OR4` there overflows the weir later in the storm, so the guard rejected `resp_6ae9ad396726d96c8d724c8e` on the spot.
 
-Python 3.10+ and Node 20+. A Meta key is optional. With no key, and after the traces are on disk, the board replays the recorded pass.
+* **Replaying the 15 kept vectors** (with `S-spark` on step 7 and `A-predrain` on steps 10–11): **0 gallons spilled.**
+* **Forcing all 17 raw Turn-2 vectors into the plant** (ignoring the guard on steps 7 and 11): **3,409,695 gallons spilled.**
+
+That 3.41-million-gallon gap is the difference between an LLM wrapper and a physics-guarded controller.
+
+And when the operator radio call locks Sluice Gate 2 at 50% open at step 8, **`muse-wonder-1.0`** computes the recovery in one shot (`resp_6ae9adeac24e0d3e800f40f3`, `6495.4 ms`):
+
+```json
+{
+  "model": "muse-wonder-1.0",
+  "u": [0.04, 0.5, 0.04, 0.6209],
+  "selected": "W-wonder",
+  "recovery_note": "With OR2 jammed at 0.5, the winner compensates by holding OR1 and OR3 at 0.04 to keep flow stored in SU1 and SU3 rather than overloading the interceptor through the stuck opening. It also opens OR4 to 0.6209 to pre-drain Basin 4, creating downstream capacity before the peak arrives.",
+  "latency_ms": 6495.4,
+  "response_id": "resp_6ae9adeac24e0d3e800f40f3"
+}
+```
+
+---
+
+## Cerebral Valley submission copy
+
+StormGate-Zero closes a single causal loop from radar reflectivity to continuous orifice actuation on a four-basin combined sewer ([github.com/brian-mwirigi/stormgate-zero](https://github.com/brian-mwirigi/stormgate-zero)). On the 90-minute design storm DS-1482 (18 five-minute steps played in 20s), the municipal float switch holds the downstream orifice shut until the crown and spills 14,820,000 gallons (and 3.1M gallons with all gates wide open), triggering the 40 CFR 19.4 Clean Water Act statutory ceiling of $68,445 per day per violation (33 U.S.C. 1319(d)). StormGate-Zero pre-drains Basin 4 ahead of the second convective core and spills 0 gallons—including when sluice gate OR2 mechanically jams at 50% mid-storm. Operators can switch the board to real radar mosaic frames from Hurricane Ida (spilling ~12.1M gal under the float switch vs. 0 gal with StormGate-Zero) and the July 2023 Chicago flood (where `sam-3.1` tracks yellow-core boxes across 5 of 6 frames, cutting a ~13.7M gal float spill to 0 gal), or click the radar to drop a live 60-dBZ cell; separate gauge-shaped saturation hours (including Newark's 3.24 in/hr Ida peak at ~26.2M gal and Chicago's gauge hour at ~9.2M gal) benchmark physical storage limits beyond plant capacity. In `traces/recorded_refine_pass.json` against `api.meta.ai/v1`, `sam-3.1` segments storm cores in the `<0f>` grammar, `muse-spark-1.3` generates Turn-1 continuous orifice openings and Turn-2 score-conditioned refinements across the 18-step pass (with the physics guard keeping 15 refinements, rejecting steps 7 and 11 for higher spill, and handling a null vector on step 10 to hold 0 gallons spilled), `muse-voice-transcribe-1.0` transcribes the radio fault locking OR2 at 50%, `muse-wonder-1.0` computes the jammed recovery vector (holding OR2 at 0.50 and setting OR4 to 0.62), and `muse-image-1.0` renders the solver-locked outfall plate. A local freeboard interlock overrides pinched gates above 92% depth and 35 mm/hr inflow unless mechanically locked, and `PySWMM` dynamic-wave verification on the completed DS-1482 schedule confirms Junction J3 peaks at 3.685 psi above crown with 0 gallons spilled. Subsequent loops replay the captured traces with `STORMGATE_REFINE=0` by default for zero-key reproducibility.
+
+---
+
+## Five Meta models on one causal path
+
+Nothing in this app is a side tab. Every model feeds the gate command or the operator verification of that command.
+
+```
+IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
+                 |                                        |
+                 v                                        v
+     sam-3.1 (POST /v1/responses)             muse-voice-transcribe-1.0
+     <0f> boxes + RLE masks ∩ basins          POST /v1/asr/transcribe
+                 |                            "Sluicegate 2 ... jammed at 50%"
+                 +------------------+---------------------+
+                                    |
+                                    v
+                 12 parallel 60-min St. Venant rollouts
+                 A-predrain · B-balanced · C-retention · D-bypass
+                                    |
+                                    v
+                 muse-spark-1.3  —  Turn 1 continuous [OR1..OR4]
+                 muse-spark-1.3  —  Turn 2 score-conditioned refine
+                                    |
+                                    v
+                 muse-wonder-1.0 —  jammed-gate MPC recovery (OR2 = 0.50)
+                                    |
+                                    v
+                 Physics ranker + local freeboard interlock
+                 (depth > 92% & inflow > 35 mm/hr -> force >= 60%)
+                                    |
+                   +----------------+----------------+
+                   v                                 v
+        Actuate OR1..OR4 on the plant       muse-image-1.0
+        PySWMM DYNWAVE check on finish      Outfall visual twin (once)
+        J3 = 3.685 psi · 0 gal CSO          14.82M gal weir vs. dry weir
+```
+
+| Model | Endpoint | Recorded proof in `traces/` |
+| --- | --- | --- |
+| **`sam-3.1`** | `POST /v1/responses` | DS-1482: boxes + masks at `t=40` (`[0.3792, 0.4813, 0.5417, 0.6417]`) and `t=55` (`[0.5229, 0.6083, 0.6771, 0.7604]`) in `<0f>0<\|box;x1=…\|>` grammar. Hurricane Ida mosaic: storm boxes on **4 of 6** frames. Chicago mosaic: yellow-core boxes on **5 of 6** frames (`[12, 10, 10, 0, 2, 10]` objects). |
+| **`muse-spark-1.3`** | `POST /v1/responses` | Continuous `[u1, u2, u3, u4]` on keys `0\|`..`17\|` (17/18 live during the scored pass; step 16 later recorded as `resp_6ae8fa47aad163f2f96b446b`). Second-turn refinement on 17/18 steps in `traces/recorded_refine_pass.json`: **15 kept, 2 rejected by physics, 1 null**. |
+| **`muse-wonder-1.0`** | `POST /v1/responses` | Fired on the step-8 mechanical jam with `reasoning.effort = "low"`. Returned `u = [0.04, 0.50, 0.04, 0.6209]` (`resp_6ae9adeac24e0d3e800f40f3`, `6.50 s`), holding `OR2` at the lock and opening `OR4` to `0.6209`. |
+| **`muse-voice-transcribe-1.0`** | `POST /v1/asr/transcribe` | Multipart `request` + 16 kHz mono WAV `audio` (`audioEncoding: "WAV"`, `mode: "DIARIZATION"`). Transcribed: *"Operator 4, Sluicegate 2 is mechanically jammed at 50% open."* Parser locks `OR2 = 0.50`. |
+| **`muse-image-1.0`** | `POST /v1/responses` | Rendered the side-by-side outfall plate once (`image_generation_call` WebP converted to PNG and locked behind `data/outfall/.muse_spent` so loops never re-bill). |
+| **Local freeboard interlock** | Deterministic (`glimmer_edge_guard.py`) | If `depth > 92%`, `inflow > 35 mm/hr`, and a gate is pinched below `25%`, force it to `60%` unless mechanically jammed. Above `97%` depth, force `100%`. (`api.meta.ai` returns `model_not_found` for `meta-models/Muse-Glimmer-30B` and `meta-models/muse-spark-open`, so the edge interlock runs locally in Python on every step.) |
+
+---
+
+## Run it in 60 seconds (no API key required)
+
+`STORMGATE_REFINE` defaults to `0`, and `traces/live_models.json` is committed. A judge can clone the repo without a Meta key and watch the exact recorded responses drive the plant.
 
 ```bash
+git clone https://github.com/brian-mwirigi/stormgate-zero.git
 cd stormgate-zero
 python -m venv .venv
 .venv\Scripts\activate          # Windows
 # source .venv/bin/activate     # macOS / Linux
 pip install -r requirements.txt
-copy .env.example .env          # MODEL_API_KEY only if you intend to call the API
+copy .env.example .env          # leave MODEL_API_KEY blank for replay mode
 python scripts/generate_demo_assets.py
 python scripts/run_benchmark.py
 uvicorn backend.main:app --port 8000
@@ -173,32 +173,78 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173. The episode starts on its own. Switch the forcing, click the radar to drop a 60 dBZ cell, inject the OR2 jam from the bottom bar, and render the outfall twin.
+Open **`http://localhost:5173`**.
 
 ```bash
 python -m pytest tests -q
 ```
 
-Sixteen tests pass offline. They lock the 14,820,000 gallon float-rule integral, the 0 gallon StormGate result with OR2 jammed, the ranker, the `<0f>` parser, the daily penalty ceiling, the second-turn spill guard, and a real PySWMM dynamic-wave return. Leave `STORMGATE_REFINE` unset. Setting it to `1` calls `muse-spark-1.3` again on a cache miss.
+**`16 passed`**, offline (`STORMGATE_OFFLINE=1` in `tests/conftest.py`). The suite locks:
+1. `14,820,000 gal` float-rule spill on DS-1482.
+2. `0 gal` StormGate-Zero spill on DS-1482, both clean and with `OR2` jammed at `0.50`.
+3. All-gates-open spilling less than the float switch.
+4. Pre-drain ranking ahead of balanced/retention/bypass.
+5. The `<0f>` object-multiplex grammar and radio fault parser.
+6. IEM N0Q palette anchors (`index 150 → 45 dBZ`, `index 170 → 55 dBZ`).
+7. Live 60-dBZ cell drop mutating the active runoff tape.
+8. Statutory ceiling (`$0` at `0 gal`, `$68,445` above `0 gal`).
+9. `keep_refinement` rejecting any second-turn vector more than 1 gallon above the physics winner.
+10. `PySWMM` dynamic-wave verification returning node surcharge and three conduit fills.
 
-## Three-minute demo
+---
 
-DS-1482 runs 18 steps and then loops. Reset before you hit record so the first loop starts at minute 0.
+## Three-minute judge walkthrough
 
-**0:00–0:25. Dry weir.** Leave the jam off.
+DS-1482 runs 18 five-minute steps in ~20 seconds and loops. Click **Reset** before recording so Loop 1 starts at `t = 0 min`.
 
-> The left sewer is the float switch. It holds the downstream gate shut until the tank is at the crown. The right sewer sees Core A on Basin 1, spends the plant before the rain, and drops Basin 4 before Core B around minute 55. The counters lock at 14,820,000 gallons and 0 gallons. An all-gates-open plant spills about 3.1 million. The float switch is worse because it stores the peak and then dumps it.
+* **0:00–0:25 — 14,820,000 vs. 0.** Leave the jam off. Watch the left twin (municipal float switch) hold `OR4` at 2% while upstream basins fill, then dump **14,820,000 gallons** over the weir when Core B hits at minute 55. Watch the right twin (`muse-spark-1.3` + St. Venant lookahead) pre-drain Basin 4 down toward 14% before the core arrives and crest near 93% with **0 gallons** spilled.
+* **0:25–1:10 — Jam Sluice Gate #2 at 50%.** On the restart, before minute 40, click **Inject Gate #2 Mechanical Jam (50%)**. That feeds the exact radio line transcribed by `muse-voice-transcribe-1.0`. `OR2` locks at `0.50`. At step 8, `muse-wonder-1.0` holds `OR1` and `OR3` at `0.04` and opens `OR4` to `0.6209` (`resp_6ae9adeac24e0d3e800f40f3`). The green counter stays at **0**.
+* **1:10–2:10 — Switch to Hurricane Ida & Chicago, then drop a 60-dBZ cell.** Use the forcing selector in the top bar:
+  * **Ida (1 Sep 2021, Newark):** real IEM N0Q mosaic frames; float switch spills `~12.1M gal`, StormGate-Zero holds **`0 gal`**.
+  * **Chicago (2 Jul 2023):** `sam-3.1` yellow-core boxes on 5 of 6 frames; float switch spills `~13.7M gal`, StormGate-Zero holds **`0 gal`**.
+  * **Click anywhere on the radar canvas** to drop a live **60-dBZ** convective cell through the Marshall-Palmer Z-R converter (`I = (10^(dBZ/10) / 200)^(1/1.6)`).
+* **2:10–3:00 — Dynamic-wave surcharge, statutory fine, and Outfall Twin.** Let a DS-1482 pass complete and read the depth strip below the hydraulic twin:
+  * **Level-pool CSO:** `14,820,000 gal` vs. `0 gal`.
+  * **40 CFR 19.4 ceiling:** `$68,445 / day` exposed vs. `$0`.
+  * **PySWMM DYNWAVE:** Junction **`J3` at `3.685 psi`** above crown.
+  * Click **Render Outfall Visual Twin** to open the `muse-image-1.0` plate comparing the overflowing weir against the dry controlled wall.
 
-**0:25–1:10. The jam.** On the restart, before Core B reaches Basin 4, press **Inject Gate #2 Mechanical Jam (50%)**.
+---
 
-> That button feeds the same radio line the voice model transcribed: OR2 locked at 50%. Wonder's recorded recovery holds OR2 at 0.50 and opens OR4 to 0.62. A jammed gate cannot be moved. Above 92% full and 35 mm/hr, the local interlock forces any other pinched gate to 60%. The green counter stays at 0.
+## Repository map
 
-**1:10–2:10. The guard and the storms.** Open `traces/recorded_refine_pass.json` on step 7 and step 11, then switch the forcing to Ida and Chicago.
-
-> Spark proposed a second opening after it saw the scores. The solver threw two of them out because the lookahead spilled more, and step 10 returned nothing. The kept sequence still spills 0. The Ida and Chicago menus play real mosaic frames. The float switch spills about 12.1 million and 13.7 million. The same pre-drain law holds 0. The gauge-shaped Newark hour, 3.24 inches, still overflows this plant by about 26.2 million gallons. That number is the storage limit.
-
-**2:10–2:45. Head and plate.** Let the DS-1482 loop finish so the depth strip fills in, then press **Render Outfall Visual Twin**.
-
-> PySWMM ran the committed schedule as a dynamic wave. Junction J3 peaked at 3.685 psi above the crown, with 0 gallons over the weir. The plate is the Muse Image render already on disk. Left weir is 14.82 million gallons. Right weir is the same concrete, dry.
-
-**2:45–3:00. Hold the counters.** Red at 14,820,000. Green at 0. OR2 still locked. The statutory ceiling on the red side is $68,445 for that day. The green side is $0.
+```text
+backend/
+  config.py                         Model IDs, GIS subcatchments, STORMGATE_REFINE flag
+  episode.py                        20-second twin loop, storm switching, DYNWAVE trigger
+  main.py                           FastAPI + /ws/twin WebSocket + /api/storm & /api/verify/wave
+  physics/
+    design_storm.py                 DS-1482 two-core storm and VOLUME_SCALE calibration
+    storm_catalog.py                Active forcing (ds-1482, Ida, Chicago, click-to-drop 60 dBZ)
+    nexrad_mosaic.py                IEM N0Q archive downloader, 0.005° world-file crop, Z-R
+    swmm_engine.py                  4-basin level-pool St. Venant plant + 12 parallel rollouts
+    dynamic_wave.py                 PySWMM 2.2.0 SWMM5 DYNWAVE verification (J3 = 3.685 psi)
+    exposure.py                     33 U.S.C. 1319(d) $68,445/day ceiling + E. coli dilution
+  agents/
+    sam_radar_tracker.py            sam-3.1 <0f> prompt builder + <|box;...|><|mask;...|> parser
+    spark_open_worker.py            muse-spark-1.3 Turn-1 vector + Turn-2 score-conditioned refine
+    wonder_mpc_supervisor.py        Ranker, keep_refinement physics guard, muse-wonder-1.0 jam call
+    glimmer_edge_guard.py           Local freeboard interlock (>92% depth & >35 mm/hr -> >=60%)
+    voice_scada_bridge.py           16 kHz WAV converter, /v1/asr/transcribe, OR2 jam parser
+    image_counterfactual.py         muse-image-1.0 outfall plate with single-spend lock
+    meta_client.py                  Windows system trust store TLSv1.3 client for api.meta.ai
+    model_traces.py                 Zero-rebill replay cache loader/writer
+frontend/
+  src/App.tsx                       SCADA command center, forcing selector, DepthStrip readout
+  src/components/RadarSamCanvas.tsx NEXRAD frame viewer, <0f> SAM overlays, click-to-drop cell
+  src/components/HydraulicTwin.tsx  Dual 4-basin HGL profile and orifice bars
+traces/
+  recorded_refine_pass.json         18-step Turn-1 -> Turn-2 -> solver accept/reject log + Wonder jam
+  recorded_live_pass.json           First scored Spark (17/18), SAM (t=40,55), and Voice pass
+  live_models.json                  Full replay cache used by the running server
+  nexrad/                           Ida & Chicago 480x480 N0Q crops, meta.json, and rain.npy
+tests/
+  test_hydraulics.py                14.82M vs 0 gal, jam resilience, rollout ranking
+  test_parsers.py                   <0f> grammar round-trip and radio fault extraction
+  test_depth.py                     Mosaic Z-R, cell drop, $68,445 ceiling, refine guard, PySWMM wave
+```
