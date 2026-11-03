@@ -24,13 +24,13 @@ Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme
 
 ---
 
-### The problem in plain English
+## The problem in plain English
 
 In **746 U.S. communities** with combined sewers—New York, Chicago, Boston, Newark, and St. Louis among them—rainwater and household sewage share the same pipes. The U.S. EPA's *Report to Congress: Impacts and Control of CSOs and SSOs* (`EPA 833-R-04-001`, August 2004, pp. ES-2 to ES-5) puts the annual discharge at **850 billion gallons** of untreated sewage and stormwater into rivers, harbors, and drinking-water intakes. A discharge that breaks a permit condition, a dry-weather prohibition, or a federal consent-decree milestone exposes the utility to a civil penalty of **$68,445 per day per violation** (`33 U.S.C. 1319(d)`; `40 CFR 19.4` Table 1, inflation adjustment effective 8 January 2025, up from $66,712). Permitted CSO outfalls are not automatically fined for every wet-weather overflow.
 
 Replacing those pipes with deep storage tunnels takes decades and billions of dollars per city: Chicago's Tunnel and Reservoir Plan has run since 1975 and past $4 billion; St. Louis MSD's Project Clear is budgeted at $4.7–6 billion for 2011–2039; Northeast Ohio's Project Clean Lake is a $3 billion, 25-year schedule. The gates already in the ground are older than those plans. Float-actuated tipping gates, vortex valves, and pneumatic float switches installed from the 1950s through the 1980s move on the water level at one junction. They have no upstream coordination and no radar lookahead, so they stay shut until a downstream basin is near the crown—while upstream tunnels still have room—and then dump the peak over the river wall.
 
-### What StormGate-Zero does
+## What StormGate-Zero does
 
 StormGate-Zero replaces that blind float switch with a physics-guarded control loop built on **six Meta models** (`sam-3.1`, `muse-spark-1.3`, `muse-wonder-1.0`, `muse-voice-transcribe-1.0`, `muse-image-1.0`, and open-weight `meta/muse-glimmer-30b`) and the U.S. EPA **SWMM5** hydraulic solver:
 
@@ -144,7 +144,7 @@ IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
 | **`muse-wonder-1.0`** | `POST /v1/responses` | On the step-4 compound double lock (`OR1=0.05, OR2=0.90`, no grid shown), synthesized off-grid `u = [0.05, 0.90, 0.12, 0.90]` (`resp_6ae9f0ee5b7721d9ff6a4da4`, `11.85 s`), cutting spill from `4.36M gal` (best static law) to **0.0 gal** (`traces/wonder_unaided_recovery.json`). On the DS-1482 step-8 jam, returned `u = [0.04, 0.50, 0.04, 0.6209]` (`resp_6ae9adeac24e0d3e800f40f3`, `6.50 s`). |
 | **`muse-voice-transcribe-1.0`** | `POST /v1/asr/transcribe` | Multipart `request` + 16 kHz mono WAV `audio` (`audioEncoding: "WAV"`, `mode: "DIARIZATION"`). Transcribed: *"Operator 4, Sluicegate 2 is mechanically jammed at 50% open."* Parser locks `OR2 = 0.50`. |
 | **`muse-image-1.0`** | `POST /v1/responses` | Rendered the side-by-side outfall plate once (`image_generation_call` WebP converted to PNG and locked behind `data/outfall/.muse_spent` so loops never re-bill). |
-| **`meta/muse-glimmer-30b` + local freeboard interlock** | Python on every step (`glimmer_edge_guard.py`) + `meta/muse-glimmer-30b` on NVIDIA's free catalog (`POST https://integrate.api.nvidia.com/v1/chat/completions`) | If `depth > 92%`, `inflow > 35 mm/hr`, and a gate is pinched below `25%`, Python forces it to `60%` unless mechanically jammed. Above `97%` depth, Python forces `100%`. On a proposed `[0.10, 0.40, 0.40, 0.62]` with SU1 at 95% and 48 mm/hr, Python set `[0.60, 0.40, 0.40, 0.62]` before the model was asked to speak. Glimmer's finished reply (`bd76ae3ac432bcce`, 13.4 s, 848 tokens): *"The requested action is not approved. SU1 is at 95% depth with 48 mm/hr rain inbound and the downstream gate is below 25%, so OR1 is being forced to 60% to protect upstream freeboard."* On the Ida crop `traces/nexrad/ida-2021-newark/frame_02.png` (00:00 UTC 2 Sep 2021), the same model read the image and named the SW quadrant, basin SU2 (`8ad068e1ef1cadad`, 1,610 tokens). The mosaic quadrant rates on that frame are SU1 14.40, SU2 28.08, SU3 9.28, SU4 8.55 mm/hr. Saved in `traces/glimmer_nvidia.json` and `traces/glimmer_radar.json`. `api.meta.ai` still returns `model_not_found` for this model, and `muse-spark-open` is still not called. |
+| **`meta/muse-glimmer-30b` + local freeboard interlock** | Python on every step (`glimmer_edge_guard.py`) + `meta/muse-glimmer-30b` on NVIDIA's free catalog (`POST https://integrate.api.nvidia.com/v1/chat/completions`) | If `depth > 92%`, `inflow > 35 mm/hr`, and a gate is pinched below `25%`, Python forces it to `60%` unless mechanically jammed. Above `97%` depth, Python forces `100%`. On a proposed `[0.10, 0.40, 0.40, 0.62]` with SU1 at 95% and 48 mm/hr, Python set `[0.60, 0.40, 0.40, 0.62]` before the model was asked to speak. Glimmer's finished reply (`bd76ae3ac432bcce`, 13.4 s, 848 tokens): *"The requested action is not approved. SU1 is at 95% depth with 48 mm/hr rain inbound and the downstream gate is below 25%, so OR1 is being forced to 60% to protect upstream freeboard."* On the Ida crop `traces/nexrad/ida-2021-newark/frame_02.png` (00:00 UTC 2 Sep 2021), the same model read the image and named the SW quadrant, basin SU2 (`8ad068e1ef1cadad`, 1,610 tokens). The mosaic quadrant rates on that frame are SU1 14.40, SU2 28.08, SU3 9.28, SU4 8.55 mm/hr. Saved in `traces/glimmer_nvidia.json` and `traces/glimmer_radar.json`. |
 
 ---
 
@@ -230,9 +230,12 @@ backend/
     meta_client.py                  Windows system trust store TLSv1.3 client for api.meta.ai & NIM
     model_traces.py                 Zero-rebill replay cache loader/writer
 frontend/
-  src/App.tsx                       SCADA command center, forcing selector, DepthStrip readout
+  src/App.tsx                       Command center, NEXRAD provenance banner, storm & SWMM5 readouts
   src/components/RadarSamCanvas.tsx NEXRAD frame viewer, <0f> SAM overlays, click-to-drop cell
-  src/components/HydraulicTwin.tsx  Dual 4-basin HGL profile and orifice bars
+  src/components/HydraulicTwin.tsx  Dual 4-basin HGL sewer cross-section and gate indicators
+  src/components/SpillRace.tsx      Cumulative river overflow chart (float switch vs. StormGate-Zero)
+  src/components/AgentCommentary.tsx 60-min rollout ranking and freeboard interlock ruling
+  src/components/VoiceWarRoom.tsx   Field radio microphone & mechanical gate jam injector
 scripts/
   verify_all.py                     One-command offline audit of all traces, PySWMM heads & SHA-256 chain
   build_frontier_proof.py           Rebuilds compound_fault, stress_matrix_100, wave_storms & ledger
