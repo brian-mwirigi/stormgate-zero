@@ -95,8 +95,6 @@ At step 4 (minute 20), `muse-wonder-1.0` was given **only** the four failing han
 
 Across 100 deterministic shears of DS-1482, each crossed with one of four mechanical locks, that search **never** spilled more than the best named law. It beat the best named law on **14** scenarios and tied the other **86** within a gallon. Against the float switch, the 100 tapes are **1,716,996,992.5 gallons** less river overflow. The rows, the hash chain, and the PySWMM heads are in `traces/stress_matrix_100.json`, `traces/compound_fault.json`, `traces/wave_storms.json`, and `traces/compliance_ledger.json` (4 blocks, tip `37c1c271ebc7b645`). Changing one gallon breaks the next SHA-256 link.
 
-Open-weight `muse-spark-open` is not called in these files. Set `BREV_BASE_URL` and `BREV_API_KEY` after the weights are up on NVIDIA Brev. Until a response comes back from that endpoint, the repo does not claim a `muse-spark-open` trace.
-
 ---
 
 ## Six Meta models on one causal path
