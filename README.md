@@ -20,16 +20,6 @@ Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme
 
 ---
 
-## Why This Pushes the Frontier
-
-Utilities have never been able to put frontier AI on live floodgates because **static PLC rules are blind** and **pure LLMs hallucinate hydraulics**. StormGate-Zero proves that coupling multimodal Meta models to a real-time St. Venant / EPA SWMM5 physics guard solves failure regimes where **both** static rules and unguarded AI fail:
-
-* **Static rules fail (`4.36M – 26.50M gal` spilled):** On the compound double-lock storm (`DS-1482 × 2.2`, `OR1` locked at `5%`, `OR2` locked at `90%` from minute 20), the municipal float switch spills **26,498,221.5 gal**, the hand-written `A-predrain` law spills **8,534,246.3 gal** river + **897,741.2 gal** street, and the best fixed law (`B-balanced`) still spills **4,358,862.8 gal**.
-* **Blind one-shot AI fails (`4.33M – 6.97M gal` spilled, rejected):** Asking `muse-spark-1.3` (`resp_6ae9e184c25d838e5d884bcd`) or `muse-wonder-1.0` (`resp_6ae9e19fa36ac7ab266e474f`) to guess all 18 steps blind in one shot spills **4,333,880.8 gal** and **6,966,494.7 gal**—and the physics guard automatically rejects both (`rejected-spilled-more`).
-* **Physics-grounded Meta AI succeeds (`0 gal` river, `0 gal` street):** Shown **only** the 4 failing hand-written laws at the moment the step-4 jam hits—with **no grid points in the prompt**—**`muse-wonder-1.0`** (`resp_6ae9f0ee5b7721d9ff6a4da4`, `11.85 s`) synthesized an off-grid continuous recovery vector `u = [0.05, 0.90, 0.12, 0.90]` that holds the entire storm to **0.0 gallons of river CSO and 0.0 gallons of street flooding** (`traces/wonder_unaided_recovery.json`). Closed-loop step-by-step **`muse-spark-1.3`** (`18` calls, `traces/double_lock_closed_loop.json`) also holds **0.0 gallons**.
-
----
-
 ### The problem in plain English
 
 In more than **700 U.S. cities** (New York, Chicago, Boston, Newark, St. Louis), rainwater and household sewage share the same underground pipes. When a heavy storm hits, those tunnels fill up in minutes. To stop sewage from backing up into basements and streets, the utility opens relief weirs and dumps **850 billion gallons a year** of untreated sewage and stormwater straight into rivers, harbors, and drinking-water intakes (U.S. EPA Report to Congress `833-R-04-001`). Every day a pipe spills exposes the utility to **$68,445 per violation** under the Clean Water Act (`33 U.S.C. 1319(d)`, `40 CFR 19.4`).
@@ -49,23 +39,19 @@ StormGate-Zero replaces that blind float switch with a physics-guarded control l
 | :--- | :--- |
 | Waits until Basin 4 hits **96% depth** to open the gate | Sees Core B on radar and **pre-drains Basin 4 to 14%** |
 | Spills **14,820,000 gallons** of raw CSO on design storm `DS-1482` | Spills **0 gallons** (and **0 gallons** when Gate #2 jams at 50%) |
-| Spills **26,498,221.5 gallons** on the double-lock storm (`A-predrain` spills **8.53M**, `B-balanced` spills **4.36M**) | Spills **0 gallons** (`traces/double_lock_closed_loop.json`, 18 `muse-spark-1.3` calls) |
+| Spills **26,498,221.5 gallons** on the double-lock storm (`A-predrain` spills **8.53M**, `B-balanced` spills **4.36M**) | Spills **0 gallons** (`traces/wonder_unaided_recovery.json` & `traces/double_lock_closed_loop.json`) |
 | Spills **~12.1M gal** on the Newark Ida radar mosaic & **~13.7M gal** on Chicago | Spills **0 gallons** on both radar mosaics |
 | Triggers the **$68,445 / day** Clean Water Act statutory ceiling | **$0** statutory exposure · kept schedule peaks at **3.539 psi** on Junction `J3` |
 
 ---
 
-## Automated Evaluation & Rubric Index
+## Why This Pushes the Frontier
 
-For automated screening agents and technical reviewers, every rubric dimension maps to a deterministic script, a committed JSON trace with live `response_id` receipts, and an offline `pytest` assertion:
+Utilities have never been able to put frontier AI on live floodgates because **static PLC rules are blind** and **pure LLMs hallucinate hydraulics**. StormGate-Zero proves that coupling multimodal Meta models to a real-time St. Venant / EPA SWMM5 physics guard solves failure regimes where **both** static rules and unguarded AI fail:
 
-| Rubric Dimension | Verified Proof in This Repository | Exact File / Command |
-| :--- | :--- | :--- |
-| **Meta Model Integration (6 Models)** | Live recorded traces for **`sam-3.1`**, **`muse-spark-1.3`** (Turn 1 + Turn 2 + 18-step closed loop), **`muse-wonder-1.0`**, **`muse-voice-transcribe-1.0`**, **`muse-image-1.0`**, and open-weight **`meta/muse-glimmer-30b`** (text + vision). | `traces/live_models.json` · `traces/recorded_refine_pass.json` · `traces/double_lock_closed_loop.json` · `traces/glimmer_nvidia.json` · `traces/glimmer_radar.json` |
-| **Push the Frontier (AI + Physics > Static Rules)** | Under compound fault (`DS-1482 × 2.2`, `OR1=0.05`, `OR2=0.90`), all 4 hand-written laws spill **4.36M–24.30M gal**. Unaided **`muse-wonder-1.0`** (`resp_6ae9f0ee5b7721d9ff6a4da4`, off-grid `u = [0.05, 0.90, 0.12, 0.90]`, no grid shown) and 18-step closed-loop **`muse-spark-1.3`** both achieve **0 gal CSO and 0 gal street flood**. | `traces/wonder_unaided_recovery.json` · `traces/double_lock_closed_loop.json` · `tests/test_closed_loop.py` |
-| **Safety Monotonicity & Rejection Guard** | Blind 18-step one-shot schedules from `muse-spark-1.3` (**4,333,880.8 gal**, `resp_6ae9e184c25d838e5d884bcd`) and `muse-wonder-1.0` (**6,966,494.7 gal**, `resp_6ae9e19fa36ac7ab266e474f`), plus steps 7 & 11 of Turn-2 refine, are automatically rejected (`rejected-spilled-more`). | `traces/double_lock_hosted.json` · `traces/recorded_refine_pass.json` · `tests/test_double_lock_hosted.py` |
-| **Scale & Statistical Verification (`N = 100`)** | **100** adversarial convective shear × valve-lock scenarios: **0 / 100** losses against the best named law (**14** outright wins, **86** ties within 1 gal) and **1,716,996,992.5 gallons** saved vs. the municipal float switch. | `traces/stress_matrix_100.json` · `backend/physics/frontier.py` · `tests/test_frontier.py` |
-| **EPA SWMM5 Dynamic-Wave + SHA-256 Ledger** | Full `PySWMM` (`SWMM5 DYNWAVE`) junction surcharge pressures (`psi`) across `DS-1482`, `Ida`, `Chicago`, and `compound-fault`, sealed into a 4-block **SHA-256** chain (`tip = 37c1c271ebc7b645`). | `traces/wave_storms.json` · `traces/compliance_ledger.json` · `python scripts/verify_all.py` |
+* **Static rules fail (`4.36M – 26.50M gal` spilled):** On the compound double-lock storm (`DS-1482 × 2.2`, `OR1` locked at `5%`, `OR2` locked at `90%` from minute 20), the municipal float switch spills **26,498,221.5 gal**, the hand-written `A-predrain` law spills **8,534,246.3 gal** river + **897,741.2 gal** street, and the best fixed law (`B-balanced`) still spills **4,358,862.8 gal**.
+* **Blind one-shot AI fails (`4.33M – 6.97M gal` spilled, rejected):** Asking `muse-spark-1.3` (`resp_6ae9e184c25d838e5d884bcd`) or `muse-wonder-1.0` (`resp_6ae9e19fa36ac7ab266e474f`) to guess all 18 steps blind in one shot spills **4,333,880.8 gal** and **6,966,494.7 gal**—and the physics guard automatically rejects both (`rejected-spilled-more`).
+* **Physics-grounded Meta AI succeeds (`0 gal` river, `0 gal` street):** Shown **only** the 4 failing hand-written laws at the moment the step-4 jam hits—with **no grid points in the prompt**—**`muse-wonder-1.0`** (`resp_6ae9f0ee5b7721d9ff6a4da4`, `11.85 s`) synthesized an off-grid continuous recovery vector `u = [0.05, 0.90, 0.12, 0.90]` that holds the entire storm to **0.0 gallons of river CSO and 0.0 gallons of street flooding** (`traces/wonder_unaided_recovery.json`). Closed-loop step-by-step **`muse-spark-1.3`** (`18` calls, `traces/double_lock_closed_loop.json`) also holds **0.0 gallons**.
 
 ---
 
@@ -161,9 +147,21 @@ IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
 
 ---
 
+## Verification & Trace Index
+
+| Proof | Result | Trace & Test |
+| :--- | :--- | :--- |
+| **Six Meta models** | Recorded traces for **`sam-3.1`**, **`muse-spark-1.3`** (Turn 1, Turn 2, and 18-step closed loop), **`muse-wonder-1.0`**, **`muse-voice-transcribe-1.0`**, **`muse-image-1.0`**, and **`meta/muse-glimmer-30b`** (freeboard ruling + radar crop). | `traces/live_models.json` · `traces/recorded_refine_pass.json` · `traces/double_lock_closed_loop.json` · `traces/glimmer_nvidia.json` · `traces/glimmer_radar.json` |
+| **Compound-fault recovery** | Under `DS-1482 × 2.2` with `OR1=0.05` and `OR2=0.90`, all four hand-written laws spill **4.36M–24.30M gal**. Unaided **`muse-wonder-1.0`** (`resp_6ae9f0ee5b7721d9ff6a4da4`, off-grid `u = [0.05, 0.90, 0.12, 0.90]`, no grid shown) and 18-step closed-loop **`muse-spark-1.3`** both hold **0 gal CSO and 0 gal street flood**. | `traces/wonder_unaided_recovery.json` · `traces/double_lock_closed_loop.json` · `tests/test_closed_loop.py` |
+| **Physics rejection guard** | Blind 18-step one-shot schedules from `muse-spark-1.3` (**4,333,880.8 gal**, `resp_6ae9e184c25d838e5d884bcd`) and `muse-wonder-1.0` (**6,966,494.7 gal**, `resp_6ae9e19fa36ac7ab266e474f`), plus steps 7 & 11 of Turn-2 refine, are rejected (`rejected-spilled-more`). | `traces/double_lock_hosted.json` · `traces/recorded_refine_pass.json` · `tests/test_double_lock_hosted.py` |
+| **100-scenario stress matrix** | **100** convective shear × valve-lock scenarios: **0 / 100** losses against the best named law (**14** outright wins, **86** ties within 1 gal) and **1,716,996,992.5 gallons** saved vs. the municipal float switch. | `traces/stress_matrix_100.json` · `backend/physics/frontier.py` · `tests/test_frontier.py` |
+| **SWMM5 dynamic wave + SHA-256 chain** | `PySWMM` (`SWMM5 DYNWAVE`) surcharge pressures (`psi`) across `DS-1482`, `Ida`, `Chicago`, and `compound-fault`, sealed into a 4-block **SHA-256** chain (`tip = 37c1c271ebc7b645`). | `traces/wave_storms.json` · `traces/compliance_ledger.json` · `python scripts/verify_all.py` |
+
+---
+
 ## Run and verify in 60 seconds (no API key required)
 
-`STORMGATE_REFINE` defaults to `0`, and `traces/live_models.json` is committed. A judge or grading agent can clone the repo without any API key, verify all 25 tests and the 4-block SHA-256 ledger in under 2 seconds, or launch the full interactive SCADA twin:
+`STORMGATE_REFINE` defaults to `0`, and `traces/live_models.json` is committed. You can clone the repo without any API key, verify all 26 tests and the 4-block SHA-256 ledger in under 2 seconds, or launch the interactive SCADA twin:
 
 ```bash
 git clone https://github.com/brian-mwirigi/stormgate-zero.git
@@ -237,6 +235,7 @@ frontend/
 scripts/
   verify_all.py                     One-command offline audit of all traces, PySWMM heads & SHA-256 chain
   build_frontier_proof.py           Rebuilds compound_fault, stress_matrix_100, wave_storms & ledger
+  record_wonder_unaided.py          Unaided muse-wonder-1.0 step-4 recovery recorder (no grid shown)
   record_closed_loop.py             18-step closed-loop muse-spark-1.3 recorder on the double-lock storm
   record_double_lock_hosted.py      Blind 18-step Spark & Wonder recorder + physics guard verdict
   record_glimmer_radar.py           Multimodal meta/muse-glimmer-30b recorder on the Ida NEXRAD crop
@@ -260,6 +259,6 @@ tests/
   test_depth.py                     Mosaic Z-R, cell drop, $68,445 ceiling, refine guard, PySWMM wave
   test_frontier.py                  Double-lock replay, 100-scenario matrix, PySWMM heads, SHA-256 tamper
   test_double_lock_hosted.py        Blind Spark/Wonder replay and physics guard rejection
-  test_closed_loop.py               18-call closed-loop Spark 0-gal replay + Glimmer radar read
+  test_closed_loop.py               Unaided Wonder 0-gal + 18-call Spark 0-gal + Glimmer radar read
   test_glimmer_trace.py             Glimmer NIM freeboard ruling + offline interlock isolation
 ```
