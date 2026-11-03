@@ -4,14 +4,7 @@
 
 Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme: **Push the Frontier**.
 
-While benchmarked against U.S. EPA `SWMM5` networks and historical NOAA radar mosaics (Newark Ida and Chicago 2023), StormGate-Zero is jurisdiction-agnostic: any municipality worldwide running standard `SWMM5` `.inp` models and WMO-standard dBZ weather radar—from London's Thames Water and the EU's 650,000 CSO outfalls to Tokyo and Nairobi—can drop in their local basin geometry to turn static gates into predictive controllers.
-
-[![Tests](https://img.shields.io/badge/pytest-26%20passed%20(offline)-16a34a)](#run-and-verify-in-60-seconds-no-api-key-required)
-[![Meta Models](https://img.shields.io/badge/Meta%20Models-6%20Verified%20(SAM%203.1%20%C2%B7%20Spark%201.3%20%C2%B7%20Wonder%201.0%20%C2%B7%20Voice%201.0%20%C2%B7%20Image%201.0%20%C2%B7%20Glimmer%2030B)-2563eb)](#six-meta-models-on-one-causal-path)
-[![Stress Matrix](https://img.shields.io/badge/100--Scenario%20Matrix-0%20losses%20%C2%B7%201.72B%20gal%20saved-0d9488)](#where-a-named-control-law-loses)
-[![SWMM5 DYNWAVE](https://img.shields.io/badge/EPA%20SWMM5-DYNWAVE%20verified-7c3aed)](#the-scorecard)
-[![Ledger](https://img.shields.io/badge/SHA--256%20Ledger-37c1c271ebc7b645-334155)](#run-and-verify-in-60-seconds-no-api-key-required)
-[![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
+> **Not a U.S.-only system.** Newark and Chicago are the test storms. Any city with a `SWMM5` `.inp` pipe file and standard `dBZ` weather radar—London's Thames Water, the EU's 650,000 combined-sewer outfalls, Tokyo, or Nairobi—can run this same controller on its own gates.
 
 <p align="center">
   <img src="traces/nexrad/ida-2021-newark/frame_00.png" width="15%" alt="Ida 23:30 UTC" />
