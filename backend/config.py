@@ -76,8 +76,28 @@ class Settings:
         return bool(self.META_API_KEY) and not self.OFFLINE
 
     @property
+    def brev_configured(self) -> bool:
+        """True when a NVIDIA Brev OpenAI-compatible endpoint is in the environment."""
+        return bool(os.getenv("BREV_BASE_URL", "").strip()) and bool(os.getenv("BREV_API_KEY", "").strip())
+
+    @property
+    def open_weight_base_url(self) -> str:
+        brev = os.getenv("BREV_BASE_URL", "").strip().rstrip("/")
+        return brev or self.OPEN_WEIGHT_BASE_URL
+
+    @property
+    def open_weight_api_key(self) -> str:
+        return os.getenv("BREV_API_KEY", "").strip() or self.OPEN_WEIGHT_API_KEY
+
+    @property
+    def open_weight_model(self) -> str:
+        return os.getenv("BREV_MODEL", "").strip() or self.MODEL_SPARK_OPEN
+
+    @property
     def open_weight_enabled(self) -> bool:
-        return bool(self.OPEN_WEIGHT_API_KEY) and not self.OFFLINE
+        if self.OFFLINE:
+            return False
+        return self.brev_configured or bool(self.OPEN_WEIGHT_API_KEY)
 
 
 settings = Settings()

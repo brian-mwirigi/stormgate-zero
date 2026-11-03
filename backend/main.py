@@ -61,6 +61,8 @@ async def health() -> dict:
         "ok": True,
         "meta_configured": settings.meta_enabled,
         "open_weight_configured": settings.open_weight_enabled,
+        "open_weight_host": "brev" if settings.brev_configured else "partner",
+        "open_weight_model": settings.open_weight_model,
         "pyswmm": try_pyswmm_available(),
         "step": episode.sim.step_index,
         "running": episode.running,

@@ -1,0 +1,1519 @@
+{
+  "summary": {
+    "scenarios": 100,
+    "searched_beats_best_library": 14,
+    "ties_within_1_gallon": 86,
+    "library_beats_searched": 0,
+    "local_cso_minus_searched_cso_gallons": 1716996992.5,
+    "local_street_minus_searched_street_gallons": 0.0,
+    "grid": [
+      0.04,
+      0.35,
+      0.7,
+      1.0
+    ],
+    "note": "Each scenario is one shear of DS-1482 and one mechanical lock. The searched opening minimizes level-pool river spill plus street spill. The library pick is the best of A-predrain, B-balanced, C-retention, and D-bypass on that same sum."
+  },
+  "rows": [
+    {
+      "storm": 0,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14820000.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 0,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14864560.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 0,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 14039356.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 0,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15498883.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 1,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 13395004.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 1,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 13447534.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 1,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13103878.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 1,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 16684451.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 2,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14788879.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 2,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14770939.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 2,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 12648016.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 2,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 17761457.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 3,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 39053465.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 11575785.3,
+      "library_street": 0.0,
+      "searched_cso": 4535229.3,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 3,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 39097658.6,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 15434831.3,
+      "library_street": 0.0,
+      "searched_cso": 7139129.4,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 3,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 38269874.8,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 14599455.3,
+      "library_street": 0.0,
+      "searched_cso": 6331277.5,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 3,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 54749565.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 34945339.4,
+      "library_street": 0.0,
+      "searched_cso": 34945339.4,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 4,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 13815064.2,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 4,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 13859264.7,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 4,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13027735.9,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 4,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15691179.4,
+      "local_street": 7405921.6,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 7405921.6,
+      "searched_cso": 0.0,
+      "searched_street": 7405921.6
+    },
+    {
+      "storm": 5,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 13940402.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 5,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 13984963.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 5,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13566752.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 5,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 14674249.7,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 6,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 13577139.3,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 6,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 13559199.3,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 6,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 12158566.6,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 6,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 16588833.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 7,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 26423464.7,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 2040723.2,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 7,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 26467657.4,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 3355137.7,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 7,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 25639941.3,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 3355137.7,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 7,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 41350520.6,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 21897121.5,
+      "library_street": 0.0,
+      "searched_cso": 21897121.5,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 8,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 17037712.3,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 8,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 17082271.5,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 8,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 16245218.5,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 8,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15685390.9,
+      "local_street": 4816589.1,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 4816589.1,
+      "searched_cso": 0.0,
+      "searched_street": 4816589.1
+    },
+    {
+      "storm": 9,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 16384202.4,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 9,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 15884889.5,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 9,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 15625177.4,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 9,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 22846120.0,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 1579666.1,
+      "library_street": 270713.1,
+      "searched_cso": 455791.9,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 10,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14820000.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 10,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14864560.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 10,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 14039356.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 10,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15498883.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 11,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 15619851.1,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 11,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 15601144.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 11,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 14880131.1,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 11,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 27959468.6,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 9003347.3,
+      "library_street": 0.0,
+      "searched_cso": 9003347.3,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 12,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14237355.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 12,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14281915.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 12,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13444324.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 12,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15672393.6,
+      "local_street": 2262718.9,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 2262718.9,
+      "searched_cso": 0.0,
+      "searched_street": 2262718.9
+    },
+    {
+      "storm": 13,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14316018.3,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 13,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14113487.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 13,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13828913.7,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 13,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 20770653.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 339119.7,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 14,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 17215465.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 14,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 17197525.3,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 14,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13519615.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 14,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 20168238.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 15,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 16222214.0,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 15,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 16204275.6,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 15,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 15541295.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 15,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15393290.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 16,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14837590.0,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 16,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14819652.1,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 16,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 14144280.7,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 16,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15638141.0,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 17,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 15527477.1,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 17,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 15435461.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 17,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 15182022.3,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 17,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 18592613.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 18,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 15862324.0,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 18,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 15844385.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 18,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13097673.0,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 18,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 19090510.3,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 19,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 45808646.3,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 21932655.0,
+      "library_street": 0.0,
+      "searched_cso": 15636977.3,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 19,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 45853692.9,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 28069235.8,
+      "library_street": 0.0,
+      "searched_cso": 18441344.7,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 19,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 45000059.5,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 27233859.8,
+      "library_street": 0.0,
+      "searched_cso": 17394532.3,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 19,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 68162270.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 48075340.1,
+      "library_street": 0.0,
+      "searched_cso": 48075340.1,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 20,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14820000.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 20,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14864560.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 20,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 14039356.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 20,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15498883.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 21,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 13395004.5,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 21,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 13447534.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 21,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13103878.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 21,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 16684451.4,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 22,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 14788879.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 22,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 14770939.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 22,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 12648016.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 22,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 17761457.2,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 23,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 39053465.9,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 11575785.3,
+      "library_street": 0.0,
+      "searched_cso": 4535229.3,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 23,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 39097658.6,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 15434831.3,
+      "library_street": 0.0,
+      "searched_cso": 7139129.4,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 23,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 38269874.8,
+      "local_street": 0.0,
+      "library": "D-bypass",
+      "library_cso": 14599455.3,
+      "library_street": 0.0,
+      "searched_cso": 6331277.5,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 23,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 54749565.8,
+      "local_street": 0.0,
+      "library": "A-predrain",
+      "library_cso": 34945339.4,
+      "library_street": 0.0,
+      "searched_cso": 34945339.4,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 24,
+      "fault": "clean",
+      "jam_at": 99,
+      "locks": {},
+      "local_cso": 13815064.2,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 24,
+      "fault": "or2-locked-50",
+      "jam_at": 8,
+      "locks": {
+        "1": 0.5
+      },
+      "local_cso": 13859264.7,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 24,
+      "fault": "or2-open-or3-shut",
+      "jam_at": 6,
+      "locks": {
+        "1": 0.65,
+        "2": 0.05
+      },
+      "local_cso": 13027735.9,
+      "local_street": 0.0,
+      "library": "B-balanced",
+      "library_cso": 0.0,
+      "library_street": 0.0,
+      "searched_cso": 0.0,
+      "searched_street": 0.0
+    },
+    {
+      "storm": 24,
+      "fault": "or1-shut-or4-pinched",
+      "jam_at": 0,
+      "locks": {
+        "0": 0.05,
+        "3": 0.2
+      },
+      "local_cso": 15691179.4,
+      "local_street": 7405921.6,
+      "library": "A-predrain",
+      "library_cso": 0.0,
+      "library_street": 7405921.6,
+      "searched_cso": 0.0,
+      "searched_street": 7405921.6
+    }
+  ]
+}

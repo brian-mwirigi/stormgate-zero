@@ -2,6 +2,8 @@
 
 **Stop raw sewage from overflowing into city rivers during a cloudburst—using the floodgates already in the ground instead of a $300 billion concrete rebuild.**
 
+Built for the Meta Global AI Developer Hackathon, Indie Track, theme **Push the Frontier**.
+
 <p align="center">
   <img src="traces/nexrad/ida-2021-newark/frame_00.png" width="15%" alt="Ida 23:30 UTC" />
   <img src="traces/nexrad/ida-2021-newark/frame_02.png" width="15%" alt="Ida 00:00 UTC" />
@@ -36,7 +38,7 @@ StormGate-Zero replaces that blind float switch with a physics-guarded control l
 | Waits until Basin 4 hits **96% depth** to open the gate | Sees Core B on radar and **pre-drains Basin 4 to 14%** |
 | Spills **14,820,000 gallons** of raw CSO on design storm `DS-1482` | Spills **0 gallons** (and **0 gallons** when Gate #2 jams at 50%) |
 | Spills **~12.1M gal** on the Newark Ida radar mosaic & **~13.7M gal** on Chicago | Spills **0 gallons** on both radar mosaics |
-| Triggers the **$68,445 / day** Clean Water Act statutory ceiling | **$0** statutory exposure · **3.685 psi** peak `PySWMM` head at Junction `J3` |
+| Triggers the **$68,445 / day** Clean Water Act statutory ceiling | **$0** statutory exposure · kept schedule peaks at **3.539 psi** on Junction `J3` |
 
 ---
 
@@ -54,7 +56,22 @@ StormGate-Zero replaces that blind float switch with a physics-guarded control l
 * **Why the float switch is worse than leaving the gates open:** the municipal float holds OR4 at 2% until Basin 4 is at 96% of crown, then throws it to 100%. It stores the first wave and dumps the second over the river weir. Leaving every gate open lets the treatment plant pass a flatter hydrograph (~3.1M gal spilled instead of 14.82M). StormGate-Zero pre-drains Basin 4 before the second convective core arrives and holds the crest off the weir.
 * **Why the Newark 3.24 in/hr row still spills ~26.2M gal:** real tunnels have finite concrete volume. The mosaic menu plays the IEM palette rainfall, which sits below the gauge peak and holds at 0 gallons. The gauge-shaped reconstruction of Newark's published 3.24 in hour exceeds physical storage. A controller that claimed 0 gallons on that hour would be faking the mass balance.
 * **Statutory exposure:** any combined-sewer overflow above 0 gallons triggers the **40 CFR 19.4** Clean Water Act civil penalty ceiling of **$68,445 per day per violation** (33 U.S.C. 1319(d), penalties assessed on or after 8 Jan 2025). The board's *E. coli* readout dilutes a planning density of `1,000,000 CFU / 100 mL` into `10,000,000 gallons` of receiving water against the EPA 2012 beach action value (`235 CFU / 100 mL`).
-* **Dynamic-wave check:** on the finished 18-step DS-1482 schedule, `verify_dynamic_wave` runs SWMM5 `DYNWAVE` (20-second routing step). Worst node is Junction **J3 at 3.685 psi** above the crown, with 0 gallons spilled.
+* **Dynamic-wave check:** `verify_dynamic_wave` runs SWMM5 `DYNWAVE` on the committed gate schedule. The kept `muse-spark-1.3` refine schedule on DS-1482 peaks at Junction **J3, 3.539 psi** above the crown. The pure pre-drain law on that same storm peaks at **J1, 2.51 psi**. The Ida mosaic peaks at **J1, 3.338 psi**. The Chicago mosaic peaks at **J4, 1.846 psi**. The double-lock schedule below peaks at **J3, 5.306 psi**. Level-pool gallons and these heads are two different checks.
+
+## Where a named control law loses
+
+DS-1482 scaled by 2.2, with OR1 locked at 5% and OR2 locked at 90% from minute 20. A receding-horizon search over continuous openings `[OR1, OR2, OR3, OR4]` — the same kind of vector `muse-spark-1.3` is allowed to return — is scored on the level-pool plant. The four named laws are scored on that same plant. The search is not a hosted model call. The hosted calls, and the steps the physics guard rejected, stay in `traces/recorded_refine_pass.json`.
+
+| Controller | River spill | Street flood |
+| --- | ---: | ---: |
+| Municipal float switch | 26,498,221.5 gal | 0 |
+| A-predrain (the hand-written StormGate law) | 8,534,246.3 gal | 897,741.2 gal |
+| B-balanced (best of the four named laws) | 4,358,862.8 gal | 0 |
+| Searched continuous schedule | **0 gal** | **0** |
+
+Across 100 deterministic shears of DS-1482, each crossed with one of four mechanical locks, that search **never** spilled more than the best named law. It beat the best named law on **14** scenarios and tied the other **86** within a gallon. Against the float switch, the 100 tapes are **1,716,996,992.5 gallons** less river overflow. The rows, the hash chain, and the PySWMM heads are in `traces/stress_matrix_100.json`, `traces/compound_fault.json`, `traces/wave_storms.json`, and `traces/compliance_ledger.json`. Changing one gallon breaks the next SHA-256 link.
+
+Open-weight `muse-spark-open` is not called in these files. Set `BREV_BASE_URL` and `BREV_API_KEY` after the weights are up on NVIDIA Brev. Until a response comes back from that endpoint, the repo does not claim an open-weight trace.
 
 ---
 
@@ -90,7 +107,7 @@ IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
                    v                                 v
         Actuate OR1..OR4 on the plant       muse-image-1.0
         PySWMM DYNWAVE check on finish      Outfall visual twin (once)
-        J3 = 3.685 psi · 0 gal CSO          14.82M gal weir vs. dry weir
+        kept schedule J3 = 3.539 psi        14.82M gal weir vs. dry weir
 ```
 
 | Model | Endpoint | Recorded proof in `traces/` |
@@ -161,7 +178,9 @@ backend/
     storm_catalog.py                Active forcing (ds-1482, Ida, Chicago, click-to-drop 60 dBZ)
     nexrad_mosaic.py                IEM N0Q archive downloader, 0.005° world-file crop, Z-R
     swmm_engine.py                  4-basin level-pool St. Venant plant + 12 parallel rollouts
-    dynamic_wave.py                 PySWMM 2.2.0 SWMM5 DYNWAVE verification (J3 = 3.685 psi)
+    dynamic_wave.py                 PySWMM DYNWAVE heads, kept schedule J3 = 3.539 psi
+    frontier.py                     100-scenario search against the four named laws
+    compliance_ledger.py            SHA-256 chain over those measured files
     exposure.py                     33 U.S.C. 1319(d) $68,445/day ceiling + E. coli dilution
   agents/
     sam_radar_tracker.py            sam-3.1 <0f> prompt builder + <|box;...|><|mask;...|> parser

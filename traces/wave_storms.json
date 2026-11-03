@@ -1,0 +1,302 @@
+{
+  "ds-1482": {
+    "ok": true,
+    "engine": "pyswmm-dynwave",
+    "steps_commanded": 18,
+    "worst_link": "J1",
+    "worst_surcharge_ft": 5.791,
+    "worst_surcharge_m": 1.765,
+    "worst_surcharge_psi": 2.51,
+    "pipes": [
+      {
+        "link": "C1",
+        "max_depth_ft": 6.0,
+        "diameter_ft": 6.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C2",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C3",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      }
+    ],
+    "max_node_depth_ft": {
+      "SU1": 10.704,
+      "SU2": 9.564,
+      "SU3": 9.42,
+      "SU4": 14.0,
+      "J1": 13.791,
+      "J2": 13.79,
+      "J3": 13.79,
+      "J4": 15.791
+    },
+    "max_node_surcharge_ft": {
+      "SU1": 0.0,
+      "SU2": 0.0,
+      "SU3": 0.0,
+      "SU4": 0.0,
+      "J1": 5.791,
+      "J2": 5.79,
+      "J3": 5.79,
+      "J4": 5.791
+    },
+    "note": "SWMM5 dynamic wave on the verification interceptor. Not the level-pool gallon scorecard."
+  },
+  "ida-2021-newark": {
+    "ok": true,
+    "engine": "pyswmm-dynwave",
+    "steps_commanded": 18,
+    "worst_link": "J1",
+    "worst_surcharge_ft": 7.7,
+    "worst_surcharge_m": 2.347,
+    "worst_surcharge_psi": 3.338,
+    "pipes": [
+      {
+        "link": "C1",
+        "max_depth_ft": 6.0,
+        "diameter_ft": 6.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C2",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C3",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      }
+    ],
+    "max_node_depth_ft": {
+      "SU1": 11.467,
+      "SU2": 12.0,
+      "SU3": 10.398,
+      "SU4": 12.429,
+      "J1": 15.7,
+      "J2": 15.699,
+      "J3": 15.698,
+      "J4": 17.698
+    },
+    "max_node_surcharge_ft": {
+      "SU1": 0.0,
+      "SU2": 0.0,
+      "SU3": 0.0,
+      "SU4": 0.0,
+      "J1": 7.7,
+      "J2": 7.699,
+      "J3": 7.698,
+      "J4": 7.698
+    },
+    "note": "SWMM5 dynamic wave on the verification interceptor. Not the level-pool gallon scorecard.",
+    "storm": "ida-2021-newark",
+    "kind": "nexrad-mosaic"
+  },
+  "chicago-2023-0702": {
+    "ok": true,
+    "engine": "pyswmm-dynwave",
+    "steps_commanded": 18,
+    "worst_link": "J4",
+    "worst_surcharge_ft": 4.259,
+    "worst_surcharge_m": 1.298,
+    "worst_surcharge_psi": 1.846,
+    "pipes": [
+      {
+        "link": "C1",
+        "max_depth_ft": 6.0,
+        "diameter_ft": 6.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C2",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C3",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      }
+    ],
+    "max_node_depth_ft": {
+      "SU1": 8.322,
+      "SU2": 7.968,
+      "SU3": 8.342,
+      "SU4": 12.392,
+      "J1": 12.259,
+      "J2": 12.259,
+      "J3": 12.259,
+      "J4": 14.259
+    },
+    "max_node_surcharge_ft": {
+      "SU1": 0.0,
+      "SU2": 0.0,
+      "SU3": 0.0,
+      "SU4": 0.0,
+      "J1": 4.259,
+      "J2": 4.259,
+      "J3": 4.259,
+      "J4": 4.259
+    },
+    "note": "SWMM5 dynamic wave on the verification interceptor. Not the level-pool gallon scorecard.",
+    "storm": "chicago-2023-0702",
+    "kind": "nexrad-mosaic"
+  },
+  "compound-fault": {
+    "ok": true,
+    "engine": "pyswmm-dynwave",
+    "steps_commanded": 18,
+    "worst_link": "J3",
+    "worst_surcharge_ft": 12.239,
+    "worst_surcharge_m": 3.731,
+    "worst_surcharge_psi": 5.306,
+    "pipes": [
+      {
+        "link": "C1",
+        "max_depth_ft": 6.0,
+        "diameter_ft": 6.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C2",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C3",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      }
+    ],
+    "max_node_depth_ft": {
+      "SU1": 12.0,
+      "SU2": 12.0,
+      "SU3": 11.403,
+      "SU4": 14.0,
+      "J1": 17.233,
+      "J2": 16.001,
+      "J3": 20.239,
+      "J4": 19.536
+    },
+    "max_node_surcharge_ft": {
+      "SU1": 0.0,
+      "SU2": 0.0,
+      "SU3": 0.0,
+      "SU4": 0.0,
+      "J1": 9.233,
+      "J2": 8.001,
+      "J3": 12.239,
+      "J4": 9.536
+    },
+    "note": "SWMM5 dynamic wave on the verification interceptor. Not the level-pool gallon scorecard."
+  },
+  "ds-1482-kept-refine": {
+    "ok": true,
+    "engine": "pyswmm-dynwave",
+    "steps_commanded": 18,
+    "worst_link": "J3",
+    "worst_surcharge_ft": 8.163,
+    "worst_surcharge_m": 2.488,
+    "worst_surcharge_psi": 3.539,
+    "pipes": [
+      {
+        "link": "C1",
+        "max_depth_ft": 6.0,
+        "diameter_ft": 6.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C2",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      },
+      {
+        "link": "C3",
+        "max_depth_ft": 5.0,
+        "diameter_ft": 5.0,
+        "fill_ratio": 1.0,
+        "surcharge_ft": 0.0,
+        "surcharge_m": 0.0,
+        "surcharge_psi": 0.0
+      }
+    ],
+    "max_node_depth_ft": {
+      "SU1": 10.463,
+      "SU2": 9.746,
+      "SU3": 9.596,
+      "SU4": 14.0,
+      "J1": 15.867,
+      "J2": 15.5,
+      "J3": 16.163,
+      "J4": 15.878
+    },
+    "max_node_surcharge_ft": {
+      "SU1": 0.0,
+      "SU2": 0.0,
+      "SU3": 0.0,
+      "SU4": 0.0,
+      "J1": 7.867,
+      "J2": 7.5,
+      "J3": 8.163,
+      "J4": 5.878
+    },
+    "note": "SWMM5 dynamic wave on the verification interceptor. Not the level-pool gallon scorecard.",
+    "schedule": "kept refine pass"
+  }
+}

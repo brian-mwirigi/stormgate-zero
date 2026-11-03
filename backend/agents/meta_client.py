@@ -37,7 +37,7 @@ def _endpoint(open_weight: bool) -> tuple[str, str]:
     if open_weight:
         if not settings.open_weight_enabled:
             raise OfflineModelError("open-weight endpoint is not configured")
-        return settings.OPEN_WEIGHT_BASE_URL, settings.OPEN_WEIGHT_API_KEY
+        return settings.open_weight_base_url, settings.open_weight_api_key
     if not settings.meta_enabled:
         raise OfflineModelError("MODEL_API_KEY is not configured")
     return settings.META_BASE_URL, settings.META_API_KEY

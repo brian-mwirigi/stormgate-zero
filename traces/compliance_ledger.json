@@ -1,0 +1,40 @@
+[
+  {
+    "kind": "compound-fault",
+    "local_cso": 26498221.5,
+    "best_library": "B-balanced",
+    "library_cso": 4358862.8,
+    "library_street": 0.0,
+    "predrain_cso": 8534246.3,
+    "predrain_street": 897741.2,
+    "searched_cso": 0.0,
+    "searched_street": 0.0,
+    "prev": "0000000000000000000000000000000000000000000000000000000000000000",
+    "hash": "ba6f53388d0b09bc7ed4a180704c439abc2f56f7133792fd48a46d3935cfaa23"
+  },
+  {
+    "kind": "stress-matrix",
+    "scenarios": 100,
+    "searched_beats_best_library": 14,
+    "ties_within_1_gallon": 86,
+    "library_beats_searched": 0,
+    "local_cso_minus_searched_cso_gallons": 1716996992.5,
+    "prev": "ba6f53388d0b09bc7ed4a180704c439abc2f56f7133792fd48a46d3935cfaa23",
+    "hash": "bc509beee319032e3967301d3767c5d6701db444b859d39198b08ae30a2f59fa"
+  },
+  {
+    "kind": "dynamic-wave",
+    "ds1482_psi": 2.51,
+    "ds1482_node": "J1",
+    "ida_psi": 3.338,
+    "ida_ok": true,
+    "chicago_psi": 1.846,
+    "chicago_ok": true,
+    "compound_psi": 5.306,
+    "compound_ok": true,
+    "refine_kept_psi": 3.539,
+    "refine_kept_node": "J3",
+    "prev": "bc509beee319032e3967301d3767c5d6701db444b859d39198b08ae30a2f59fa",
+    "hash": "c3b36a3e59b953ef4c35ae178f5d578232deeab2847ebbe022396a2d211ca783"
+  }
+]
