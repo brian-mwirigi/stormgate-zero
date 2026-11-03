@@ -137,6 +137,12 @@ IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
         kept schedule J3 = 3.539 psi        14.82M gal weir vs. dry weir
 ```
 
+**Why one model cannot do all six jobs (measured in `traces/`):**
+* **Vision LLM vs. `sam-3.1` spatial geometry:** When we fed the Hurricane Ida radar crop (`frame_02.png`) to multimodal `meta/muse-glimmer-30b` (`8ad068e1ef1cadad`, `57.2 s`), it could only name the hottest quadrant (`SW / SU2`) and explicitly noted that *"pixelation and the lack of calibrated dBZ values limit precise pixel-level quantification."* `SWMM5` cannot integrate runoff from a quadrant label; it needs exact `<0f>` bounding boxes and RLE masks (`<|box;x1=...;y1=...|><|mask;...|>`), which only **`sam-3.1`** produces (`14.5 s` for 6 frames).
+* **Text/vision `/v1/responses` vs. `muse-voice-transcribe-1.0` diarized WAV audio:** Field crews report jammed valves over VHF radio. `/v1/responses` does not ingest raw 16 kHz PCM `audio/wav` with speaker diarization; only **`muse-voice-transcribe-1.0`** (`/v1/asr/transcribe`) turns spoken radio audio into a speaker-tagged lock (`OR2 = 0.50`).
+* **Routine step planner (`muse-spark-1.3`) vs. fault-recovery synthesizer (`muse-wonder-1.0`):** `muse-spark-1.3` drives the 5-minute step loop (`0|`..`17|`), while **`muse-wonder-1.0`** is invoked only on the beat a mechanical fault hits to synthesize an off-grid continuous recovery equilibrium (`u = [0.05, 0.90, 0.12, 0.90]` in `11.85 s`, `resp_6ae9f0ee5b7721d9ff6a4da4`) without needing a pre-solved grid.
+* **Cloud planner vs. open-weight edge safety (`meta/muse-glimmer-30b`) & visual twin (`muse-image-1.0`):** Municipal SCADA rooms require an open-weight edge model (`meta/muse-glimmer-30b`) that explains local freeboard interlock overrides without relying on the cloud planner, while only **`muse-image-1.0`** emits pixel plates (`image_generation_call`) for the outfall counterfactual.
+
 | Model | Endpoint | Recorded proof in `traces/` |
 | --- | --- | --- |
 | **`sam-3.1`** | `POST /v1/responses` | DS-1482: boxes + masks at `t=40` (`[0.3792, 0.4813, 0.5417, 0.6417]`) and `t=55` (`[0.5229, 0.6083, 0.6771, 0.7604]`) in `<0f>0<\|box;x1=…\|>` grammar. Hurricane Ida mosaic: storm boxes on **4 of 6** frames. Chicago mosaic: yellow-core boxes on **5 of 6** frames (`[12, 10, 10, 0, 2, 10]` objects). |
