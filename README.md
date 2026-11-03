@@ -4,11 +4,11 @@
 
 Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme: **Push the Frontier**.
 
-[![Tests](https://img.shields.io/badge/pytest-25%20passed%20(offline)-16a34a)](#run-and-verify-in-60-seconds-no-api-key-required)
+[![Tests](https://img.shields.io/badge/pytest-26%20passed%20(offline)-16a34a)](#run-and-verify-in-60-seconds-no-api-key-required)
 [![Meta Models](https://img.shields.io/badge/Meta%20Models-6%20Verified%20(SAM%203.1%20%C2%B7%20Spark%201.3%20%C2%B7%20Wonder%201.0%20%C2%B7%20Voice%201.0%20%C2%B7%20Image%201.0%20%C2%B7%20Glimmer%2030B)-2563eb)](#six-meta-models-on-one-causal-path)
 [![Stress Matrix](https://img.shields.io/badge/100--Scenario%20Matrix-0%20losses%20%C2%B7%201.72B%20gal%20saved-0d9488)](#where-a-named-control-law-loses)
 [![SWMM5 DYNWAVE](https://img.shields.io/badge/EPA%20SWMM5-DYNWAVE%20verified-7c3aed)](#the-scorecard)
-[![Ledger](https://img.shields.io/badge/SHA--256%20Ledger-52267088612fe036-334155)](#run-and-verify-in-60-seconds-no-api-key-required)
+[![Ledger](https://img.shields.io/badge/SHA--256%20Ledger-37c1c271ebc7b645-334155)](#run-and-verify-in-60-seconds-no-api-key-required)
 [![License: MIT](https://img.shields.io/badge/License-MIT-f59e0b)](LICENSE)
 
 <p align="center">
@@ -22,6 +22,16 @@ Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme
 <p align="center">
   <sub>Left three: IEM N0Q national mosaic over Newark during Hurricane Ida, 1–2 Sep 2021 (<code>traces/nexrad/ida-2021-newark/</code>). Right three: Chicago west side, 2 Jul 2023 (<code>traces/nexrad/chicago-2023-0702/</code>). <code>sam-3.1</code> segmented these crops in the <code>&lt;0f&gt;</code> box grammar, and <code>meta/muse-glimmer-30b</code> read <code>frame_02.png</code> directly.</sub>
 </p>
+
+---
+
+## Why This Pushes the Frontier
+
+Utilities have never been able to put frontier AI on live floodgates because **static PLC rules are blind** and **pure LLMs hallucinate hydraulics**. StormGate-Zero proves that coupling multimodal Meta models to a real-time St. Venant / EPA SWMM5 physics guard solves failure regimes where **both** static rules and unguarded AI fail:
+
+* **Static rules fail (`4.36M – 26.50M gal` spilled):** On the compound double-lock storm (`DS-1482 × 2.2`, `OR1` locked at `5%`, `OR2` locked at `90%` from minute 20), the municipal float switch spills **26,498,221.5 gal**, the hand-written `A-predrain` law spills **8,534,246.3 gal** river + **897,741.2 gal** street, and the best fixed law (`B-balanced`) still spills **4,358,862.8 gal**.
+* **Blind one-shot AI fails (`4.33M – 6.97M gal` spilled, rejected):** Asking `muse-spark-1.3` (`resp_6ae9e184c25d838e5d884bcd`) or `muse-wonder-1.0` (`resp_6ae9e19fa36ac7ab266e474f`) to guess all 18 steps blind in one shot spills **4,333,880.8 gal** and **6,966,494.7 gal**—and the physics guard automatically rejects both (`rejected-spilled-more`).
+* **Physics-grounded Meta AI succeeds (`0 gal` river, `0 gal` street):** Shown **only** the 4 failing hand-written laws at the moment the step-4 jam hits—with **no grid points in the prompt**—**`muse-wonder-1.0`** (`resp_6ae9f0ee5b7721d9ff6a4da4`, `11.85 s`) synthesized an off-grid continuous recovery vector `u = [0.05, 0.90, 0.12, 0.90]` that holds the entire storm to **0.0 gallons of river CSO and 0.0 gallons of street flooding** (`traces/wonder_unaided_recovery.json`). Closed-loop step-by-step **`muse-spark-1.3`** (`18` calls, `traces/double_lock_closed_loop.json`) also holds **0.0 gallons**.
 
 ---
 
@@ -57,10 +67,10 @@ For automated screening agents and technical reviewers, every rubric dimension m
 | Rubric Dimension | Verified Proof in This Repository | Exact File / Command |
 | :--- | :--- | :--- |
 | **Meta Model Integration (6 Models)** | Live recorded traces for **`sam-3.1`**, **`muse-spark-1.3`** (Turn 1 + Turn 2 + 18-step closed loop), **`muse-wonder-1.0`**, **`muse-voice-transcribe-1.0`**, **`muse-image-1.0`**, and open-weight **`meta/muse-glimmer-30b`** (text + vision). | `traces/live_models.json` · `traces/recorded_refine_pass.json` · `traces/double_lock_closed_loop.json` · `traces/glimmer_nvidia.json` · `traces/glimmer_radar.json` |
-| **Push the Frontier (AI + Physics > Static Rules)** | Under compound fault (`DS-1482 × 2.2`, `OR1=0.05`, `OR2=0.90`), all 4 hand-written laws spill **4.36M–24.30M gal**. Closed-loop `muse-spark-1.3` (18 step-by-step calls over the rollout surface) and the receding-horizon search achieve **0 gal CSO and 0 gal street flood**. | `traces/compound_fault.json` · `traces/double_lock_closed_loop.json` · `tests/test_closed_loop.py` |
+| **Push the Frontier (AI + Physics > Static Rules)** | Under compound fault (`DS-1482 × 2.2`, `OR1=0.05`, `OR2=0.90`), all 4 hand-written laws spill **4.36M–24.30M gal**. Unaided **`muse-wonder-1.0`** (`resp_6ae9f0ee5b7721d9ff6a4da4`, off-grid `u = [0.05, 0.90, 0.12, 0.90]`, no grid shown) and 18-step closed-loop **`muse-spark-1.3`** both achieve **0 gal CSO and 0 gal street flood**. | `traces/wonder_unaided_recovery.json` · `traces/double_lock_closed_loop.json` · `tests/test_closed_loop.py` |
 | **Safety Monotonicity & Rejection Guard** | Blind 18-step one-shot schedules from `muse-spark-1.3` (**4,333,880.8 gal**, `resp_6ae9e184c25d838e5d884bcd`) and `muse-wonder-1.0` (**6,966,494.7 gal**, `resp_6ae9e19fa36ac7ab266e474f`), plus steps 7 & 11 of Turn-2 refine, are automatically rejected (`rejected-spilled-more`). | `traces/double_lock_hosted.json` · `traces/recorded_refine_pass.json` · `tests/test_double_lock_hosted.py` |
 | **Scale & Statistical Verification (`N = 100`)** | **100** adversarial convective shear × valve-lock scenarios: **0 / 100** losses against the best named law (**14** outright wins, **86** ties within 1 gal) and **1,716,996,992.5 gallons** saved vs. the municipal float switch. | `traces/stress_matrix_100.json` · `backend/physics/frontier.py` · `tests/test_frontier.py` |
-| **EPA SWMM5 Dynamic-Wave + SHA-256 Ledger** | Full `PySWMM` (`SWMM5 DYNWAVE`) junction surcharge pressures (`psi`) across `DS-1482`, `Ida`, `Chicago`, and `compound-fault`, sealed into a 4-block **SHA-256** chain (`tip = 52267088612fe036`). | `traces/wave_storms.json` · `traces/compliance_ledger.json` · `python scripts/verify_all.py` |
+| **EPA SWMM5 Dynamic-Wave + SHA-256 Ledger** | Full `PySWMM` (`SWMM5 DYNWAVE`) junction surcharge pressures (`psi`) across `DS-1482`, `Ida`, `Chicago`, and `compound-fault`, sealed into a 4-block **SHA-256** chain (`tip = 37c1c271ebc7b645`). | `traces/wave_storms.json` · `traces/compliance_ledger.json` · `python scripts/verify_all.py` |
 
 ---
 
@@ -97,11 +107,12 @@ DS-1482 scaled by 2.2, with OR1 locked at 5% and OR2 locked at 90% from minute 2
 | B-balanced (best of the four named laws) | 4,358,862.8 gal | 0 | Best static law (`traces/compound_fault.json`) |
 | `muse-spark-1.3` blind 18-step one-shot | 4,333,880.8 gal | 0 | Beats `B-balanced` by 24,982 gal; `rejected-spilled-more` (`resp_6ae9e184c25d838e5d884bcd`) |
 | Searched continuous schedule | **0 gal** | **0** | Physics winner (`traces/compound_fault.json`) |
+| **`muse-wonder-1.0` unaided step-4 recovery (no grid shown)** | **0 gal** | **0** | **Kept** — synthesized off-grid `u = [0.05, 0.90, 0.12, 0.90]` (`resp_6ae9f0ee5b7721d9ff6a4da4`, `traces/wonder_unaided_recovery.json`) |
 | **`muse-spark-1.3` closed loop (18 step-by-step calls)** | **0 gal** | **0** | **Kept** (`resp_6ae9e477f80e73f48f264cc5` .. `resp_6ae9e54995a7cf28d83b49cc`, `traces/double_lock_closed_loop.json`) |
 
-Closed-loop `muse-spark-1.3` took one call per 5-minute step. Each call saw the remaining spill of the named laws and of the measured openings, and returned the lowest opening. All 18 calls returned a vector, from `resp_6ae9e477f80e73f48f264cc5` through `resp_6ae9e54995a7cf28d83b49cc`. Replaying those 18 vectors spills **0 gal** river and **0** street. A single blind 18-row guess from the same model beats `B-balanced` by **24,982 gal** (`4,333,880.8 gal`), and the physics guard still rejects it because the closed-loop search holds **0 gal** (`traces/double_lock_hosted.json`).
+At step 4 (minute 20), `muse-wonder-1.0` was given **only** the four failing hand-written laws (`A-predrain` through `D-bypass`) and their gallon scores—with **no grid points in the prompt**. Wonder (`resp_6ae9f0ee5b7721d9ff6a4da4`, 11.85 s) synthesized the off-grid recovery vector `u = [0.05, 0.90, 0.12, 0.90]` (*"Hold back SU3 with OR3=0.12 to buffer the stuck-open OR2 inflow without flooding SU3. Drain SU4 aggressively with OR4=0.90 to create downstream capacity and route stored flow to treatment, eliminating both CSO and street flooding."*), which replays to **0.0 gal** river and **0.0 gal** street (`traces/wonder_unaided_recovery.json`). Closed-loop `muse-spark-1.3` also took one call per 5-minute step (`resp_6ae9e477f80e73f48f264cc5` through `resp_6ae9e54995a7cf28d83b49cc`) and replays to **0 gal** (`traces/double_lock_closed_loop.json`). A single blind 18-row guess from Spark beats `B-balanced` by **24,982 gal** (`4,333,880.8 gal`), and the physics guard still rejects it (`traces/double_lock_hosted.json`).
 
-Across 100 deterministic shears of DS-1482, each crossed with one of four mechanical locks, that search **never** spilled more than the best named law. It beat the best named law on **14** scenarios and tied the other **86** within a gallon. Against the float switch, the 100 tapes are **1,716,996,992.5 gallons** less river overflow. The rows, the hash chain, and the PySWMM heads are in `traces/stress_matrix_100.json`, `traces/compound_fault.json`, `traces/wave_storms.json`, and `traces/compliance_ledger.json` (4 blocks, tip `52267088612fe036`). Changing one gallon breaks the next SHA-256 link.
+Across 100 deterministic shears of DS-1482, each crossed with one of four mechanical locks, that search **never** spilled more than the best named law. It beat the best named law on **14** scenarios and tied the other **86** within a gallon. Against the float switch, the 100 tapes are **1,716,996,992.5 gallons** less river overflow. The rows, the hash chain, and the PySWMM heads are in `traces/stress_matrix_100.json`, `traces/compound_fault.json`, `traces/wave_storms.json`, and `traces/compliance_ledger.json` (4 blocks, tip `37c1c271ebc7b645`). Changing one gallon breaks the next SHA-256 link.
 
 Open-weight `muse-spark-open` is not called in these files. Set `BREV_BASE_URL` and `BREV_API_KEY` after the weights are up on NVIDIA Brev. Until a response comes back from that endpoint, the repo does not claim a `muse-spark-open` trace.
 
@@ -148,7 +159,7 @@ IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
 | --- | --- | --- |
 | **`sam-3.1`** | `POST /v1/responses` | DS-1482: boxes + masks at `t=40` (`[0.3792, 0.4813, 0.5417, 0.6417]`) and `t=55` (`[0.5229, 0.6083, 0.6771, 0.7604]`) in `<0f>0<\|box;x1=…\|>` grammar. Hurricane Ida mosaic: storm boxes on **4 of 6** frames. Chicago mosaic: yellow-core boxes on **5 of 6** frames (`[12, 10, 10, 0, 2, 10]` objects). |
 | **`muse-spark-1.3`** | `POST /v1/responses` | On the double-lock tape, 18 closed-loop calls each returned the lowest measured opening. Replaying them spills **0 gal** against **4,358,862.8 gal** for the best named law (`traces/double_lock_closed_loop.json`, `resp_6ae9e477f80e73f48f264cc5` … `resp_6ae9e54995a7cf28d83b49cc`). A blind 18-row guess from the same model spills 4,333,880.8 gal. DS-1482 turn-1 keys `0\|`..`17\|` and the refine pass (**15 kept, 2 rejected, 1 null**) stay in `traces/recorded_refine_pass.json`. |
-| **`muse-wonder-1.0`** | `POST /v1/responses` | Fired on the step-8 mechanical jam with `reasoning.effort = "low"`. Returned `u = [0.04, 0.50, 0.04, 0.6209]` (`resp_6ae9adeac24e0d3e800f40f3`, `6.50 s`), holding `OR2` at the lock and opening `OR4` to `0.6209`. Also scored on the blind double-lock tape (`resp_6ae9e19fa36ac7ab266e474f`). |
+| **`muse-wonder-1.0`** | `POST /v1/responses` | On the step-4 compound double lock (`OR1=0.05, OR2=0.90`, no grid shown), synthesized off-grid `u = [0.05, 0.90, 0.12, 0.90]` (`resp_6ae9f0ee5b7721d9ff6a4da4`, `11.85 s`), cutting spill from `4.36M gal` (best static law) to **0.0 gal** (`traces/wonder_unaided_recovery.json`). On the DS-1482 step-8 jam, returned `u = [0.04, 0.50, 0.04, 0.6209]` (`resp_6ae9adeac24e0d3e800f40f3`, `6.50 s`). |
 | **`muse-voice-transcribe-1.0`** | `POST /v1/asr/transcribe` | Multipart `request` + 16 kHz mono WAV `audio` (`audioEncoding: "WAV"`, `mode: "DIARIZATION"`). Transcribed: *"Operator 4, Sluicegate 2 is mechanically jammed at 50% open."* Parser locks `OR2 = 0.50`. |
 | **`muse-image-1.0`** | `POST /v1/responses` | Rendered the side-by-side outfall plate once (`image_generation_call` WebP converted to PNG and locked behind `data/outfall/.muse_spent` so loops never re-bill). |
 | **`meta/muse-glimmer-30b` + local freeboard interlock** | Python on every step (`glimmer_edge_guard.py`) + `meta/muse-glimmer-30b` on NVIDIA's free catalog (`POST https://integrate.api.nvidia.com/v1/chat/completions`) | If `depth > 92%`, `inflow > 35 mm/hr`, and a gate is pinched below `25%`, Python forces it to `60%` unless mechanically jammed. Above `97%` depth, Python forces `100%`. On a proposed `[0.10, 0.40, 0.40, 0.62]` with SU1 at 95% and 48 mm/hr, Python set `[0.60, 0.40, 0.40, 0.62]` before the model was asked to speak. Glimmer's finished reply (`bd76ae3ac432bcce`, 13.4 s, 848 tokens): *"The requested action is not approved. SU1 is at 95% depth with 48 mm/hr rain inbound and the downstream gate is below 25%, so OR1 is being forced to 60% to protect upstream freeboard."* On the Ida crop `traces/nexrad/ida-2021-newark/frame_02.png` (00:00 UTC 2 Sep 2021), the same model read the image and named the SW quadrant, basin SU2 (`8ad068e1ef1cadad`, 1,610 tokens). The mosaic quadrant rates on that frame are SU1 14.40, SU2 28.08, SU3 9.28, SU4 8.55 mm/hr. Saved in `traces/glimmer_nvidia.json` and `traces/glimmer_radar.json`. `api.meta.ai` still returns `model_not_found` for this model, and `muse-spark-open` is still not called. |
@@ -186,7 +197,7 @@ npm install
 npm run dev
 ```
 
-**`25 passed`**, offline (`STORMGATE_OFFLINE=1` in `tests/conftest.py`). The test suite locks:
+**`26 passed`**, offline (`STORMGATE_OFFLINE=1` in `tests/conftest.py`). The test suite locks:
 1. `14,820,000 gal` float-rule spill on DS-1482 (`tests/test_hydraulics.py`).
 2. `0 gal` StormGate-Zero spill on DS-1482, both clean and with `OR2` jammed at `0.50` (`tests/test_hydraulics.py`).
 3. All-gates-open spilling less than the float switch, and pre-drain ranking ahead of balanced/retention/bypass (`tests/test_hydraulics.py`).
@@ -194,7 +205,7 @@ npm run dev
 5. IEM N0Q palette anchors (`index 150 → 45 dBZ`, `index 170 → 55 dBZ`), live 60-dBZ cell drop, `$68,445` statutory ceiling, `keep_refinement` guard, and `PySWMM` dynamic-wave verification (`tests/test_depth.py`).
 6. Double-lock compound fault replay (`0 gal` vs `4.36M gal` best static law), 100-scenario stress matrix (`14` wins, `86` ties, `0` losses), `PySWMM` surcharge heads on `DS-1482`, `Ida`, `Chicago`, and `compound-fault`, and tamper detection on the 4-block SHA-256 compliance ledger (`tests/test_frontier.py`).
 7. Hosted `muse-spark-1.3` (`4,333,880.8 gal`) and `muse-wonder-1.0` (`6,966,494.7 gal`) blind 18-step schedule scoring and physics rejection (`tests/test_double_lock_hosted.py`).
-8. Closed-loop `muse-spark-1.3` 18-call zero-spill replay (`resp_6ae9e477f80e73f48f264cc5` .. `resp_6ae9e54995a7cf28d83b49cc`) and `meta/muse-glimmer-30b` Hurricane Ida radar quadrant identification (`tests/test_closed_loop.py`).
+8. Unaided `muse-wonder-1.0` off-grid recovery (`u = [0.05, 0.90, 0.12, 0.90]`, `resp_6ae9f0ee5b7721d9ff6a4da4`, `0 gal`), closed-loop `muse-spark-1.3` 18-call zero-spill replay (`resp_6ae9e477f80e73f48f264cc5` .. `resp_6ae9e54995a7cf28d83b49cc`), and `meta/muse-glimmer-30b` Hurricane Ida radar quadrant identification (`tests/test_closed_loop.py`).
 9. `meta/muse-glimmer-30b` freeboard interlock phrasing (`bd76ae3ac432bcce`) and offline invariant isolation (`tests/test_glimmer_trace.py`).
 
 ---
@@ -235,8 +246,9 @@ scripts/
   record_double_lock_hosted.py      Blind 18-step Spark & Wonder recorder + physics guard verdict
   record_glimmer_radar.py           Multimodal meta/muse-glimmer-30b recorder on the Ida NEXRAD crop
 traces/
-  compliance_ledger.json            4-block SHA-256 chain (tip 52267088612fe036)
+  compliance_ledger.json            4-block SHA-256 chain (tip 37c1c271ebc7b645)
   compound_fault.json               Double-lock schedules and gallon scores
+  wonder_unaided_recovery.json      Unaided muse-wonder-1.0 off-grid [0.05,0.90,0.12,0.90] -> 0 gal
   double_lock_closed_loop.json      18 closed-loop muse-spark-1.3 responses replaying to 0 gal
   double_lock_hosted.json           Blind 18-step Spark & Wonder responses rejected by physics
   glimmer_nvidia.json               meta/muse-glimmer-30b freeboard ruling (bd76ae3ac432bcce)

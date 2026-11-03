@@ -100,6 +100,7 @@ def main() -> None:
 
     closed = json.loads((TRACE / "double_lock_closed_loop.json").read_text(encoding="utf-8"))
     hosted_blind = json.loads((TRACE / "double_lock_hosted.json").read_text(encoding="utf-8"))
+    wonder_unaided = json.loads((TRACE / "wonder_unaided_recovery.json").read_text(encoding="utf-8"))
     glimmer_nv = json.loads((TRACE / "glimmer_nvidia.json").read_text(encoding="utf-8"))
     glimmer_rad = json.loads((TRACE / "glimmer_radar.json").read_text(encoding="utf-8"))
     glimmer_rad_parsed = json.loads(glimmer_rad["content"])
@@ -152,6 +153,10 @@ def main() -> None:
             "blind_wonder_id": hosted_blind["wonder"]["response_id"],
             "blind_wonder_cso": hosted_blind["wonder_play"]["cso_gallons"],
             "blind_wonder_verdict": hosted_blind["wonder_verdict"],
+            "wonder_unaided_id": wonder_unaided["response_id"],
+            "wonder_unaided_u": wonder_unaided["proposed_u"],
+            "wonder_unaided_cso": wonder_unaided["cso_gallons"],
+            "wonder_unaided_street": wonder_unaided["street_gallons"],
             "glimmer_model": glimmer_nv["model"],
             "glimmer_freeboard_id": glimmer_nv["response_id"],
             "glimmer_safe_action": glimmer_nv["safe_action"],

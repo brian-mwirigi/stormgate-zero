@@ -1,0 +1,157 @@
+{
+  "rain": "DS-1482 runoff x 2.2 on every basin",
+  "locks": {
+    "OR1": 0.05,
+    "OR2": 0.9
+  },
+  "jam_at_step": 4,
+  "grid_shown_in_prompt": false,
+  "model": "muse-wonder-1.0",
+  "response_id": "resp_6ae9f0ee5b7721d9ff6a4da4",
+  "latency_ms": 11852.4,
+  "depth_at_jam": [
+    0.702,
+    0.553,
+    0.494,
+    0.564
+  ],
+  "named_laws": {
+    "A-predrain": {
+      "cso_gallons": 8534246.3,
+      "street_gallons": 897741.2
+    },
+    "B-balanced": {
+      "cso_gallons": 4358862.8,
+      "street_gallons": 0.0
+    },
+    "C-retention": {
+      "cso_gallons": 24303980.4,
+      "street_gallons": 1096811.6
+    },
+    "D-bypass": {
+      "cso_gallons": 4531586.3,
+      "street_gallons": 0.0
+    }
+  },
+  "proposed_u": [
+    0.05,
+    0.9,
+    0.12,
+    0.9
+  ],
+  "recovery_note": "Hold back SU3 with OR3=0.12 to buffer the stuck-open OR2 inflow without flooding SU3. Drain SU4 aggressively with OR4=0.90 to create downstream capacity and route stored flow to treatment, eliminating both CSO and street flooding.",
+  "cso_gallons": 0.0,
+  "street_gallons": 0.0,
+  "replay_cso_gallons": 0.0,
+  "replay_street_gallons": 0.0,
+  "orifice": [
+    [
+      0.45,
+      0.42,
+      0.4,
+      0.62
+    ],
+    [
+      0.45,
+      0.42,
+      0.4,
+      0.62
+    ],
+    [
+      0.45,
+      0.42,
+      0.4,
+      0.62
+    ],
+    [
+      0.45,
+      0.42,
+      0.4,
+      0.62
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ]
+  ]
+}

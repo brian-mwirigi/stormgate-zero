@@ -28,6 +28,7 @@ def main() -> None:
     compound = json.loads((TRACE / "compound_fault.json").read_text(encoding="utf-8"))
     closed = json.loads((TRACE / "double_lock_closed_loop.json").read_text(encoding="utf-8"))
     blind = json.loads((TRACE / "double_lock_hosted.json").read_text(encoding="utf-8"))
+    unaided = json.loads((TRACE / "wonder_unaided_recovery.json").read_text(encoding="utf-8"))
     matrix = json.loads((TRACE / "stress_matrix_100.json").read_text(encoding="utf-8"))
     waves = json.loads((TRACE / "wave_storms.json").read_text(encoding="utf-8"))
     glimmer_nv = json.loads((TRACE / "glimmer_nvidia.json").read_text(encoding="utf-8"))
@@ -38,6 +39,7 @@ def main() -> None:
     closed_replay = replay(rain, [step["applied"] for step in closed["steps"]], HEADLINE_LOCKS, HEADLINE_JAM_AT)
     spark_blind_replay = replay(rain, blind["spark_play"]["orifice"], HEADLINE_LOCKS, HEADLINE_JAM_AT)
     wonder_blind_replay = replay(rain, blind["wonder_play"]["orifice"], HEADLINE_LOCKS, HEADLINE_JAM_AT)
+    wonder_unaided_replay = replay(rain, unaided["orifice"], HEADLINE_LOCKS, HEADLINE_JAM_AT)
     ruling = local_interlock(glimmer_nv["proposed_action"], glimmer_nv["depth"], glimmer_nv["rain_mmhr"])
 
     assert abs(local_ep["cso_gallons"] - 14_820_000.0) < 1.0
@@ -45,6 +47,8 @@ def main() -> None:
     assert sg_jam["cso_gallons"] == 0.0
     assert closed_replay["cso_gallons"] == 0.0
     assert closed_replay["street_gallons"] == 0.0
+    assert wonder_unaided_replay["cso_gallons"] == 0.0
+    assert wonder_unaided_replay["street_gallons"] == 0.0
     assert spark_blind_replay["cso_gallons"] == 4_333_880.8
     assert wonder_blind_replay["cso_gallons"] == 6_966_494.7
     assert ruling["safe_action"] == glimmer_nv["safe_action"]
@@ -72,6 +76,11 @@ def main() -> None:
     print(
         f"   muse-wonder-1.0 blind 18-step : {wonder_blind_replay['cso_gallons']:>13,.1f} gal CSO"
         f" ({blind['wonder']['response_id']} -> {blind['wonder_verdict']})"
+    )
+    print(
+        f"   muse-wonder-1.0 unaided step4 : {wonder_unaided_replay['cso_gallons']:>13,.1f} gal CSO"
+        f" + {wonder_unaided_replay['street_gallons']:,.1f} gal street"
+        f" ({unaided['response_id']}, u={unaided['proposed_u']}, no grid shown)"
     )
     print(
         f"   muse-spark-1.3 closed-loop    : {closed_replay['cso_gallons']:>13,.1f} gal CSO"

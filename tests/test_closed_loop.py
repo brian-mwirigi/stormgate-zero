@@ -34,6 +34,22 @@ def test_closed_loop_spark_schedule_holds_at_zero():
     assert "LLM_" not in raw
 
 
+UNAIDED = ROOT / "traces" / "wonder_unaided_recovery.json"
+
+
+def test_unaided_wonder_off_grid_vector_holds_at_zero():
+    payload = json.loads(UNAIDED.read_text(encoding="utf-8"))
+    assert payload["grid_shown_in_prompt"] is False
+    assert payload["response_id"] == "resp_6ae9f0ee5b7721d9ff6a4da4"
+    assert payload["proposed_u"] == [0.05, 0.9, 0.12, 0.9]
+    scored = replay(headline_rain(), payload["orifice"], HEADLINE_LOCKS, HEADLINE_JAM_AT)
+    assert scored["cso_gallons"] == 0.0
+    assert scored["street_gallons"] == 0.0
+    raw = UNAIDED.read_text(encoding="utf-8")
+    assert "nvapi-" not in raw
+    assert "LLM_" not in raw
+
+
 def test_glimmer_named_the_heaviest_ida_quadrant():
     payload = json.loads(RADAR.read_text(encoding="utf-8"))
     parsed = json.loads(payload["content"])

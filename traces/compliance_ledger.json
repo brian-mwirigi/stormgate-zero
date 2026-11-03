@@ -61,7 +61,16 @@
     ],
     "glimmer_radar_id": "8ad068e1ef1cadad",
     "glimmer_radar_basin": "SU2",
+    "wonder_unaided_id": "resp_6ae9f0ee5b7721d9ff6a4da4",
+    "wonder_unaided_u": [
+      0.05,
+      0.9,
+      0.12,
+      0.9
+    ],
+    "wonder_unaided_cso": 0.0,
+    "wonder_unaided_street": 0.0,
     "prev": "c3b36a3e59b953ef4c35ae178f5d578232deeab2847ebbe022396a2d211ca783",
-    "hash": "52267088612fe0360dbf288fc2657b5860b92705953891b280bafae86013abec"
+    "hash": "37c1c271ebc7b64509e863e916a8c488b9586714a02aafddde236d5020248716"
   }
 ]
