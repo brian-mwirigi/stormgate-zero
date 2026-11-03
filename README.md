@@ -78,9 +78,9 @@ Utilities have never been able to put frontier AI on live floodgates because **s
 
 ---
 
-## The storm the fixed gate rules cannot hold
+## Double-lock fault test: static rules spill 4.36M+ gal, StormGate-Zero holds 0
 
-This is one harder storm, not a new city. Design storm DS-1482 is scaled to 2.2 times its rainfall, and from minute 20 gate OR1 is stuck at 5% open and gate OR2 is stuck at 90% open. Every gate rule written in advance still overflows: `A-predrain` spills **8,534,246.3 gal** to the river and **897,741.2 gal** into the street; `B-balanced`, the best of those fixed rules, still spills **4,358,862.8 gal**. The table ranks every controller on that same storm, worst spill first.
+This is one harder storm, not a new city. Design storm DS-1482 is scaled to 2.2 times its rainfall, and from minute 20 gate OR1 is stuck at 5% open and gate OR2 is stuck at 90% open. Every fixed gate rule written in advance overflows (`A-predrain` spills **8,534,246.3 gal** to the river and **897,741.2 gal** into the street; `B-balanced`, the best fixed rule, still spills **4,358,862.8 gal**), while StormGate-Zero holds **0 gallons**. The table ranks every controller on that same storm, worst spill first.
 
 | Controller | River spill | Street flood | Verdict / Trace |
 | --- | ---: | ---: | --- |
