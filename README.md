@@ -15,7 +15,7 @@ Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme
   <img src="traces/nexrad/chicago-2023-0702/frame_02.png" width="15%" alt="Chicago 22:00 UTC" />
 </p>
 <p align="center">
-  <sub>Left three: IEM N0Q national mosaic over Newark during Hurricane Ida, 1–2 Sep 2021 (<code>traces/nexrad/ida-2021-newark/</code>). Right three: Chicago west side, 2 Jul 2023 (<code>traces/nexrad/chicago-2023-0702/</code>). <code>sam-3.1</code> segmented these crops in the <code>&lt;0f&gt;</code> box grammar, and <code>meta/muse-glimmer-30b</code> read <code>frame_02.png</code> directly.</sub>
+  <sub><b>Real NEXRAD <code>N0Q</code> radar mosaics (not painted by the app):</b> Left three: Hurricane Ida over Newark, 23:30–00:45 UTC 1–2 Sep 2021 (<code>traces/nexrad/ida-2021-newark/</code>) — municipal float switch spills <b>12,096,528 gal</b> vs StormGate-Zero <b>0 gal</b> (<code>J1 3.338 psi</code>). Right three: Chicago west side, 21:00–23:30 UTC 2 Jul 2023 (<code>traces/nexrad/chicago-2023-0702/</code>) — float switch spills <b>13,673,729 gal</b> vs StormGate-Zero <b>0 gal</b> (<code>J4 1.846 psi</code>). <code>sam-3.1</code> segmented both events in the <code>&lt;0f&gt;</code> box grammar (<code>traces/live_models.json → sam_events</code>), <code>meta/muse-glimmer-30b</code> read <code>frame_02.png</code> directly (<code>8ad068e1ef1cadad</code> → SW / <code>SU2</code>, <code>traces/glimmer_radar.json</code>), and basin rainfall is integrated directly from the radar pixels via Marshall-Palmer.</sub>
 </p>
 
 ---

@@ -1,14 +1,9 @@
 import { useRef, useState } from "react";
 import type { TwinState } from "../types";
 
-type Props = {
-  state: TwinState;
-  onOutfall: () => void;
-  onReset: () => void;
-  onToggle: () => void;
-};
+type Props = { state: TwinState };
 
-export default function VoiceWarRoom({ state, onOutfall, onReset, onToggle }: Props) {
+export default function VoiceWarRoom({ state }: Props) {
   const [listening, setListening] = useState(false);
   const [hint, setHint] = useState("");
   const recorder = useRef<MediaRecorder | null>(null);
@@ -52,64 +47,66 @@ export default function VoiceWarRoom({ state, onOutfall, onReset, onToggle }: Pr
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: spoken.current }),
           });
-          setHint("Muse Voice offline — browser transcript parsed.");
+          setHint("Muse Voice was unreachable, so the browser transcript was parsed instead.");
         } else if (!payload.ok) {
-          setHint(payload.detail || "No transcript. Use the jam injector.");
+          setHint(payload.detail || "No transcript came back. Use the jam button instead.");
         } else {
-          setHint("Muse Voice Transcribe applied.");
+          setHint("Transcribed by Muse Voice and applied to the plant.");
         }
       };
       recorder.current = media;
       media.start();
       setListening(true);
-      setHint("Listening. State the gate, the fault, and the percent.");
+      setHint("Listening for 6 seconds. Say the gate, the fault, and the percent.");
       window.setTimeout(() => {
         if (media.state === "recording") media.stop();
         setListening(false);
       }, 6000);
     } catch {
-      setHint("Microphone blocked. The jam injector still parses a radio call.");
+      setHint("The microphone is blocked. The jam button sends the same radio call.");
       setListening(false);
     }
   }
 
+  const empty = state.transcript.length === 0 && state.faults.length === 0;
+
   return (
-    <div className="sg-bar-bottom">
-      <button className="sg-btn primary" onClick={toggleMic} type="button">
-        {listening ? "● Listening…" : "🎙️ Live SCADA Voice Override"}
-      </button>
-      <button
-        className="sg-btn danger"
-        type="button"
-        onClick={() => fetch("/api/fault", { method: "POST" })}
-      >
-        ⚠️ Inject Gate #2 Mechanical Jam (50%)
-      </button>
-      <button className="sg-btn" type="button" onClick={onOutfall}>
-        🖼️ Render Outfall Visual Twin
-      </button>
-      <button className="sg-btn" type="button" onClick={onToggle}>
-        {state.running ? "Pause" : state.done ? "Replay" : "Run"}
-      </button>
-      <button className="sg-btn" type="button" onClick={onReset}>
-        Reset storm
-      </button>
-      <div className="sg-transcript">
-        {state.transcript.length === 0 && <p>War room quiet. {hint}</p>}
+    <section className="panel">
+      <div className="panel-head">
+        <h2>Field radio</h2>
+        <span>a crew reports a stuck gate</span>
+      </div>
+      <div className="radio-actions">
+        <button className={listening ? "btn rec" : "btn"} onClick={toggleMic} type="button">
+          <i className="dot" />
+          {listening ? "Listening…" : "Talk to the controller"}
+        </button>
+        <button className="btn fault" type="button" onClick={() => fetch("/api/fault", { method: "POST" })}>
+          Jam gate OR2 at 50%
+        </button>
+      </div>
+      <div className="log">
+        {empty && (
+          <p className="empty">
+            Quiet. Press <b>Jam gate OR2 at 50%</b> mid-storm, or say “Sluice gate 2 is jammed at 50 percent.”
+          </p>
+        )}
         {state.transcript.map((turn, index) => (
           <p key={`${turn.speaker}-${index}`}>
-            <b>
-              {turn.speaker} [{turn.role}]
-            </b>{" "}
+            <span className="who">
+              {turn.speaker} · {turn.role}
+              {turn.t_min !== undefined ? ` · T+${turn.t_min} min` : ""}
+            </span>
             {turn.text}
           </p>
         ))}
         {state.faults.map((fault, index) => (
-          <p key={`f-${index}`} style={{ color: "#ff3355" }}>
-            FAULT {fault.orifice_id} locked at {Math.round((fault.locked_setting || 0) * 100)}%
+          <p key={`f-${index}`} className="fault-line">
+            {fault.orifice_id} locked at {Math.round((fault.locked_setting || 0) * 100)}%. Every plan now routes around it.
           </p>
         ))}
+        {hint && <p className="empty">{hint}</p>}
       </div>
-    </div>
+    </section>
   );
 }
