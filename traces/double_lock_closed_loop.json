@@ -1,0 +1,1778 @@
+{
+  "rain": "DS-1482 runoff x 2.2 on every basin",
+  "locks": {
+    "OR1": 0.05,
+    "OR2": 0.9
+  },
+  "jam_at_step": 4,
+  "model": "muse-spark-1.3",
+  "cso_gallons": 0.0,
+  "street_gallons": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "depth": [
+        0.72,
+        0.64,
+        0.68,
+        0.81
+      ],
+      "best_probe_u": [
+        0.7,
+        1.0,
+        1.0,
+        0.7
+      ],
+      "best_probe_gal": 6810030.3,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.04,
+            0.04,
+            0.04,
+            0.6209
+          ],
+          "remaining_gal": 9431987.5
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.45,
+            0.42,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 10713208.7
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.08,
+            0.08,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 11963897.7
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7846670.6
+        },
+        {
+          "name": "local",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 13772708.6
+        },
+        {
+          "name": "open",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7846670.6
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e477f80e73f48f264cc5",
+        "latency_ms": 13500.5,
+        "excerpt": "{\"u\": [0.7, 1.0, 1.0, 0.7]}",
+        "u": [
+          0.7,
+          1.0,
+          1.0,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 6810030.3,
+      "applied": [
+        0.7,
+        1.0,
+        1.0,
+        0.7
+      ]
+    },
+    {
+      "step": 1,
+      "depth": [
+        0.603,
+        0.468,
+        0.496,
+        0.933
+      ],
+      "best_probe_u": [
+        1.0,
+        0.35,
+        1.0,
+        0.7
+      ],
+      "best_probe_gal": 6285627.9,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.04,
+            0.04,
+            0.04,
+            0.5786
+          ],
+          "remaining_gal": 6810030.3
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.45,
+            0.42,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 8684525.3
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.08,
+            0.08,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 9412595.9
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 9347735.2
+        },
+        {
+          "name": "local",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 15259341.8
+        },
+        {
+          "name": "open",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 9347735.2
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e47e743251a6240f4904",
+        "latency_ms": 6657.0,
+        "excerpt": "{\"u\": [1.0, 0.35, 1.0, 0.7]}",
+        "u": [
+          1.0,
+          0.35,
+          1.0,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 6285627.9,
+      "applied": [
+        1.0,
+        0.35,
+        1.0,
+        0.7
+      ]
+    },
+    {
+      "step": 2,
+      "depth": [
+        0.493,
+        0.441,
+        0.349,
+        0.982
+      ],
+      "best_probe_u": [
+        0.04,
+        0.04,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 6285627.9,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.04,
+            0.04,
+            0.04,
+            0.564
+          ],
+          "remaining_gal": 6285627.9
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.45,
+            0.42,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 8050737.4
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.08,
+            0.08,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 8878942.6
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 9260435.2
+        },
+        {
+          "name": "local",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 9260435.2
+        },
+        {
+          "name": "open",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 9260435.2
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e488723e97be62464a32",
+        "latency_ms": 9569.1,
+        "excerpt": "{\"u\": [0.04, 0.04, 0.04, 0.7]}",
+        "u": [
+          0.04,
+          0.04,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 6285627.9,
+      "applied": [
+        0.04,
+        0.04,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 3,
+      "depth": [
+        0.611,
+        0.499,
+        0.375,
+        0.749
+      ],
+      "best_probe_u": [
+        0.7,
+        1.0,
+        0.04,
+        0.35
+      ],
+      "best_probe_gal": 5220867.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.04,
+            0.04,
+            0.04,
+            0.6456
+          ],
+          "remaining_gal": 6285627.9
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.45,
+            0.42,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 8004542.7
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.08,
+            0.08,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 8874969.9
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 5587664.5
+        },
+        {
+          "name": "local",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 10149006.1
+        },
+        {
+          "name": "open",
+          "u": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 5587664.5
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4918e563a7334a943bd",
+        "latency_ms": 8985.6,
+        "excerpt": "{\"u\": [0.7, 1.0, 0.04, 0.35]}",
+        "u": [
+          0.7,
+          1.0,
+          0.04,
+          0.35
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 5220867.0,
+      "applied": [
+        0.7,
+        1.0,
+        0.04,
+        0.35
+      ]
+    },
+    {
+      "step": 4,
+      "depth": [
+        0.592,
+        0.434,
+        0.413,
+        0.835
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 5220867.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.6116
+          ],
+          "remaining_gal": 5221063.5
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 6102338.4
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 7684388.9
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7015981.7
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7428648.5
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7015981.7
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e49a193f0900aabe4f33",
+        "latency_ms": 9042.2,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.7]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 5220867.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 5,
+      "depth": [
+        0.647,
+        0.387,
+        0.459,
+        0.696
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 5220867.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.0071
+          ],
+          "remaining_gal": 5220415.6
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 6612185.6
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 7684183.0
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7008928.4
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7008928.4
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7008928.4
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4a9b9d9a041909943b0",
+        "latency_ms": 14843.6,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.7]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 5220867.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 6,
+      "depth": [
+        0.67,
+        0.311,
+        0.488,
+        0.556
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        1.0,
+        0.35
+      ],
+      "best_probe_gal": 5010840.3,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.0079
+          ],
+          "remaining_gal": 5220769.3
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 7249858.0
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 7684047.5
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7592194.5
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7004206.5
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7592194.5
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4b079495fbecad8407f",
+        "latency_ms": 6236.5,
+        "excerpt": "{\"u\": [0.05, 0.9, 1.0, 0.35]}",
+        "u": [
+          0.05,
+          0.9,
+          1.0,
+          0.35
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 5010840.3,
+      "applied": [
+        0.05,
+        0.9,
+        1.0,
+        0.35
+      ]
+    },
+    {
+      "step": 7,
+      "depth": [
+        0.678,
+        0.223,
+        0.342,
+        0.668
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 5010840.3,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.0072
+          ],
+          "remaining_gal": 5010823.1
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 6395821.4
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 7588493.6
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7173502.4
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7058867.1
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 7173502.4
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4c1fbcec99d8ab14e6b",
+        "latency_ms": 17287.4,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.7]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 5010840.3,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 8,
+      "depth": [
+        0.679,
+        0.138,
+        0.347,
+        0.541
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        1.0
+      ],
+      "best_probe_gal": 2571199.9,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.008
+          ],
+          "remaining_gal": 5010843.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 4525750.1
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 4839884.4
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 4763225.2
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7112287.1
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 4763225.2
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4c775888e20904e4248",
+        "latency_ms": 5889.6,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 1.0]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          1.0
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 2571199.9,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        1.0
+      ]
+    },
+    {
+      "step": 9,
+      "depth": [
+        0.68,
+        0.071,
+        0.352,
+        0.502
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.3225
+          ],
+          "remaining_gal": 2571441.5
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 1100914.4
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 2994730.9
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1185703.0
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7153697.0
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1185703.0
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4d33fe418dd1db1427b",
+        "latency_ms": 12351.2,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.7]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 10,
+      "depth": [
+        0.676,
+        0.021,
+        0.353,
+        0.631
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.7033
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 1212687.9
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 3420066.2
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1896852.6
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7845984.2
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1896852.6
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4e4b81ba77effb946a8",
+        "latency_ms": 16682.5,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.7]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 11,
+      "depth": [
+        0.673,
+        0.0,
+        0.354,
+        0.834
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.612
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 524144.8
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 3085592.8
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1948020.8
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 7871173.5
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1948020.8
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e4fbdca6d2d584dc4056",
+        "latency_ms": 23687.6,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.7]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 12,
+      "depth": [
+        0.67,
+        0.007,
+        0.354,
+        0.983
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.5637
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 532222.4
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 2846847.9
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1971027.9
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1971027.9
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 1971027.9
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e514471531a912a84763",
+        "latency_ms": 24477.5,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.7]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.7
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.7
+      ]
+    },
+    {
+      "step": 13,
+      "depth": [
+        0.667,
+        0.0,
+        0.355,
+        0.986
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.35
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.5627
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e51aedeced39f8d94230",
+        "latency_ms": 6509.4,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.35]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.35
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.35
+      ]
+    },
+    {
+      "step": 14,
+      "depth": [
+        0.664,
+        0.007,
+        0.356,
+        0.941
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.04
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.576
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 2171666.1
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e52d39ad7f2c01a44ecd",
+        "latency_ms": 18692.0,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.04]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.04
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.04
+      ]
+    },
+    {
+      "step": 15,
+      "depth": [
+        0.661,
+        0.0,
+        0.357,
+        0.985
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.04
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.5629
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e5358a6b23cb18ef4cf1",
+        "latency_ms": 7373.9,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.04]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.04
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.04
+      ]
+    },
+    {
+      "step": 16,
+      "depth": [
+        0.658,
+        0.007,
+        0.358,
+        0.997
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.35
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.5598
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e53c2cbdfbadc857448f",
+        "latency_ms": 7531.0,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.35]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.35
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.35
+      ]
+    },
+    {
+      "step": 17,
+      "depth": [
+        0.654,
+        0.0,
+        0.358,
+        0.864
+      ],
+      "best_probe_u": [
+        0.05,
+        0.9,
+        0.04,
+        0.04
+      ],
+      "best_probe_gal": 0.0,
+      "laws": [
+        {
+          "name": "A-predrain",
+          "u": [
+            0.05,
+            0.9,
+            0.04,
+            0.6013
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "B-balanced",
+          "u": [
+            0.05,
+            0.9,
+            0.4,
+            0.62
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "C-retention",
+          "u": [
+            0.05,
+            0.9,
+            0.08,
+            0.28
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "D-bypass",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "local",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            0.02
+          ],
+          "remaining_gal": 0.0
+        },
+        {
+          "name": "open",
+          "u": [
+            0.05,
+            0.9,
+            1.0,
+            1.0
+          ],
+          "remaining_gal": 0.0
+        }
+      ],
+      "turn1": {
+        "response_id": "resp_6ae9e54995a7cf28d83b49cc",
+        "latency_ms": 13047.4,
+        "excerpt": "{\"u\": [0.05, 0.9, 0.04, 0.04]}",
+        "u": [
+          0.05,
+          0.9,
+          0.04,
+          0.04
+        ]
+      },
+      "turn2": null,
+      "origin": "muse-spark-1.3",
+      "chosen_gal": 0.0,
+      "applied": [
+        0.05,
+        0.9,
+        0.04,
+        0.04
+      ]
+    }
+  ],
+  "note": "Each applied opening is the vector Muse Spark returned after reading remaining-spill measurements. The jam still overwrites a locked gate."
+}
