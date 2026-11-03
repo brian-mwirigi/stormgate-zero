@@ -2,6 +2,20 @@
 
 **Stop raw sewage from overflowing into city rivers during a cloudburst—using the floodgates already in the ground instead of a $300 billion concrete rebuild.**
 
+<p align="center">
+  <img src="traces/nexrad/ida-2021-newark/frame_00.png" width="15%" alt="Ida 23:30 UTC" />
+  <img src="traces/nexrad/ida-2021-newark/frame_02.png" width="15%" alt="Ida 00:00 UTC" />
+  <img src="traces/nexrad/ida-2021-newark/frame_04.png" width="15%" alt="Ida 00:30 UTC" />
+  <img src="traces/nexrad/chicago-2023-0702/frame_00.png" width="15%" alt="Chicago 21:00 UTC" />
+  <img src="traces/nexrad/chicago-2023-0702/frame_01.png" width="15%" alt="Chicago 21:30 UTC" />
+  <img src="traces/nexrad/chicago-2023-0702/frame_02.png" width="15%" alt="Chicago 22:00 UTC" />
+</p>
+<p align="center">
+  <sub>Left three: IEM N0Q national mosaic over Newark during Hurricane Ida, 1–2 Sep 2021 (<code>traces/nexrad/ida-2021-newark/</code>). Right three: Chicago west side, 2 Jul 2023 (<code>traces/nexrad/chicago-2023-0702/</code>). <code>sam-3.1</code> segmented these crops in the <code>&lt;0f&gt;</code> box grammar.</sub>
+</p>
+
+---
+
 ### The problem in plain English
 
 In more than **700 U.S. cities** (New York, Chicago, Boston, Newark, St. Louis), rainwater and household sewage share the same underground pipes. When a heavy storm hits, those tunnels fill up in minutes. To stop sewage from backing up into basements and streets, the utility opens relief weirs and dumps **850 billion gallons a year** of untreated sewage and stormwater straight into rivers, harbors, and drinking-water intakes (U.S. EPA Report to Congress `833-R-04-001`). Every day a pipe spills exposes the utility to **$68,445 per violation** under the Clean Water Act (`33 U.S.C. 1319(d)`, `40 CFR 19.4`).
@@ -23,20 +37,6 @@ StormGate-Zero replaces that blind float switch with a physics-guarded control l
 | Spills **14,820,000 gallons** of raw CSO on design storm `DS-1482` | Spills **0 gallons** (and **0 gallons** when Gate #2 jams at 50%) |
 | Spills **~12.1M gal** on the Newark Ida radar mosaic & **~13.7M gal** on Chicago | Spills **0 gallons** on both radar mosaics |
 | Triggers the **$68,445 / day** Clean Water Act statutory ceiling | **$0** statutory exposure · **3.685 psi** peak `PySWMM` head at Junction `J3` |
-
----
-
-<p align="center">
-  <img src="traces/nexrad/ida-2021-newark/frame_00.png" width="15%" alt="Ida 23:30 UTC" />
-  <img src="traces/nexrad/ida-2021-newark/frame_02.png" width="15%" alt="Ida 00:00 UTC" />
-  <img src="traces/nexrad/ida-2021-newark/frame_04.png" width="15%" alt="Ida 00:30 UTC" />
-  <img src="traces/nexrad/chicago-2023-0702/frame_00.png" width="15%" alt="Chicago 21:00 UTC" />
-  <img src="traces/nexrad/chicago-2023-0702/frame_01.png" width="15%" alt="Chicago 21:30 UTC" />
-  <img src="traces/nexrad/chicago-2023-0702/frame_02.png" width="15%" alt="Chicago 22:00 UTC" />
-</p>
-<p align="center">
-  <sub>Left three: IEM N0Q national mosaic over Newark during Hurricane Ida, 1–2 Sep 2021 (<code>traces/nexrad/ida-2021-newark/</code>). Right three: Chicago west side, 2 Jul 2023 (<code>traces/nexrad/chicago-2023-0702/</code>). <code>sam-3.1</code> segmented these crops in the <code>&lt;0f&gt;</code> box grammar.</sub>
-</p>
 
 ---
 
