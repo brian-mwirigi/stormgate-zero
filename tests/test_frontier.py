@@ -54,9 +54,13 @@ def test_stress_matrix_covers_one_hundred_and_replays():
 def test_compliance_ledger_recomputes_and_rejects_a_changed_gallon():
     path = TRACE / "compliance_ledger.json"
     records = load(path)
+    assert len(records) == 4
     assert verify(records)
     assert records[0]["searched_cso"] == 0.0
     assert records[0]["library_cso"] > 4_000_000
+    assert records[3]["kind"] == "hosted-model-audit"
+    assert records[3]["closed_loop_cso"] == 0.0
+    assert records[3]["glimmer_radar_basin"] == "SU2"
     tampered = json.loads(path.read_text(encoding="utf-8"))
     tampered[0]["searched_cso"] = 1.0
     assert verify(tampered) is False

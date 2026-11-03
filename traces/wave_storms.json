@@ -296,7 +296,6 @@
       "J3": 8.163,
       "J4": 5.878
     },
-    "note": "SWMM5 dynamic wave on the verification interceptor. Not the level-pool gallon scorecard.",
-    "schedule": "kept refine pass"
+    "note": "SWMM5 dynamic wave on the verification interceptor. Not the level-pool gallon scorecard."
   }
 }

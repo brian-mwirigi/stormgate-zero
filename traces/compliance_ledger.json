@@ -36,5 +36,32 @@
     "refine_kept_node": "J3",
     "prev": "bc509beee319032e3967301d3767c5d6701db444b859d39198b08ae30a2f59fa",
     "hash": "c3b36a3e59b953ef4c35ae178f5d578232deeab2847ebbe022396a2d211ca783"
+  },
+  {
+    "kind": "hosted-model-audit",
+    "closed_loop_model": "muse-spark-1.3",
+    "closed_loop_steps": 18,
+    "closed_loop_first_id": "resp_6ae9e477f80e73f48f264cc5",
+    "closed_loop_last_id": "resp_6ae9e54995a7cf28d83b49cc",
+    "closed_loop_cso": 0.0,
+    "closed_loop_street": 0.0,
+    "blind_spark_id": "resp_6ae9e184c25d838e5d884bcd",
+    "blind_spark_cso": 4333880.8,
+    "blind_spark_verdict": "rejected-spilled-more",
+    "blind_wonder_id": "resp_6ae9e19fa36ac7ab266e474f",
+    "blind_wonder_cso": 6966494.7,
+    "blind_wonder_verdict": "rejected-spilled-more",
+    "glimmer_model": "meta/muse-glimmer-30b",
+    "glimmer_freeboard_id": "bd76ae3ac432bcce",
+    "glimmer_safe_action": [
+      0.6,
+      0.4,
+      0.4,
+      0.62
+    ],
+    "glimmer_radar_id": "8ad068e1ef1cadad",
+    "glimmer_radar_basin": "SU2",
+    "prev": "c3b36a3e59b953ef4c35ae178f5d578232deeab2847ebbe022396a2d211ca783",
+    "hash": "52267088612fe0360dbf288fc2657b5860b92705953891b280bafae86013abec"
   }
 ]

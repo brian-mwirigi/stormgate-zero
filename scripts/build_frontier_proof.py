@@ -89,7 +89,20 @@ def main() -> None:
         select("ds-1482")
     waves["compound-fault"] = verify_dynamic_wave(headline["searched"]["orifice"], headline_rain())
     print("  compound", waves["compound-fault"].get("worst_surcharge_psi"), flush=True)
+    refine_raw = json.loads((TRACE / "recorded_refine_pass.json").read_text(encoding="utf-8"))
+    refine_series = [
+        item["turn2"]["u"] if item.get("solver") == "accepted" and item.get("turn2") else item["turn1"]["u"]
+        for item in refine_raw["steps"]
+    ]
+    waves["ds-1482-kept-refine"] = verify_dynamic_wave(refine_series, RAIN_MG)
+    print("  kept-refine", waves["ds-1482-kept-refine"].get("worst_surcharge_psi"), flush=True)
     (TRACE / "wave_storms.json").write_text(json.dumps(waves, indent=2), encoding="utf-8")
+
+    closed = json.loads((TRACE / "double_lock_closed_loop.json").read_text(encoding="utf-8"))
+    hosted_blind = json.loads((TRACE / "double_lock_hosted.json").read_text(encoding="utf-8"))
+    glimmer_nv = json.loads((TRACE / "glimmer_nvidia.json").read_text(encoding="utf-8"))
+    glimmer_rad = json.loads((TRACE / "glimmer_radar.json").read_text(encoding="utf-8"))
+    glimmer_rad_parsed = json.loads(glimmer_rad["content"])
 
     library_name, library_row = best_library(headline)
     records = [
@@ -104,7 +117,14 @@ def main() -> None:
             "searched_cso": headline["searched"]["cso_gallons"],
             "searched_street": headline["searched"]["street_gallons"],
         },
-        {"kind": "stress-matrix", **summary},
+        {
+            "kind": "stress-matrix",
+            "scenarios": summary["scenarios"],
+            "searched_beats_best_library": summary["searched_beats_best_library"],
+            "ties_within_1_gallon": summary["ties_within_1_gallon"],
+            "library_beats_searched": summary["library_beats_searched"],
+            "local_cso_minus_searched_cso_gallons": summary["local_cso_minus_searched_cso_gallons"],
+        },
         {
             "kind": "dynamic-wave",
             "ds1482_psi": waves["ds-1482"].get("worst_surcharge_psi"),
@@ -115,17 +135,30 @@ def main() -> None:
             "chicago_ok": waves["chicago-2023-0702"].get("ok"),
             "compound_psi": waves["compound-fault"].get("worst_surcharge_psi"),
             "compound_ok": waves["compound-fault"].get("ok"),
+            "refine_kept_psi": waves["ds-1482-kept-refine"].get("worst_surcharge_psi"),
+            "refine_kept_node": waves["ds-1482-kept-refine"].get("worst_link"),
+        },
+        {
+            "kind": "hosted-model-audit",
+            "closed_loop_model": closed["model"],
+            "closed_loop_steps": len(closed["steps"]),
+            "closed_loop_first_id": closed["steps"][0]["turn1"]["response_id"],
+            "closed_loop_last_id": closed["steps"][-1]["turn1"]["response_id"],
+            "closed_loop_cso": closed["cso_gallons"],
+            "closed_loop_street": closed["street_gallons"],
+            "blind_spark_id": hosted_blind["spark"]["response_id"],
+            "blind_spark_cso": hosted_blind["spark_play"]["cso_gallons"],
+            "blind_spark_verdict": hosted_blind["spark_verdict"],
+            "blind_wonder_id": hosted_blind["wonder"]["response_id"],
+            "blind_wonder_cso": hosted_blind["wonder_play"]["cso_gallons"],
+            "blind_wonder_verdict": hosted_blind["wonder_verdict"],
+            "glimmer_model": glimmer_nv["model"],
+            "glimmer_freeboard_id": glimmer_nv["response_id"],
+            "glimmer_safe_action": glimmer_nv["safe_action"],
+            "glimmer_radar_id": glimmer_rad["response_id"],
+            "glimmer_radar_basin": glimmer_rad_parsed["basin"],
         },
     ]
-    # summary contains a long note; keep the chain on the numbers only.
-    records[1] = {
-        "kind": "stress-matrix",
-        "scenarios": summary["scenarios"],
-        "searched_beats_best_library": summary["searched_beats_best_library"],
-        "ties_within_1_gallon": summary["ties_within_1_gallon"],
-        "library_beats_searched": summary["library_beats_searched"],
-        "local_cso_minus_searched_cso_gallons": summary["local_cso_minus_searched_cso_gallons"],
-    }
     sealed = seal(records)
     (TRACE / "compliance_ledger.json").write_text(json.dumps(sealed, indent=2), encoding="utf-8")
     print("ledger", sealed[-1]["hash"][:16], flush=True)
