@@ -92,6 +92,62 @@ def response_text(body: dict) -> str:
     return "\n".join(chunks).strip()
 
 
+async def chat_completion(
+    model: str,
+    text: str,
+    *,
+    base_url: str,
+    api_key: str,
+    max_tokens: int = 512,
+    temperature: float = 0.2,
+    timeout: float = 45.0,
+) -> dict[str, Any]:
+    """POST an OpenAI-compatible /chat/completions call. Used for the NVIDIA catalog."""
+    if not api_key:
+        raise OfflineModelError("NVIDIA_API_KEY is not configured")
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": text}],
+        "temperature": temperature,
+        "top_p": 0.95,
+        "max_tokens": max_tokens,
+        "stream": False,
+    }
+    started = time.perf_counter()
+    async with httpx.AsyncClient(timeout=timeout, verify=_ssl_context()) as client:
+        response = await client.post(
+            f"{base_url.rstrip('/')}/chat/completions",
+            headers=_headers(api_key),
+            json=payload,
+        )
+    latency_ms = (time.perf_counter() - started) * 1000.0
+    if response.status_code >= 400:
+        raise OfflineModelError(f"{model} HTTP {response.status_code}: {response.text[:400]}")
+    body = response.json()
+    body["_latency_ms"] = round(latency_ms, 1)
+    return body
+
+
+def chat_message_text(body: dict) -> str:
+    """Pull the assistant string out of a chat-completions payload."""
+    choices = body.get("choices") or []
+    if not choices:
+        return ""
+    message = choices[0].get("message") or {}
+    content = message.get("content")
+    if isinstance(content, str):
+        return content.strip()
+    if isinstance(content, list):
+        parts: list[str] = []
+        for part in content:
+            if isinstance(part, str):
+                parts.append(part)
+            elif isinstance(part, dict) and isinstance(part.get("text"), str):
+                parts.append(part["text"])
+        return "\n".join(parts).strip()
+    return ""
+
+
 def parse_json_block(text: str) -> dict | None:
     """Accept raw JSON or a fenced ```json block."""
     raw = text.strip()

@@ -1,0 +1,42 @@
+{
+  "endpoint": "https://integrate.api.nvidia.com/v1/chat/completions",
+  "billing": "nvidia-api-catalog-free-tier",
+  "model": "meta/muse-glimmer-30b",
+  "source": "muse-glimmer-30b",
+  "response_id": "bd76ae3ac432bcce",
+  "finish_reason": "stop",
+  "latency_ms": 13447.2,
+  "usage": {
+    "prompt_tokens": 216,
+    "completion_tokens": 632,
+    "total_tokens": 848
+  },
+  "approved": false,
+  "safe_action": [
+    0.6,
+    0.4,
+    0.4,
+    0.62
+  ],
+  "proposed_action": [
+    0.1,
+    0.4,
+    0.4,
+    0.62
+  ],
+  "depth": [
+    0.95,
+    0.4,
+    0.5,
+    0.3
+  ],
+  "rain_mmhr": [
+    48.0,
+    10.0,
+    12.0,
+    8.0
+  ],
+  "glimmer_cot_summary": "The requested action is not approved. SU1 is at 95% depth with 48 mm/hr rain inbound and the downstream gate is below 25%, so OR1 is being forced to 60% to protect upstream freeboard.",
+  "detail": null,
+  "note": "The numeric interlock set safe_action before the model was asked to phrase it. The model cannot move a gate."
+}

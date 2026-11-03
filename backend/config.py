@@ -34,7 +34,9 @@ class Settings:
     # Partner id from Meta's deploy page (Baseten, Groq, Together). api.meta.ai
     # returns model_not_found for it. Point OPEN_WEIGHT_BASE_URL at the partner.
     MODEL_SPARK_OPEN: str = os.getenv("MODEL_SPARK_OPEN", "meta-models/muse-spark-open")
-    MODEL_GLIMMER: str = os.getenv("MODEL_GLIMMER", "meta-models/Muse-Glimmer-30B")
+    # NVIDIA API Catalog id. api.meta.ai returns model_not_found for the partner id.
+    MODEL_GLIMMER: str = os.getenv("MODEL_GLIMMER", "meta/muse-glimmer-30b")
+    NVIDIA_BASE_URL: str = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1").rstrip("/")
     MODEL_SAM: str = "sam-3.1"
     MODEL_IMAGE: str = "muse-image-1.0"
     MODEL_VOICE: str = "muse-voice-transcribe-1.0"
@@ -98,6 +100,23 @@ class Settings:
         if self.OFFLINE:
             return False
         return self.brev_configured or bool(self.OPEN_WEIGHT_API_KEY)
+
+    @property
+    def nvidia_api_key(self) -> str:
+        return os.getenv("NVIDIA_API_KEY", "").strip()
+
+    @property
+    def nvidia_base_url(self) -> str:
+        return os.getenv("NVIDIA_BASE_URL", self.NVIDIA_BASE_URL).strip().rstrip("/") or self.NVIDIA_BASE_URL
+
+    @property
+    def glimmer_model(self) -> str:
+        return os.getenv("MODEL_GLIMMER", "").strip() or self.MODEL_GLIMMER
+
+    @property
+    def glimmer_hosted(self) -> bool:
+        """True when the free NVIDIA catalog key is present. Offline tests stay local."""
+        return bool(self.nvidia_api_key) and not self.OFFLINE
 
 
 settings = Settings()

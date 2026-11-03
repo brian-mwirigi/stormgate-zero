@@ -1,0 +1,284 @@
+{
+  "rain": "DS-1482 runoff x 2.2 on every basin",
+  "locks": {
+    "OR1": 0.05,
+    "OR2": 0.9
+  },
+  "jam_at_step": 4,
+  "named": {
+    "local": {
+      "cso_gallons": 26498221.5,
+      "street_gallons": 0.0
+    },
+    "A-predrain": {
+      "cso_gallons": 8534246.3,
+      "street_gallons": 897741.2
+    },
+    "B-balanced": {
+      "cso_gallons": 4358862.8,
+      "street_gallons": 0.0
+    },
+    "C-retention": {
+      "cso_gallons": 24303980.4,
+      "street_gallons": 1096811.6
+    },
+    "D-bypass": {
+      "cso_gallons": 4531586.3,
+      "street_gallons": 0.0
+    }
+  },
+  "best_named": "B-balanced",
+  "searched": {
+    "cso_gallons": 0.0,
+    "street_gallons": 0.0
+  },
+  "spark": {
+    "model": "muse-spark-1.3",
+    "response_id": "resp_6ae9e184c25d838e5d884bcd",
+    "latency_ms": 71532.5,
+    "commentary": "Fully pre-drain early then hold back upstream with OR3 while metering OR4 to absorb the late SU4 peak and drain afterward.",
+    "excerpt": "{\"schedule\": [[1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 0.9, 0.9], [0.05, 0.9, 0.6, 0.7], [0.05, 0.9, 0.4, 0.7], [0.05, 0.9, 0.25, 0.7], [0.05, 0.9, 0.15, 0.75], [0.05, 0.9, 0.1, 0.8], [0.05, 0.9, 0.1, 0.85], [0.05, 0.9, 0.1, 0.85], [0.05, 0.9, 0.1, 0.85], [0.05, 0.9, 0.15, 0.85], [0.05, 0.9, 0.4, 0.9], [0.05, 0.9, 0.7, 1.0], [0.05, 0.9, 1.0, 1.0], [0.05, 0.9, 1.0, 1.0], [0.05, 0.9, 1.0, 1.0]], \"intent_commentary\": \"Fully pre-drain early then hold back upstream with OR3 while metering OR4 to absorb the late SU4 peak and drain afterward.\"}"
+  },
+  "spark_play": {
+    "cso_gallons": 4333880.8,
+    "street_gallons": 0.0,
+    "orifice": [
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        1.0,
+        1.0,
+        0.9,
+        0.9
+      ],
+      [
+        0.05,
+        0.9,
+        0.6,
+        0.7
+      ],
+      [
+        0.05,
+        0.9,
+        0.4,
+        0.7
+      ],
+      [
+        0.05,
+        0.9,
+        0.25,
+        0.7
+      ],
+      [
+        0.05,
+        0.9,
+        0.15,
+        0.75
+      ],
+      [
+        0.05,
+        0.9,
+        0.1,
+        0.8
+      ],
+      [
+        0.05,
+        0.9,
+        0.1,
+        0.85
+      ],
+      [
+        0.05,
+        0.9,
+        0.1,
+        0.85
+      ],
+      [
+        0.05,
+        0.9,
+        0.1,
+        0.85
+      ],
+      [
+        0.05,
+        0.9,
+        0.15,
+        0.85
+      ],
+      [
+        0.05,
+        0.9,
+        0.4,
+        0.9
+      ],
+      [
+        0.05,
+        0.9,
+        0.7,
+        1.0
+      ],
+      [
+        0.05,
+        0.9,
+        1.0,
+        1.0
+      ],
+      [
+        0.05,
+        0.9,
+        1.0,
+        1.0
+      ],
+      [
+        0.05,
+        0.9,
+        1.0,
+        1.0
+      ]
+    ],
+    "replay_cso_gallons": 4333880.8,
+    "replay_street_gallons": 0.0
+  },
+  "spark_verdict": "rejected-spilled-more",
+  "wonder": {
+    "model": "muse-wonder-1.0",
+    "response_id": "resp_6ae9e19fa36ac7ab266e474f",
+    "latency_ms": 26459.1,
+    "commentary": "Pre-drain all basins before the jam, throttle OR3 and OR4 to store the late SU4 peak while other basins empty, then reopen to drain stored water after the peak.",
+    "excerpt": "{\"schedule\": [[1.0, 0.9, 0.85, 1.0], [1.0, 1.0, 0.9, 1.0], [1.0, 1.0, 0.95, 1.0], [1.0, 1.0, 1.0, 1.0], [0.05, 0.9, 0.85, 0.9], [0.05, 0.9, 0.75, 0.85], [0.05, 0.9, 0.65, 0.75], [0.05, 0.9, 0.5, 0.65], [0.05, 0.9, 0.35, 0.55], [0.05, 0.9, 0.25, 0.5], [0.05, 0.9, 0.2, 0.55], [0.05, 0.9, 0.2, 0.6], [0.05, 0.9, 0.3, 0.7], [0.05, 0.9, 0.45, 0.85], [0.05, 0.9, 0.6, 1.0], [0.05, 0.9, 0.7, 1.0], [0.05, 0.9, 0.8, 0.95], [0.05, 0.9, 0.9, 0.9]], \"intent_commentary\": \"Pre-drain all basins before the jam, throttle OR3 and OR4 to store the late SU4 peak while other basins empty, then reopen to drain stored water after the peak.\"}"
+  },
+  "wonder_play": {
+    "cso_gallons": 6966494.7,
+    "street_gallons": 0.0,
+    "orifice": [
+      [
+        1.0,
+        0.9,
+        0.85,
+        1.0
+      ],
+      [
+        1.0,
+        1.0,
+        0.9,
+        1.0
+      ],
+      [
+        1.0,
+        1.0,
+        0.95,
+        1.0
+      ],
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        0.05,
+        0.9,
+        0.85,
+        0.9
+      ],
+      [
+        0.05,
+        0.9,
+        0.75,
+        0.85
+      ],
+      [
+        0.05,
+        0.9,
+        0.65,
+        0.75
+      ],
+      [
+        0.05,
+        0.9,
+        0.5,
+        0.65
+      ],
+      [
+        0.05,
+        0.9,
+        0.35,
+        0.55
+      ],
+      [
+        0.05,
+        0.9,
+        0.25,
+        0.5
+      ],
+      [
+        0.05,
+        0.9,
+        0.2,
+        0.55
+      ],
+      [
+        0.05,
+        0.9,
+        0.2,
+        0.6
+      ],
+      [
+        0.05,
+        0.9,
+        0.3,
+        0.7
+      ],
+      [
+        0.05,
+        0.9,
+        0.45,
+        0.85
+      ],
+      [
+        0.05,
+        0.9,
+        0.6,
+        1.0
+      ],
+      [
+        0.05,
+        0.9,
+        0.7,
+        1.0
+      ],
+      [
+        0.05,
+        0.9,
+        0.8,
+        0.95
+      ],
+      [
+        0.05,
+        0.9,
+        0.9,
+        0.9
+      ]
+    ],
+    "replay_cso_gallons": 6966494.7,
+    "replay_street_gallons": 0.0
+  },
+  "wonder_verdict": "rejected-spilled-more",
+  "guard": "A hosted schedule is kept only when river plus street is within 1 gallon of the searched physics winner."
+}

@@ -63,6 +63,8 @@ async def health() -> dict:
         "open_weight_configured": settings.open_weight_enabled,
         "open_weight_host": "brev" if settings.brev_configured else "partner",
         "open_weight_model": settings.open_weight_model,
+        "glimmer_configured": settings.glimmer_hosted,
+        "glimmer_model": settings.glimmer_model,
         "pyswmm": try_pyswmm_available(),
         "step": episode.sim.step_index,
         "running": episode.running,

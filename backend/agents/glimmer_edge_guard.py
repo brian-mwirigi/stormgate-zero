@@ -10,7 +10,12 @@ spec is enforced in code so a hosted-model miss cannot open a weir.
 
 from __future__ import annotations
 
-from backend.agents.meta_client import OfflineModelError, create_response, parse_json_block, response_text
+from backend.agents.meta_client import (
+    OfflineModelError,
+    chat_completion,
+    chat_message_text,
+    parse_json_block,
+)
 from backend.config import settings
 
 FREEBOARD = 0.92
@@ -70,29 +75,46 @@ async def verify(
 ) -> dict:
     """Enforce the invariant locally, then ask Glimmer to phrase the ruling."""
     ruling = local_interlock(action, depth, inflow_mmhr, jammed)
-    if not hosted:
+    if not hosted or not settings.glimmer_hosted:
         return ruling
     prompt = (
         "You are Muse Glimmer, the single-GPU edge safety guard at a sewer basin. "
-        "The numeric interlock already ran. Explain the ruling in two sentences for a "
-        "plant operator. Reply JSON {\"glimmer_cot_summary\": \"...\"}. "
+        "The numeric interlock already ran and its safe_action is final. "
+        "Explain the ruling in two sentences for a plant operator. "
+        "Reply JSON {\"glimmer_cot_summary\": \"...\"}. "
         f"Ruling: approved={ruling['approved']} action={ruling['safe_action']} "
         f"depth={['%.2f' % d for d in depth]} rain_mmhr={['%.1f' % r for r in inflow_mmhr]} "
         f"draft={ruling['glimmer_cot_summary']}"
     )
     try:
-        body = await create_response(
-            settings.MODEL_GLIMMER,
+        body = await chat_completion(
+            settings.glimmer_model,
             prompt,
-            open_weight=True,
-            timeout=25.0,
+            base_url=settings.nvidia_base_url,
+            api_key=settings.nvidia_api_key,
+            max_tokens=2048,
+            timeout=90.0,
         )
-        parsed = parse_json_block(response_text(body)) or {}
-        summary = parsed.get("glimmer_cot_summary")
-        if isinstance(summary, str) and len(summary) > 20:
-            ruling["glimmer_cot_summary"] = summary.strip()
-        ruling["source"] = "muse-glimmer-30b"
-        ruling["latency_ms"] = body.get("_latency_ms", 0.0)
     except OfflineModelError as exc:
         ruling["detail"] = str(exc)
+        return ruling
+    text = chat_message_text(body)
+    parsed = parse_json_block(text) or {}
+    summary = parsed.get("glimmer_cot_summary")
+    if isinstance(summary, str) and len(summary) > 20:
+        ruling["glimmer_cot_summary"] = summary.strip()
+    elif text:
+        ruling["glimmer_cot_summary"] = text.strip()
+    ruling["source"] = "muse-glimmer-30b"
+    ruling["latency_ms"] = body.get("_latency_ms", 0.0)
+    ruling["model"] = settings.glimmer_model
+    usage = body.get("usage") if isinstance(body.get("usage"), dict) else {}
+    ruling["usage"] = {
+        "prompt_tokens": usage.get("prompt_tokens"),
+        "completion_tokens": usage.get("completion_tokens"),
+        "total_tokens": usage.get("total_tokens"),
+    }
+    ruling["response_id"] = body.get("id")
+    choice = (body.get("choices") or [{}])[0]
+    ruling["finish_reason"] = choice.get("finish_reason")
     return ruling
