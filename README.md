@@ -2,7 +2,7 @@
 
 **Stop raw sewage from overflowing into city rivers during a cloudburst—using the motorized floodgates already in the ground instead of a $300 billion concrete rebuild.**
 
-Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme: **Push the Frontier** · **[Watch the 3-Minute Demo Video (YouTube)](https://youtu.be/8iCk8wiLWVE)**
+Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme: **Push the Frontier** · **[Open the live twin](https://stormgate-zero.onrender.com)** · **[Watch the 3-Minute Demo Video (YouTube)](https://youtu.be/8iCk8wiLWVE)**
 
 > **Not a U.S.-only system.** Newark and Chicago are the test storms. Any city with a `SWMM5` `.inp` pipe file and standard `dBZ` weather radar—London's Thames Water, the EU's 650,000 combined-sewer outfalls, Tokyo, or Nairobi—can run this same controller on its own gates.
 
@@ -169,6 +169,8 @@ IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
 ---
 
 ## Run and verify in 60 seconds (no API key required)
+
+The public twin is **[stormgate-zero.onrender.com](https://stormgate-zero.onrender.com)**. It replays the saved model traces through the live hydraulic solver.
 
 `STORMGATE_REFINE` defaults to `0`, and `traces/live_models.json` is committed. You can clone the repo without any API key, verify all 27 tests and the 4-block SHA-256 ledger in under 2 seconds, or launch the interactive SCADA twin:
 
