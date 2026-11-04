@@ -2,7 +2,7 @@
 
 **Stop raw sewage from overflowing into city rivers during a cloudburst—using the motorized floodgates already in the ground instead of a $300 billion concrete rebuild.**
 
-Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme: **Push the Frontier**.
+Built for the **Meta Global AI Developer Hackathon** · **Indie Track** · Theme: **Push the Frontier** · **[Watch the 3-Minute Demo Video (YouTube)](https://youtu.be/8iCk8wiLWVE)**
 
 > **Not a U.S.-only system.** Newark and Chicago are the test storms. Any city with a `SWMM5` `.inp` pipe file and standard `dBZ` weather radar—London's Thames Water, the EU's 650,000 combined-sewer outfalls, Tokyo, or Nairobi—can run this same controller on its own gates.
 
