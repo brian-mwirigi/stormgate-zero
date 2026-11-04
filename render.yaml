@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: stormgate-zero
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: STORMGATE_OFFLINE
+        value: "1"

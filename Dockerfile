@@ -13,5 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 COPY --from=ui /ui/dist ./frontend/dist
 ENV STORMGATE_OFFLINE=1
+ENV PYTHONUNBUFFERED=1
+# Assets are baked once at build time. A free-tier cold start only boots uvicorn.
+RUN python scripts/generate_demo_assets.py
 EXPOSE 7860 8000
-CMD ["sh", "-c", "python scripts/generate_demo_assets.py && uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
+CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
