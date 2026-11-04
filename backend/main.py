@@ -315,3 +315,12 @@ async def voice_socket(websocket: WebSocket) -> None:
             relay.cancel()
         if upstream is not None:
             await upstream.close()
+
+
+from backend.config import ROOT as _ROOT
+from fastapi.staticfiles import StaticFiles as _StaticFiles
+
+_DIST = _ROOT / "frontend" / "dist"
+if _DIST.exists():
+    app.mount("/", _StaticFiles(directory=str(_DIST), html=True), name="frontend")
+

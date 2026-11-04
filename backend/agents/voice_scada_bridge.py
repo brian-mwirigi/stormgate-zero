@@ -141,7 +141,19 @@ def _to_api_wav(audio: bytes) -> bytes:
             rate = source.getframerate()
             frames = source.readframes(source.getnframes())
     except wave.Error:
-        return audio
+        import subprocess
+
+        try:
+            proc = subprocess.run(
+                ["ffmpeg", "-y", "-i", "pipe:0", "-ac", "1", "-ar", "16000", "-sample_fmt", "s16", "-f", "wav", "pipe:1"],
+                input=audio,
+                capture_output=True,
+                timeout=10,
+                check=True,
+            )
+            return proc.stdout
+        except Exception:
+            return audio
     if width != 2:
         frames = audioop.lin2lin(frames, width, 2)
         width = 2
@@ -160,8 +172,20 @@ def _to_api_wav(audio: bytes) -> bytes:
 
 
 async def transcribe_file(audio: bytes, filename: str = "war-room.wav") -> dict:
-    """POST /v1/asr/transcribe. Offline callers get an empty transcript and a reason."""
+    """POST /v1/asr/transcribe. In zero-key replay mode, replays the recorded Muse Voice trace."""
     if not settings.meta_enabled:
+        from backend.agents.model_traces import load as load_traces
+
+        saved = (load_traces().get("voice") or {}).get("text") or ""
+        if saved:
+            return {
+                "ok": True,
+                "source": "muse-voice-transcribe-1.0 (replay)",
+                "text": saved,
+                "turns": diarize_plaintext(saved),
+                "faults": parse_faults(saved),
+                "latency_ms": None,
+            }
         return {
             "ok": False,
             "source": "offline",

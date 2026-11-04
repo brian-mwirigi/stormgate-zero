@@ -17,3 +17,5 @@ data/benchmark/*.json
 *.log
 .python-version
 data/
+*.mp4
+thumbnail_youtube.png
