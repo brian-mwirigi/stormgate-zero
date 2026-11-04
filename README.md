@@ -55,6 +55,8 @@ StormGate-Zero replaces that blind float switch with a physics-guarded control l
 
 ## Why This Pushes the Frontier
 
+**A sewer network that hears two of its gates are jammed mid-storm and re-solves its remaining gates before the river weir overflows.**
+
 Pre-trained neural controllers and classical MPC solvers are locked to a **fixed pipe and gate layout**: the moment a physical floodgate jams on debris mid-storm—or a field crew reports a broken valve over VHF radio—fixed PLC rules overflow and classical optimizers fail. StormGate-Zero uses six Meta models to turn live Doppler radar pixels and spoken radio calls into updated hydraulic constraints on the fly, finding safe gate openings when hardware breaks:
 
 * **Static rules fail (`4.36M – 26.50M gal` spilled):** On the compound double-lock storm (`DS-1482 × 2.2`, `OR1` locked at `5%`, `OR2` locked at `90%` from minute 20), the municipal float switch spills **26,498,221.5 gal**, the hand-written `A-predrain` law spills **8,534,246.3 gal** river + **897,741.2 gal** street, and the best fixed law (`B-balanced`) still spills **4,358,862.8 gal**.
