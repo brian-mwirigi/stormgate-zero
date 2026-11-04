@@ -20,5 +20,5 @@ jobs:
         run: pip install -r requirements.txt
       - name: Verify 4-block SHA-256 compliance ledger & recorded traces
         run: python scripts/verify_all.py
-      - name: Run offline hydraulic & trace test suite (26 tests)
+      - name: Run offline hydraulic & trace test suite (27 tests)
         run: python -m pytest -q

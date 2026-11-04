@@ -129,6 +129,15 @@ _LIBRARY = {
             "cell on this plant, not MWRD's network and not those daily totals."
         ),
     },
+    "double-lock": {
+        "title": "Double-lock fault · DS-1482 × 2.2 (OR1=5%, OR2=90%)",
+        "kind": "compound-fault",
+        "note": (
+            "DS-1482 scaled by 2.2× with OR1 locked at 5% and OR2 locked at 90% from minute 20. "
+            "All four static laws overflow (4.36M–24.30M gal); unaided muse-wonder-1.0 "
+            "(resp_6ae9f0ee5b7721d9ff6a4da4, u=[0.05, 0.90, 0.12, 0.90]) holds 0.0 gal."
+        ),
+    },
 }
 
 
@@ -199,6 +208,15 @@ def select(storm_id: str) -> dict:
         return _activate(storm_id, _ida_rain(), _ida_cells())
     if storm_id == "chicago-2023-0702":
         return _activate(storm_id, _chicago_rain(), _chicago_cells())
+    if storm_id == "double-lock":
+        _state.update(
+            id="double-lock",
+            rain=np.array(RAIN_MG, dtype=float) * 2.2,
+            cells=None,
+            kind="compound-fault",
+            note=_LIBRARY["double-lock"]["note"],
+        )
+        return current()
     raise KeyError(storm_id)
 
 

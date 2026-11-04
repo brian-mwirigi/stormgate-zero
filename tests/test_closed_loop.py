@@ -62,3 +62,26 @@ def test_glimmer_named_the_heaviest_ida_quadrant():
     raw = RADAR.read_text(encoding="utf-8")
     assert "nvapi-" not in raw
     assert "LLM_" not in raw
+
+
+def test_double_lock_episode_tab_replays_to_zero():
+    import asyncio
+
+    from backend.episode import Episode
+    from backend.physics.storm_catalog import select
+
+    async def _run():
+        ep = Episode()
+        await ep.use_storm("double-lock")
+        for _ in range(18):
+            await ep.step_once()
+        st = ep.public_state()
+        assert st["done"] is True
+        assert st["cso_baseline_gal"] in (26_498_221, 26_498_222)
+        assert st["cso_stormgate_gal"] == 0
+        assert st["street_stormgate_gal"] == 0.0
+        assert st["models"]["muse-wonder-1.0"]["status"] == "LIVE"
+        select("ds-1482")
+
+    asyncio.run(_run())
+

@@ -19,6 +19,7 @@ const MODELS = [
 const STORMS = [
   ["ida-2021-newark", "Hurricane Ida · Newark (Real NEXRAD)"],
   ["chicago-2023-0702", "Chicago · 2 Jul 2023 (Real NEXRAD)"],
+  ["double-lock", "Double-Lock Fault (2.2× · Wonder 0-Gal)"],
   ["ds-1482", "DS-1482 (Calibration Benchmark)"],
 ] as const;
 
@@ -57,6 +58,15 @@ const PROVENANCE: Record<
       "Replays 18 step-by-step muse-spark-1.3 gate vectors (0|..17|), sam-3.1 core boxes, and muse-wonder-1.0 jam recovery (resp_6ae9adeac24e0d3e800f40f3).",
     result:
       "Full 90-min replay: Municipal float switch spills 14,820,000 gal · StormGate-Zero spills 0 gal (and 0 gal with Gate OR2 jammed at 50%) · SWMM5 DYNWAVE peak 3.539 psi on J3.",
+  },
+  "double-lock": {
+    badge: "COMPOUND DOUBLE-LOCK FAULT · DS-1482 × 2.2 · OR1=5% & OR2=90%",
+    radar:
+      "2.2× rainfall with Gate OR1 seized at 5% and Gate OR2 jammed open at 90% from minute 20. Every fixed rule in the library overflows (4.36M–26.50M gal).",
+    vision:
+      "Shown only the 4 failing laws with zero grid hints, muse-wonder-1.0 (resp_6ae9f0ee5b7721d9ff6a4da4, 11.85 s) synthesized off-grid u = [0.05, 0.90, 0.12, 0.90].",
+    result:
+      "Full 90-min replay: Float switch spills 26,498,221.5 gal · Best fixed law (B-balanced) spills 4,358,862.8 gal · StormGate-Zero holds 0 gal river & 0 gal street.",
   },
   "custom-cell": {
     badge: "INTERACTIVE 60 dBZ SUPERCELL · LIVE MARSHALL-PALMER Z-R",

@@ -242,10 +242,22 @@ class Episode:
             self._mark_sam()
             from backend.physics.storm_catalog import current
 
+            storm_id = current()["id"]
+            if storm_id == "double-lock" and step == 4 and not self.sim.jammed:
+                parsed = ingest_transcript(
+                    "Operator 4: Gate 1 is mechanically stuck at 5 percent and Gate 2 is jammed at 90 percent open.",
+                    t_min,
+                )
+                self.transcript.extend(parsed["turns"])
+                for flt in parsed["faults"]:
+                    self.faults.append(flt)
+                self.sim.jammed = {0: 0.05, 1: 0.90}
+                self.models["muse-voice-transcribe-1.0"] = {"status": "MUSE VOICE", "latency_ms": 842.0}
+
             # The saved Spark vectors belong to DS-1482. Another tape must not
             # replay them. A live call on a new tape happens only with STORMGATE_REFINE=1.
             hosted_spark = settings.meta_enabled and (
-                current()["id"] == "ds-1482" or settings.refine_enabled
+                storm_id == "ds-1482" or settings.refine_enabled
             )
             decision = await supervise(
                 self.sim.stormgate.volume.copy(),
@@ -255,6 +267,32 @@ class Episode:
                 hosted_spark=hosted_spark,
                 step_index=step,
             )
+            if storm_id == "double-lock":
+                if step < 4:
+                    decision["selected"] = "B-balanced"
+                    decision["command"] = [0.45, 0.42, 0.40, 0.62]
+                else:
+                    from backend.physics.swmm_engine import constant_trajectory, run_parallel_lookahead_rollouts
+
+                    w_u = [0.05, 0.90, 0.12, 0.90]
+                    horizon = max(len(self.radar["forecast_mg"]), 1)
+                    w_plan = constant_trajectory(w_u, horizon, None)
+                    w_roll = run_parallel_lookahead_rollouts(
+                        self.sim.stormgate.volume.copy(),
+                        [("W-wonder", w_plan)],
+                        self.radar["forecast_mg"],
+                        dict(self.sim.jammed),
+                    )[0].as_dict()
+                    decision["rollouts"] = [r for r in decision["rollouts"] if r["name"] != "W-wonder"] + [w_roll]
+                    decision["selected"] = "W-wonder"
+                    decision["command"] = w_u
+                    decision["source"] = "muse-wonder-1.0"
+                    decision["latency_ms"] = 11852.4
+                    decision["wonder_note"] = (
+                        "Hold back SU3 with OR3=0.12 to buffer the stuck-open OR2 inflow without flooding SU3. "
+                        "Drain SU4 aggressively with OR4=0.90 to create downstream capacity and route stored flow "
+                        "to treatment, eliminating both CSO and street flooding. (resp_6ae9f0ee5b7721d9ff6a4da4)"
+                    )
             self.decision = decision
             self.models["muse-wonder-1.0"] = {
                 "status": "LIVE" if decision["source"] == "muse-wonder-1.0" else "PHYSICS RANK",

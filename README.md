@@ -170,7 +170,7 @@ IEM N0Q NEXRAD mosaic / DS-1482 field         SCADA war-room audio (WAV)
 
 ## Run and verify in 60 seconds (no API key required)
 
-`STORMGATE_REFINE` defaults to `0`, and `traces/live_models.json` is committed. You can clone the repo without any API key, verify all 26 tests and the 4-block SHA-256 ledger in under 2 seconds, or launch the interactive SCADA twin:
+`STORMGATE_REFINE` defaults to `0`, and `traces/live_models.json` is committed. You can clone the repo without any API key, verify all 27 tests and the 4-block SHA-256 ledger in under 2 seconds, or launch the interactive SCADA twin:
 
 ```bash
 git clone https://github.com/brian-mwirigi/stormgate-zero.git
@@ -199,7 +199,7 @@ npm install
 npm run dev
 ```
 
-**`26 passed`**, offline (`STORMGATE_OFFLINE=1` in `tests/conftest.py`). The test suite locks:
+**`27 passed`**, offline (`STORMGATE_OFFLINE=1` in `tests/conftest.py`). The test suite locks:
 1. `14,820,000 gal` float-rule spill on DS-1482 (`tests/test_hydraulics.py`).
 2. `0 gal` StormGate-Zero spill on DS-1482, both clean and with `OR2` jammed at `0.50` (`tests/test_hydraulics.py`).
 3. All-gates-open spilling less than the float switch, and pre-drain ranking ahead of balanced/retention/bypass (`tests/test_hydraulics.py`).
