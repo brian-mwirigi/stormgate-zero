@@ -38,7 +38,13 @@ export default function SpillRace({ history, minutes, jamAt }: Props) {
         {jamAt !== null && (
           <g>
             <line x1={x(jamAt)} x2={x(jamAt)} y1={PAD.t} y2={H - PAD.b} stroke="var(--fault)" strokeDasharray="3 4" />
-            <text x={x(jamAt) + 5} y={PAD.t + 10} fill="var(--fault)" fontSize="11">
+            <text
+              x={jamAt > 65 ? x(jamAt) - 5 : x(jamAt) + 5}
+              y={PAD.t + 10}
+              textAnchor={jamAt > 65 ? "end" : "start"}
+              fill="var(--fault)"
+              fontSize="11"
+            >
               gate jams
             </text>
           </g>

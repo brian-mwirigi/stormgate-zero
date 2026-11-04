@@ -72,7 +72,7 @@ def reflectivity_field(t_min: float, size: int = FRAME_SIZE) -> np.ndarray:
 
 def render_frame_rgb(t_min: float, size: int = FRAME_SIZE) -> np.ndarray:
     rgb = dbz_to_rgb(reflectivity_field(t_min, size))
-    image = Image.fromarray(rgb, mode="RGB")
+    image = Image.fromarray(rgb)
     draw = ImageDraw.Draw(image, "RGBA")
     # Range rings sit under the cores visually but are faint enough that the
     # >45 dBZ detector ignores them.
@@ -87,7 +87,7 @@ def render_frame_png(t_min: float, size: int = FRAME_SIZE) -> bytes:
     from io import BytesIO
 
     buffer = BytesIO()
-    Image.fromarray(render_frame_rgb(t_min, size), mode="RGB").save(buffer, format="PNG")
+    Image.fromarray(render_frame_rgb(t_min, size)).save(buffer, format="PNG")
     return buffer.getvalue()
 
 
@@ -128,7 +128,7 @@ def write_radar_assets(frame_count: int = 37, minutes: float = 90.0) -> dict:
         t_min = minutes * index / max(frame_count - 1, 1)
         rgb = render_frame_rgb(t_min)
         path = frame_dir / f"frame_{index:03d}.png"
-        Image.fromarray(rgb, mode="RGB").save(path)
+        Image.fromarray(rgb).save(path)
         paths.append(path)
         frames_bgr.append(rgb[:, :, ::-1].copy())
 

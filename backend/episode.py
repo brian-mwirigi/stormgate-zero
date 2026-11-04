@@ -45,8 +45,12 @@ class Episode:
 
     def _mark_sam(self) -> None:
         from backend.agents.model_traces import load as load_traces
+        from backend.physics.storm_catalog import current
 
-        sam = load_traces().get("sam") or {}
+        traces = load_traces()
+        storm_id = current().get("id", "ds-1482")
+        sam_event = ((traces.get("sam_events") or {}).get(storm_id)) if storm_id != "ds-1482" else None
+        sam = sam_event if (sam_event and sam_event.get("ok")) else (traces.get("sam") or {})
         if sam.get("ok"):
             self.models["sam-3.1"] = {"status": "LIVE", "latency_ms": sam.get("latency_ms")}
         else:

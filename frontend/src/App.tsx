@@ -58,6 +58,15 @@ const PROVENANCE: Record<
     result:
       "Full 90-min replay: Municipal float switch spills 14,820,000 gal · StormGate-Zero spills 0 gal (and 0 gal with Gate OR2 jammed at 50%) · SWMM5 DYNWAVE peak 3.539 psi on J3.",
   },
+  "custom-cell": {
+    badge: "INTERACTIVE 60 dBZ SUPERCELL · LIVE MARSHALL-PALMER Z-R",
+    radar:
+      "User-spawned 60 dBZ convective storm core dropped directly onto the Doppler scope, advecting across SU1–SU4 over 90 minutes.",
+    vision:
+      "Subcatchment polygon intersection and 45-minute Marshall-Palmer Z-R rainfall forecast recomputed live on every 5-minute step.",
+    result:
+      "12 parallel St. Venant rollouts and the local freeboard interlock adapt gate openings [OR1..OR4] in real time to the dropped cell.",
+  },
 };
 
 type Point = { t: number; before: number; after: number; jam: boolean };
