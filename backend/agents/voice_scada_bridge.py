@@ -172,20 +172,8 @@ def _to_api_wav(audio: bytes) -> bytes:
 
 
 async def transcribe_file(audio: bytes, filename: str = "war-room.wav") -> dict:
-    """POST /v1/asr/transcribe. In zero-key replay mode, replays the recorded Muse Voice trace."""
+    """POST /v1/asr/transcribe. Offline callers get an empty transcript and a reason."""
     if not settings.meta_enabled:
-        from backend.agents.model_traces import load as load_traces
-
-        saved = (load_traces().get("voice") or {}).get("text") or ""
-        if saved:
-            return {
-                "ok": True,
-                "source": "muse-voice-transcribe-1.0 (replay)",
-                "text": saved,
-                "turns": diarize_plaintext(saved),
-                "faults": parse_faults(saved),
-                "latency_ms": None,
-            }
         return {
             "ok": False,
             "source": "offline",

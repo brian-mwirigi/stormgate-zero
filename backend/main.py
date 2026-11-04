@@ -121,7 +121,6 @@ async def verify_wave() -> dict:
 @app.post("/api/episode/reset")
 async def reset() -> dict:
     await episode.reset()
-    await episode.start()
     return episode.public_state()
 
 

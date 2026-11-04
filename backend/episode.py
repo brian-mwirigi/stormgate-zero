@@ -159,6 +159,8 @@ class Episode:
         async with self.lock:
             storm = select(storm_id)
             self.sim.reset()
+            self.transcript = []
+            self.faults = []
             self.decision = {}
             self.wave = None
             self.radar = radar_snapshot(0, 0.0)
@@ -172,6 +174,8 @@ class Episode:
         async with self.lock:
             storm = spawn_cell(x, y, dbz)
             self.sim.reset()
+            self.transcript = []
+            self.faults = []
             self.decision = {}
             self.wave = None
             self.radar = radar_snapshot(0, 0.0)

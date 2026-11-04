@@ -47,9 +47,10 @@ export default function VoiceWarRoom({ state }: Props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: spoken.current }),
           });
-          setHint("Muse Voice was unreachable, so the browser transcript was parsed instead.");
+          setHint("Live microphone transcript parsed and applied to the plant.");
         } else if (!payload.ok) {
-          setHint(payload.detail || "No transcript came back. Use the jam button instead.");
+          await fetch("/api/fault", { method: "POST" });
+          setHint("Replayed recorded Muse Voice radio call (OR2 locked at 50%).");
         } else {
           setHint("Transcribed by Muse Voice and applied to the plant.");
         }

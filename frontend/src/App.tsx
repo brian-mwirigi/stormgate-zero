@@ -80,7 +80,7 @@ export default function App() {
       const next = JSON.parse(event.data) as TwinState;
       if (!bootSelected.current) {
         bootSelected.current = true;
-        if (next.storm?.id === "ds-1482" && next.step === 0 && !next.running) {
+        if (next.storm?.id === "ds-1482") {
           void fetch("/api/storm", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
